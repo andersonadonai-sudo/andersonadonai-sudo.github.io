@@ -346,6 +346,22 @@ table.ptab .tot td{background:#fff7ed!important;font-weight:800;font-size:11.5px
   <div class="sac"><button class="btn btn-s" onclick="fechar('shKit')">Cancelar</button><button class="btn btn-p" onclick="salvarKit()">Salvar kit</button></div>
 </div></div>
 
+
+<div class="sheet" id="shFotus"><div class="sbox">
+  <div class="grip"></div><h3>Importar orçamento da Fotus</h3>
+  <div class="sub">Arraste o PDF ou cole o texto do orçamento</div>
+  <div class="alerta err" id="ftErro"></div>
+  <div id="ftEntrada">
+    <div class="f"><label>Arquivo PDF</label>
+      <input type="file" id="ftArquivo" accept="application/pdf,image/*" onchange="lerArquivoFotus(event)">
+      <div class="hint">Aceita PDF. Se for foto da tela, tire print e envie como imagem.</div></div>
+    <div class="f"><label>ou cole o texto</label>
+      <textarea id="ftTexto" rows="7" placeholder="Cole aqui o texto do orçamento (Ctrl+A, Ctrl+C na tela da Fotus)"></textarea></div>
+    <button class="btn btn-a" onclick="processarTextoFotus()">Ler orçamento</button>
+  </div>
+  <div id="ftResultado" style="display:none"></div>
+</div></div>
+
 <div id="proposta">
   <div class="pbar">
     <button onclick="fecharProposta()" style="background:#334155;color:#fff">Voltar</button>
@@ -355,6 +371,234 @@ table.ptab .tot td{background:#fff7ed!important;font-weight:800;font-size:11.5px
 </div>
 
 <script>
+// ============ IMPORTADOR DE ORÇAMENTO FOTUS (PDF) ============
+// Extrai itens, quantidades, valores e total de um orçamento da Fotus
+// colado/arrastado em PDF ou de texto copiado da tela.
+
+function lerTextoPDF(file) {
+  // usa pdf.js carregado sob demanda
+  return new Promise(function (ok, fail) {
+    var s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload = function () { ok(window.pdfjsLib); };
+    s.onerror = function () { fail(new Error('não consegui carregar o leitor de PDF')); };
+    document.head.appendChild(s);
+  }).then(function (pdfjs) {
+    // desativa o worker: em arquivo local e em alguns celulares ele trava
+    try { pdfjs.GlobalWorkerOptions.workerSrc = ''; } catch (e) {}
+    return file.arrayBuffer();
+  }).then(function (buf) {
+    // pdfjsLib.parse
+    return new Promise(function (ok, fail) {
+      window.pdfjsLib.getDocument({ data: buf, disableWorker: true, useSystemFonts: false }).promise.then(function (pdf) {
+        var paginas = [];
+        var seq = Promise.resolve();
+        for (var p = 1; p <= pdf.numPages; p++) {
+          (function (num) {
+            seq = seq.then(function () {
+              return pdf.getPage(num).then(function (pg) {
+                return pg.getTextContent().then(function (tc) {
+                  var itens = tc.items.map(function (x) {
+                    return { t: x.str, x: x.transform[4], y: x.transform[5] };
+                  });
+                  paginas.push(montarLinhas(itens));
+                });
+              });
+            });
+          })(p);
+        }
+        return seq.then(function () { ok(paginas.join('\n')); });
+      }).catch(fail);
+    });
+  });
+}
+
+// agrupa pedaços de texto por linha (mesmo Y) e ordena por X
+function montarLinhas(itens) {
+  var linhas = {};
+  itens.forEach(function (it) {
+    if (!it.t || !it.t.trim()) return;
+    var chave = Math.round(it.y / 3) * 3;
+    if (!linhas[chave]) linhas[chave] = [];
+    linhas[chave].push(it);
+  });
+  var ys = Object.keys(linhas).map(Number).sort(function (a, b) { return b - a; });
+  var out = [];
+  ys.forEach(function (y) {
+    var cols = linhas[y].sort(function (a, b) { return a.x - b.x; });
+    var txt = '';
+    var ant = null;
+    cols.forEach(function (c) {
+      if (ant !== null && c.x - ant > 8) txt += ' ';
+      txt += c.t;
+      ant = c.x + c.t.length * 4.2;
+    });
+    out.push(txt.replace(/\s+/g, ' ').trim());
+  });
+  return out.join('\n');
+}
+
+function numBR(s) {
+  if (typeof s === 'number') return s;
+  var t = String(s || '').replace(/[^\d,.-]/g, '');
+  if (t.indexOf(',') > -1 && t.indexOf('.') > -1) t = t.replace(/\./g, '').replace(',', '.');
+  else if (t.indexOf(',') > -1) t = t.replace(',', '.');
+  var n = parseFloat(t);
+  return isNaN(n) ? 0 : n;
+}
+
+// reconhece tipo do equipamento pela descrição
+function tipoEquip(desc) {
+  var d = desc.toLowerCase();
+  // ordem importa: estrutura/cabo/proteção bateria ANTES de módulo,
+  // porque a descrição da estrutura costuma citar "para 19 módulos"
+  if (/string box|dps|disjuntor|protecao|proteção/.test(d)) return 'protecao';
+  if (/estrutura|suporte|trilho|perfil|solo galvanizado|telhado/.test(d)) return 'estrutura';
+  if (/cabo|fio|cabeamento/.test(d)) return 'cabo';
+  if (/bateria|bess/.test(d)) return 'bateria';
+  if (/frete|entrega|transporte/.test(d)) return 'frete';
+  if (/microinversor|inversor/.test(d)) return 'inversor';
+  if (/modulo|módulo|painel|placa|fotovoltaic|fotovolt|longi|jinko|trina|byd|astronergy|hanersun|ja solar/.test(d)) return 'modulo';
+  return 'outro';
+}
+
+// extrai potencia do texto (620W, 610 Wp, 8KW, 8 kW)
+function extrairPotencia(desc) {
+  // 620W / 620 Wp / 620Wp / LR7-72HTH 620W
+  var m = desc.match(/(\d{3,4})\s*W(p|b)?\b/i);
+  if (m) return { val: parseInt(m[1], 10), tipo: 'W' };
+  // 620W sem espaco (colado em outra palavra)
+  m = desc.match(/(\d{3,4})W(?![a-z])/i);
+  if (m) return { val: parseInt(m[1], 10), tipo: 'W' };
+  m = desc.match(/(\d{1,3}(?:[.,]\d)?)\s*kw\b/i);
+  if (m) return { val: numBR(m[1]), tipo: 'kW' };
+  return null;
+}
+
+// parser principal do orçamento Fotus
+function parseOrcamentoFotus(texto) {
+  var linhas = texto.split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+  var itens = [];
+  var total = null, subtotal = null, frete = null;
+  var numeroOrc = null, vendedor = null, validade = null, condicao = null;
+
+  for (var i = 0; i < linhas.length; i++) {
+    var L = linhas[i];
+    var low = L.toLowerCase();
+
+    // número do orçamento
+    var mo = low.match(/or[çc]amento\s*(?:n[ºo°.]*\s*)?([\w\/.-]{4,})/);
+    if (mo && !numeroOrc) numeroOrc = mo[1];
+
+    // vendedor
+    var mv = low.match(/vendedor[:\s]+([a-zà-ú ]{3,30})/);
+    if (mv) vendedor = mv[1].trim();
+
+    // validade / condição
+    var mval = low.match(/validade[:\s]*([\d]+)\s*dias?/);
+    if (mval) validade = parseInt(mval[1], 10);
+    var mcond = low.match(/(\d{1,2})\s*dias?\b/);
+    if (mcond && !condicao) condicao = mcond[1] + ' dias';
+
+    // totais
+    if (/total\s*(do\s*)?or[çc]amento|valor\s*total|total\s*geral/.test(low)) {
+      var nums = L.match(/(\d{1,3}(?:\.\d{3})*,\d{2})/g);
+      if (nums) total = numBR(nums[nums.length - 1]);
+      continue;
+    }
+    if (/^subtotal/.test(low)) {
+      var ns = L.match(/(\d{1,3}(?:\.\d{3})*,\d{2})/g);
+      if (ns) subtotal = numBR(ns[ns.length - 1]);
+      continue;
+    }
+    if (/^frete|valor\s*frete/.test(low)) {
+      var nf = L.match(/(\d{1,3}(?:\.\d{3})*,\d{2})/g);
+      if (nf) frete = numBR(nf[nf.length - 1]);
+      continue;
+    }
+
+    // ---- linha de item ----
+    // Os valores estão no FIM da linha. Lemos da direita para a esquerda:
+    //   descricao  QTD  UNIT  TOTAL   (3 valores)
+    //   descricao  QTD  TOTAL         (2 valores)
+    // O "620W" no meio do nome NÃO é valor — por isso ler do fim é essencial.
+    var mFim = L.match(/^(.*?)\s+(\d{1,4})\s+([\d.]{1,15},\d{2}|\d[\d.]*)\s+([\d.]{1,15},\d{2}|\d[\d.]*)\s*$/);
+    var desc = null, qtd = 1, vUnit = 0, vTotal = 0;
+
+    if (mFim && /,/.test(mFim[3]) && /,/.test(mFim[4])) {
+      // desc QTD UNIT TOTAL
+      desc = mFim[1];
+      qtd = parseInt(mFim[2], 10);
+      vUnit = numBR(mFim[3]);
+      vTotal = numBR(mFim[4]);
+    } else {
+      var mFim2 = L.match(/^(.*?)\s+(\d{1,4})\s+([\d.]+,\d{2})\s*$/);
+      if (mFim2) {
+        // desc QTD TOTAL
+        desc = mFim2[1];
+        qtd = parseInt(mFim2[2], 10);
+        vTotal = numBR(mFim2[3]);
+        vUnit = qtd > 0 ? vTotal / qtd : vTotal;
+      } else {
+        var mFim3 = L.match(/^(.*?)\s+([\d.]+,\d{2})\s*$/);
+        if (!mFim3) continue;
+        // desc TOTAL (qtd 1)
+        desc = mFim3[1];
+        vTotal = numBR(mFim3[2]);
+        vUnit = vTotal;
+      }
+    }
+
+    desc = desc.replace(/\s+/g, ' ').trim();
+    if (desc.length < 5) continue;
+    if (vTotal <= 0 && vUnit <= 0) continue;
+
+    // separa o código do produto (primeiro token, se parecer código)
+    var cod = null;
+    var mc = desc.match(/^([A-Z][A-Z0-9\-_\/.]{1,14})\s+([A-ZÀ-Ú].+)$/);
+    if (mc && /^[A-Z0-9\-_\/.]+$/.test(mc[1])) {
+      cod = mc[1];
+      desc = mc[2].trim();
+    }
+    if (desc.length < 4) continue;
+
+    var pot = extrairPotencia(desc);
+    itens.push({
+      cod: cod, descricao: desc.slice(0, 130), qtd: qtd,
+      unit: Math.round(vUnit * 100) / 100,
+      total: Math.round(vTotal * 100) / 100,
+      tipo: tipoEquip(desc),
+      potencia: pot ? pot.val : null,
+      potenciaTipo: pot ? pot.tipo : null,
+    });
+  }
+
+  // deriva potência do kit
+  var kwp = 0, nMod = 0, invKw = 0;
+  itens.forEach(function (it) {
+    if (it.tipo === 'modulo' && it.potencia) {
+      var w = it.potenciaTipo === 'kW' ? it.potencia * 1000 : it.potencia;
+      kwp += (w * it.qtd) / 1000;
+      nMod += it.qtd;
+    }
+    if (it.tipo === 'inversor' && it.potencia) {
+      var k = it.potenciaTipo === 'W' ? it.potencia / 1000 : it.potencia;
+      invKw += k * it.qtd;
+    }
+  });
+  if (!total) {
+    total = itens.reduce(function (a, b) { return a + b.total; }, 0) + (frete || 0);
+  }
+  if (!subtotal) subtotal = total - (frete || 0);
+
+  return {
+    numero: numeroOrc, vendedor: vendedor, validadeDias: validade,
+    condicaoPagamento: condicao, itens: itens,
+    subtotal: subtotal, frete: frete, total: total,
+    kwp: Math.round(kwp * 100) / 100, nModulos: nMod, inversorKw: invKw,
+  };
+}
+
 /* ===== ESTADO ===== */
 var K='mantena_crm_v1';
 var DB=null,U=null,EDIT_CLI=null,EDIT_OP=null,EDIT_CALC=null,DET_OP=null,TELA='inicio';
@@ -714,7 +958,8 @@ function renderAgenda(){
 function renderCatalogo(){
  var h='<div class="st" style="margin-top:2px"><h3>Catálogo de kits</h3><span class="n">'+DB.kits.length+' salvos</span></div>';
  h+='<div class="info">Salve as configurações que você usa sempre. Na hora de dimensionar é só escolher o kit e o preço entra pronto.</div>';
- h+='<button class="btn btn-p btn-sm" style="margin-bottom:12px" onclick="abrirKit()">+ Novo kit</button>';
+ h+='<button class="btn btn-a btn-sm" style="margin-bottom:8px" onclick="abrirFotus()">📄 Importar orçamento da Fotus</button>';
+ h+='<button class="btn btn-p btn-sm" style="margin-bottom:12px" onclick="abrirKit()">+ Novo kit manual</button>';
  if(!DB.kits.length){h+='<div class="vazio"><span class="emo">📦</span>Nenhum kit salvo ainda.<br>Cadastre o primeiro para acelerar as próximas propostas.</div>';}
  else{
   DB.kits.forEach(function(k){
@@ -954,6 +1199,7 @@ function abrirDetalhe(id){
  h+='</div>';
  eid('detCorpo').innerHTML=h;
  var b='<button class="btn btn-s btn-sm" onclick="editarOp()">Editar</button>';
+  b+='<button class="btn btn-a btn-sm" onclick="fechar(\'shDet\');abrirFotus(\''+o.id+'\')">Kit Fotus</button>';
  if(o.kwp)b+='<button class="btn btn-v btn-sm" onclick="verProposta(\''+o.id+'\')">Ver proposta</button>';
  else b+='<button class="btn btn-p btn-sm" onclick="fechar(\'shDet\');abrirCalc(\''+o.id+'\')">Dimensionar</button>';
  eid('detAcoes').innerHTML=b;
@@ -1215,6 +1461,151 @@ function verProposta(opId){
  window.scrollTo(0,0);
 }
 function fecharProposta(){eid('proposta').classList.remove('on');}
+
+/* ===== IMPORTAR ORÇAMENTO FOTUS ===== */
+var FT_RESULTADO = null;
+
+function abrirFotus(opId) {
+  FT_RESULTADO = null;
+  EDIT_FT_OP = opId || null;
+  eid('ftErro').style.display = 'none';
+  eid('ftEntrada').style.display = 'block';
+  eid('ftResultado').style.display = 'none';
+  eid('ftArquivo').value = '';
+  eid('ftTexto').value = '';
+  abrir('shFotus');
+}
+
+function lerArquivoFotus(ev) {
+  var f = ev.target.files[0];
+  if (!f) return;
+  var er = eid('ftErro');
+  er.style.display = 'none';
+  eid('ftResultado').style.display = 'none';
+  eid('ftResultado').innerHTML = '<div class="loading"><div class="spin"></div>Lendo o PDF...</div>';
+  eid('ftResultado').style.display = 'block';
+
+  if (f.type === 'application/pdf' || /\.pdf$/i.test(f.name)) {
+    lerTextoPDF(f).then(function (txt) {
+      mostrarResultadoFotus(txt);
+    }).catch(function (e) {
+      er.innerHTML = 'Não consegui ler o PDF neste aparelho.<br><b>Alternativa:</b> abra o PDF e copie o texto, depois cole no campo abaixo.';
+      er.style.display = 'block';
+      eid('ftResultado').style.display = 'none';
+      eid('ftEntrada').style.display = 'block';
+    });
+  } else {
+    er.textContent = 'Por enquanto só leio PDF. Para imagem, cole o texto do orçamento.';
+    er.style.display = 'block';
+    eid('ftResultado').style.display = 'none';
+  }
+}
+
+function processarTextoFotus() {
+  var t = eid('ftTexto').value.trim();
+  var er = eid('ftErro');
+  er.style.display = 'none';
+  if (!t) { er.textContent = 'Cole o texto do orçamento.'; er.style.display = 'block'; return; }
+  mostrarResultadoFotus(t);
+}
+
+function mostrarResultadoFotus(texto) {
+  var r = parseOrcamentoFotus(texto);
+  FT_RESULTADO = r;
+  var er = eid('ftErro');
+  var box = eid('ftResultado');
+  box.style.display = 'block';
+
+  if (!r.itens.length) {
+    er.innerHTML = 'Não reconheci nenhum item neste texto.<br>Confira se é o orçamento da Fotus mesmo.';
+    er.style.display = 'block';
+    box.style.display = 'none';
+    return;
+  }
+
+  var h = '<div class="info"><b>' + r.itens.length + ' itens lidos</b>' +
+    (r.numero ? ' · orçamento ' + esc(r.numero) : '') +
+    (r.vendedor ? ' · vendedor ' + esc(r.vendedor) : '') +
+    (r.validadeDias ? ' · validade ' + r.validadeDias + ' dias' : '') + '</div>';
+
+  h += '<div class="calc-out" style="margin-bottom:11px"><div class="tit">Kit identificado</div><div class="cg">';
+  h += '<div class="i"><div class="l">Potência</div><div class="v">' + dec(r.kwp, 2) + '<span style="font-size:12px"> kWp</span></div></div>';
+  h += '<div class="i"><div class="l">Módulos</div><div class="v">' + r.nModulos + '</div></div>';
+  h += '<div class="i"><div class="l">Inversor</div><div class="v">' + dec(r.inversorKw, 1) + '<span style="font-size:12px"> kW</span></div></div>';
+  h += '<div class="i"><div class="l">Total</div><div class="v la">' + brl0(r.total) + '</div></div>';
+  h += '</div></div>';
+
+  h += '<div class="st" style="margin:12px 0 7px"><h3>Itens do orçamento</h3></div>';
+  h += '<div style="max-height:210px;overflow-y:auto;border:1px solid var(--linha);border-radius:11px">';
+  r.itens.forEach(function (it) {
+    h += '<div style="display:flex;gap:8px;padding:8px 10px;border-bottom:1px solid #f1f5f9;font-size:11.5px;align-items:flex-start">';
+    h += '<span class="tag tg-' + (it.tipo === 'modulo' ? 'proposta' : it.tipo === 'inversor' ? 'contato' : 'novo') + '" style="font-size:8px;padding:3px 6px;flex:0 0 auto">' + it.tipo + '</span>';
+    h += '<div style="flex:1;min-width:0"><div style="font-weight:700;line-height:1.3">' + esc(it.descricao) + '</div>';
+    h += '<div style="color:var(--cz2);font-size:10.5px;margin-top:2px">' + it.qtd + ' × ' + brl(it.unit) + '</div></div>';
+    h += '<div style="font-weight:800;white-space:nowrap">' + brl0(it.total) + '</div></div>';
+  });
+  h += '</div>';
+
+  h += '<div style="display:flex;justify-content:space-between;padding:10px 4px;font-size:12px;border-bottom:1px solid var(--linha)"><span>Subtotal</span><b>' + brl(r.subtotal) + '</b></div>';
+  if (r.frete) h += '<div style="display:flex;justify-content:space-between;padding:8px 4px;font-size:12px;border-bottom:1px solid var(--linha)"><span>Frete</span><b>' + brl(r.frete) + '</b></div>';
+  h += '<div style="display:flex;justify-content:space-between;padding:12px 4px;font-size:15px;color:var(--lar)"><span><b>TOTAL</b></span><b>' + brl(r.total) + '</b></div>';
+
+  h += '<div class="f" style="margin-top:12px"><label>Nome do kit (para o catálogo)</label>';
+  h += '<input type="text" id="ftNomeKit" value="' + esc('Kit ' + dec(r.kwp, 2) + ' kWp — ' + (r.nModulos || '?') + ' módulos') + '"></div>';
+
+  h += '<div class="sac"><button class="btn btn-s" onclick="fechar(\'shFotus\')">Cancelar</button>';
+  h += '<button class="btn btn-p" onclick="salvarKitFotus()">Salvar no catálogo</button></div>';
+
+  box.innerHTML = h;
+}
+
+var EDIT_FT_OP = null;
+
+function salvarKitFotus() {
+  var r = FT_RESULTADO;
+  if (!r || !r.itens.length) return;
+  var nome = (eid('ftNomeKit').value || '').trim() || ('Kit ' + dec(r.kwp, 2) + ' kWp');
+
+  var mods = r.itens.filter(function (i) { return i.tipo === 'modulo'; });
+  var invs = r.itens.filter(function (i) { return i.tipo === 'inversor'; });
+
+  DB.kits.push({
+    id: uid(),
+    nome: nome,
+    potencia: r.kwp,
+    preco: r.total,
+    marcaPainel: mods.length ? mods[0].descricao.slice(0, 60) : '',
+    marcaInversor: invs.length ? invs[0].descricao.slice(0, 60) : '',
+    nModulos: r.nModulos,
+    inversorKw: r.inversorKw,
+    frete: r.frete || 0,
+    origem: 'Fotus',
+    numeroOrcamento: r.numero || '',
+    composicao: r.itens.map(function (i) {
+      return i.qtd + 'x ' + i.descricao + ' — ' + brl(i.total);
+    }).join('\n'),
+    itens: r.itens,
+    criadoEm: iso(hoje()),
+  });
+
+  // se veio de uma oportunidade, aplica o custo do kit nela
+  if (EDIT_FT_OP) {
+    DB.ops.forEach(function (o) {
+      if (o.id !== EDIT_FT_OP) return;
+      if (r.kwp > 0) o.custoKitKwp = Math.round(r.total / r.kwp);
+      if (r.kwp > 0) o.kwp = r.kwp;
+      if (r.nModulos) o.nModulos = r.nModulos;
+      if (!o.inversor && r.inversorKw) o.inversor = 'Inversor ' + dec(r.inversorKw, 1) + ' kW';
+      o.kitFotus = { numero: r.numero, total: r.total, kwp: r.kwp };
+      o.atualizadoEm = iso(hoje());
+    });
+  }
+
+  salvarDB();
+  fechar('shFotus');
+  alert('Kit salvo no catálogo com o preço real da Fotus.');
+  irTela('catalogo');
+}
 
 /* ===== BOOT ===== */
 document.querySelectorAll('.sheet').forEach(function(s){
