@@ -144,28 +144,17 @@ footer{text-align:center;font-size:.66rem;color:var(--muted);padding:14px 10px 3
       <option value="0.85">85% — muito conservador</option>
     </select>
     <div class="r2">
-      <div><label>Autonomia da bateria <small>(dias sem sol)</small></label>
-        <select id="autonomia">
-          <option value="1">1 dia</option>
-          <option value="2" selected>2 dias</option>
-          <option value="3">3 dias</option>
-          <option value="4">4 dias</option>
-          <option value="5">5 dias</option>
-        </select>
-      </div>
       <div><label>Simultaneidade <small>(% cargas ligadas juntas)</small></label><input type="number" id="simult" value="60" inputmode="decimal"></div>
+      <div><label>Horas de sol efetivas p/ recarga <small>(h/dia)</small></label><input type="number" id="horasSol" value="4.5" step="0.5" inputmode="decimal"></div>
     </div>
   </div>
 
   <div id="blocoHib" class="hide">
-    <label>Cargas a manter na bateria <small>(kWh por noite/evento)</small></label>
-    <input type="number" id="hibKwh" step="0.1" inputmode="decimal" placeholder="Ex.: 6 (geladeira, luz, TV)">
-    <label>Autonomia da bateria <small>(noites/dias)</small></label>
-    <select id="hibAut">
-      <option value="0.5">Meia noite (backup curto)</option>
-      <option value="1" selected>1 dia</option>
-      <option value="2">2 dias</option>
-    </select>
+    <div class="alert info">🔋 <div>O híbrido trabalha com a rede e guarda energia para <b>falta de luz</b> ou para <b>usar à noite</b> o que sobrou do dia. O tamanho da bateria você define no card <b>Banco de baterias</b>.</div></div>
+    <div class="r2">
+      <div><label>Horas de sol efetivas p/ recarga <small>(h/dia)</small></label><input type="number" id="horasSol" value="4.5" step="0.5" inputmode="decimal"></div>
+      <div><label>Simultaneidade <small>(% cargas no backup)</small></label><input type="number" id="simult" value="60" inputmode="decimal"></div>
+    </div>
   </div>
 
   <div id="blocoZero" class="hide">
@@ -218,7 +207,54 @@ footer{text-align:center;font-size:.66rem;color:var(--muted);padding:14px 10px 3
 
 <!-- ============ BATERIAS ============ -->
 <div class="card hide" id="cardBat">
-  <h2>🔋 Banco de baterias</h2>
+  <h2>🔋 Banco de baterias <span class="tag" id="tagBat">definir</span></h2>
+
+  <label>Como você quer dimensionar a bateria?</label>
+  <select id="batObjetivo">
+    <option value="dias">Por dias de autonomia (dias sem sol)</option>
+    <option value="kwh">Por kWh que preciso à noite</option>
+    <option value="horas">Por horas essenciais (backup de cargas)</option>
+    <option value="pct">Por % do consumo diário</option>
+  </select>
+
+  <div id="objDias">
+    <div class="r2">
+      <div><label>Dias sem sol <small>(autonomia)</small></label>
+        <select id="batDias">
+          <option value="0.5">Meia noite (backup curto)</option>
+          <option value="1" selected>1 dia</option>
+          <option value="1.5">1 dia e meio</option>
+          <option value="2">2 dias</option>
+          <option value="3">3 dias</option>
+          <option value="4">4 dias</option>
+          <option value="5">5 dias</option>
+        </select>
+      </div>
+      <div><label>Consumo noturno <small>(% do dia)</small></label>
+        <input type="number" id="batPctNoite" value="50" step="5" inputmode="decimal">
+      </div>
+    </div>
+  </div>
+
+  <div id="objKwh" class="hide">
+    <label>Energia que preciso guardar <small>(kWh por noite)</small></label>
+    <input type="number" id="batKwhNoite" step="0.1" inputmode="decimal" placeholder="Ex.: 6 (geladeira, luz, TV)">
+  </div>
+
+  <div id="objHoras" class="hide">
+    <div class="r2">
+      <div><label>Carga essencial <small>(kW)</small></label><input type="number" id="batCargaEss" step="0.1" inputmode="decimal" placeholder="Ex.: 1,5"></div>
+      <div><label>Horas de backup</label><input type="number" id="batHoras" value="8" step="1" inputmode="decimal"></div>
+    </div>
+    <p class="note">Some as potências do que DEVE continuar ligado: geladeira 150 W + 10 lâmpadas 90 W + TV 100 W + roteador 10 W = <b>350 W</b>.</p>
+  </div>
+
+  <div id="objPct" class="hide">
+    <label>Guardar quanto do consumo diário? <small>(%)</small></label>
+    <input type="number" id="batPctConsumo" value="50" step="5" inputmode="decimal">
+  </div>
+
+  <div class="sec">Bateria</div>
   <label>Tecnologia / modelo</label>
   <select id="batSel"></select>
   <div class="r3">
@@ -231,7 +267,10 @@ footer{text-align:center;font-size:.66rem;color:var(--muted);padding:14px 10px 3
       <select id="batBancoV"><option value="12">12 V</option><option value="24">24 V</option><option value="48" selected>48 V</option><option value="51.2">51,2 V</option></select>
     </div>
     <div><label>Rendimento bateria (%)</label><input type="number" id="batEta" value="95" inputmode="decimal"></div>
+    <div><label>C-rate máx. descarga <small>(C)</small></label><input type="number" id="batCmax" value="0.5" step="0.1" inputmode="decimal"></div>
+    <div><label>C-rate máx. carga <small>(C)</small></label><input type="number" id="batCchg" value="0.5" step="0.1" inputmode="decimal"></div>
   </div>
+  <label style="margin-top:12px"><input type="checkbox" id="batCobrePico" checked style="width:auto;margin-right:6px;transform:scale(1.2)"> Aumentar o banco se precisar, para aguentar a corrente de pico</label>
   <p class="note" id="noteBat"></p>
 </div>
 
@@ -387,13 +426,17 @@ function nmModo(){return {on:"ON-GRID",hyb:"HÍBRIDO",off:"OFF-GRID",zero:"ZERO 
   $("invSel").onchange=function(){aplicarInversor();calc();saveState();};
   $("batSel").onchange=function(){aplicarBateria();calc();saveState();};
   $("consTipo").onchange=function(){rotuloConsumo();calc();saveState();};
+  $("batObjetivo").addEventListener("change",function(){mostraObjetivoBat();calc();saveState();});
 
-  ["hsp","tarifa","tmin","perdas","consValor","corte","fatorCritico","autonomia","simult","hibKwh","hibAut",
+  ["hsp","tarifa","tmin","perdas","consValor","corte","fatorCritico","simult",
    "modWp","modVoc","modVmp","modIsc","modImp","modTk","tmax",
    "invPac","invQtd","invVmax","invMpptMin","invMpptMax","invNmppt","invImax","invFases","dcac",
-   "batV","batAh","batDod","batBancoV","batEta","custoKit","custoMo","custoBat","custoExtra","margem"]
+   "batV","batAh","batDod","batBancoV","batEta","batCmax","batCchg","batCobrePico",
+   "batDias","batPctNoite","batKwhNoite","batCargaEss","batHoras","batPctConsumo","horasSol",
+   "custoKit","custoMo","custoBat","custoExtra","margem"]
    .forEach(function(id){var e=$(id);if(e){e.oninput=function(){calc();};e.onchange=function(){calc();saveState();};}});
   $("zeroBat").onchange=function(){toggleCards();calc();saveState();};
+  if($("batCobrePico"))$("batCobrePico").onchange=function(){calc();saveState();};
 
   document.querySelectorAll("#tabs button").forEach(function(b){
     b.onclick=function(){
@@ -409,6 +452,16 @@ function nmModo(){return {on:"ON-GRID",hyb:"HÍBRIDO",off:"OFF-GRID",zero:"ZERO 
   $("tagModo").textContent=nmModo();
   toggleCards();calc();
 })();
+
+function mostraObjetivoBat(){
+  var o=$("batObjetivo")?$("batObjetivo").value:"dias";
+  ["objDias","objKwh","objHoras","objPct"].forEach(function(id){
+    var e=$(id);if(!e)return;
+    e.classList.toggle("hide", id!="obj"+o.charAt(0).toUpperCase()+o.slice(1));
+  });
+  var tag=$("tagBat");
+  if(tag)tag.textContent={dias:"autonomia",kwh:"kWh/noite",horas:"backup",pct:"% consumo"}[o]||"";
+}
 
 function rotuloConsumo(){
   var t=$("consTipo").value;
@@ -518,6 +571,7 @@ function loadState(){
     });
   }
   if($("consTipo"))rotuloConsumo();
+  if($("batObjetivo"))mostraObjetivoBat();
   if(!$("hsp").value){
     var c=CIDADES[+($("cidade").value||0)]||CIDADES[0];
     $("hsp").value=c.hsp;$("tarifa").value=c.tar;
@@ -634,31 +688,89 @@ function calc(){
   var pacNec = modo=="off" ? Math.max(cargaPico, kwhDia/6) : kwp/dcac;
   var invSug=Math.max(1,Math.ceil(pacNec/Math.max(invPac,0.01)));
 
-  /* --- bateria --- */
+  /* --- bateria --------------------------------------------------------------
+     Etapas: (1) energia útil que o cliente precisa, (2) energia nominal com DoD,
+     (3) arranjo série/paralelo pela tensão do banco, (4) checagens de corrente:
+     descarga no pico, carga pelo FV, recarga possível e corrente do inversor.   */
   var bat=null;
   if(!$("cardBat").classList.contains("hide")){
-    var kwhNoite;
-    if(modo=="off") kwhNoite=kwhDia*n("autonomia",2);
-    else if(modo=="hyb") kwhNoite=n("hibKwh")*n("hibAut",1);
-    else kwhNoite=kwhDia*0.5*n("hibAut",1);
-    if(!(kwhNoite>0))kwhNoite=kwhDia*0.5;
+    var objetivo=$("batObjetivo").value;
+    var pctNoite=n("batPctNoite",50)/100;
+    var kwhUtil, origemTxt;
+
+    if(objetivo=="dias"){
+      kwhUtil=kwhDia*pctNoite*n("batDias",1);              /* consumo noturno × dias */
+      origemTxt=fmt(n("batDias",1),1)+" dia(s) de autonomia × "+fmt(pctNoite*100,0)+"% do consumo diário noturno";
+    } else if(objetivo=="kwh"){
+      kwhUtil=n("batKwhNoite");
+      origemTxt="consumo informado de "+fmt(kwhUtil,1)+" kWh por noite";
+    } else if(objetivo=="horas"){
+      kwhUtil=n("batCargaEss")*n("batHoras",8);
+      origemTxt=fmt(n("batCargaEss",0),2)+" kW essenciais × "+fmt(n("batHoras",8),0)+" h";
+    } else {
+      kwhUtil=kwhDia*n("batPctConsumo",50)/100;
+      origemTxt=fmt(n("batPctConsumo",50),0)+"% do consumo diário ("+fmt(kwhDia,1)+" kWh)";
+    }
+    if(!(kwhUtil>0))kwhUtil=kwhDia*0.5;
+
     var bv=n("batV",51.2),bah=n("batAh",100);
-    var dod=n("batDod",90)/100,eta=n("batEta",95)/100;
-    var kwhUnid=bv*bah/1000;
-    var kwhNec=kwhNoite/(Math.max(dod,0.1)*Math.max(eta,0.5));
-    var qtdBat=Math.max(1,Math.ceil(kwhNec/Math.max(kwhUnid,0.1)));
+    var dod=Math.min(Math.max(n("batDod",90)/100,0.2),1);
+    var eta=Math.min(Math.max(n("batEta",95)/100,0.5),1);
+    var kwhUnid=bv*bah/1000;                       /* kWh nominais de UMA bateria */
+    var kwhNom=kwhUtil/(dod*eta);                  /* nominal do banco inteiro */
+    var qtdMin=Math.max(1,Math.ceil(kwhNom/Math.max(kwhUnid,0.01)));
+
+    /* arranjo: série definida pela tensão alvo; paralelo fecha a quantidade */
     var bancoAlvo=n("batBancoV",48);
     var serie=Math.max(1,Math.round(bancoAlvo/bv));
-    var par=Math.max(1,Math.ceil(qtdBat/serie));
+    var par=Math.ceil(qtdMin/serie);
     var total=serie*par;
-    var bancoV=serie*bv;
-    var kwhInst=total*kwhUnid;
-    var iDesc=cargaPico*1000/Math.max(bancoV,1);          /* A na carga de pico */
-    var iCarga=total*bah*0.5;                              /* 0,5C recomendado */
-    var iFv=kwp*1000/Math.max(bancoV,1);
-    bat={kwhNoite:kwhNoite,kwhNec:kwhNec,kwhUnid:kwhUnid,qtd:total,serie:serie,par:par,
-         kwhInst:kwhInst,bancoV:bancoV,iDesc:iDesc,iCarga:iCarga,iFv:iFv,
-         custo:total*kwhUnid*n("custoBat",3500),iCadm:bah<120?0.5:1};
+    var bancoV=serie*bv;                           /* tensão real do banco montado */
+
+    /* correntes — o C-rate vale POR BATERIA, então multiplica pelo paralelo */
+    var cMaxDesc=n("batCmax",0.5), cMaxCarga=n("batCchg",0.5);
+    /* no off-grid a carga vem do levantamento; no híbrido/zero vem da potência do inversor */
+    var picoUsar = modo=="off"
+      ? cargaPico
+      : invPac*invQtd*Math.min(Math.max(n("simult",60)/100,0.1),1);
+    var iDescPico=picoUsar*1000/Math.max(bancoV,1);           /* A na carga de pico da casa */
+    var iDescAdm=par*bah*cMaxDesc;                            /* A que o banco entrega */
+    var iFv=kwp*1000/Math.max(bancoV,1);                      /* A que o FV pode empurrar */
+    var iCargaAdm=par*bah*cMaxCarga;                          /* A que o banco aceita carregando */
+    /* off-grid: o inversor pode puxar tudo do banco; híbrido/zero: só a carga de backup */
+    var pInvBat = modo=="off" ? invPac*invQtd : pacNec;
+    var iInvDesc=pInvBat*1000/Math.max(bancoV,1);              /* A que o inversor puxa do banco */
+
+    /* recarga: energia que o FV consegue repor numa janela de sol */
+    var horasSol=n("horasSol",4.5);
+    var kwhRecargaDia=kwp*horasSol*rend*eta;                  /* quanto entra na bateria/dia */
+    var precisaRecarga=kwhUtil;                               /* repor o que gastou */
+    var diasRecarga=kwhRecargaDia>0?precisaRecarga/kwhRecargaDia:99;
+
+    /* se pedido, aumenta o paralelo até o banco aguentar a corrente de pico */
+    var parEnergia=par, ajustadoPorCorrente=false;
+    if($("batCobrePico") && $("batCobrePico").checked){
+      var iPrec=Math.max(iDescPico,iInvDesc);
+      var parCorr=Math.ceil(iPrec/Math.max(bah*cMaxDesc,0.01));
+      if(parCorr>par){
+        par=parCorr;total=serie*par;ajustadoPorCorrente=true;
+        iDescAdm=par*bah*cMaxDesc;            /* recalcula os limites do banco novo */
+        iCargaAdm=par*bah*cMaxCarga;
+      }
+    }
+    var kwhInst=total*kwhUnid;                                /* nominal instalado */
+    var kWhUtilReal=kwhInst*dod*eta;                          /* útil com o arranjo fechado */
+
+    bat={kwhUtil:kwhUtil,kwhNom:kwhNom,kwhUnid:kwhUnid,qtd:total,total:total,serie:serie,par:par,
+         kwhInst:kwhInst,kwhUtilReal:kWhUtilReal,bancoV:bancoV,origem:origemTxt,
+         iDescPico:iDescPico,iDescAdm:iDescAdm,iFv:iFv,iCargaAdm:iCargaAdm,iInvDesc:iInvDesc,
+         iDescProj:Math.max(iDescPico,iInvDesc),
+         cMaxDesc:cMaxDesc,cMaxCarga:cMaxCarga,horasSol:horasSol,
+         kwhRecargaDia:kwhRecargaDia,diasRecarga:diasRecarga,
+         picoUsar:picoUsar,okDesc:Math.max(iDescPico,iInvDesc)<=iDescAdm, okCarga:iFv<=iCargaAdm, okInv:iInvDesc<=iDescAdm,
+         okRecarga:diasRecarga<=1,
+         parEnergia:parEnergia,ajustadoPorCorrente:ajustadoPorCorrente,
+         custo:total*kwhUnid*n("custoBat",3500),dod:dod,eta:eta};
   }
 
   /* --- geração e economia --- */
@@ -714,13 +826,9 @@ function calc(){
   var disjCA=[16,20,25,32,40,50,63,80,100,125,150].filter(function(x){return x>=iCA*1.25;})[0]||200;
   var dpsCC=vmax<=600?"DPS CC 600 V":"DPS CC 1000 V";
 
-  window._res={modo:modo,kwp:kwp,qtdMod:qtdMod,mWp:mWp,gerMes:gerMes,gerAno:gerAno,
-    econMes:econMes,preco:preco,paybackM:paybackM,bat:bat,consumoMes:consumoMes,contaAtual:contaAtual,
-    autoconsumo:autoconsumo,cidade:CIDADES[+$("cidade").value].n};
-
-  render({
+    var R={
     kwp:kwp,qtdMod:qtdMod,mWp:mWp,gerMes:gerMes,gerAno:gerAno,econMes:econMes,
-    preco:preco,kitV:kitV,moV:moV,anos:anos,meses:meses,bat:bat,
+    preco:preco,paybackM:paybackM,kitV:kitV,moV:moV,anos:anos,meses:meses,bat:bat,
     invPac:invPac,invTot:invTotNominal,invQtd:invQtd,invSug:invSug,pacNec:pacNec,
     serieMax:serieMax,serieMin:serieMin,porString:porString,nStrings:nStrings,
     strPorMppt:strPorMppt,mpptNec:mpptNec,nmppt:nmppt,
@@ -732,13 +840,28 @@ function calc(){
     caboCA:caboCA,quedaCC:quedaCC,quedaCA:quedaCA,distCC:distCC,distCA:distCA,
     co2:gerAno*0.0385/1000,tar:tar,hsp:hsp,hspProj:hspProj,consumoMes:consumoMes,
     contaAtual:contaAtual,consumoRealMes:consumoRealMes,rend:rend,
-    kwhDia:kwhDia,coefVocPct:coefVocPct,modNome:MODULOS[+$("modSel").value].n,invNome:INVERSORES[+$("invSel").value].n,
+    kwhDia:kwhDia,coefVocPct:coefVocPct,kwp:kwp,modNome:MODULOS[+$("modSel").value].n,invNome:INVERSORES[+$("invSel").value].n,
     batNome:BATERIAS[+$("batSel").value].n,custoUsina:custoUsina,extra:extra,marg:marg,
     kwpNec:kwpNec
-  });
+  };
+  window._res=R;
+  render(R);
   saveState();
 }
 function IscParalelo(k,isc){return k*isc;}
+/* kWp necessário para recarregar o banco em um dia de sol */
+/* seção de cabo do banco pela corrente de pico (2 A/mm² com folga) */
+function secCaboBat(b){
+  if(!b)return 25;
+  var nec=b.iDescProj/2;                       /* ~2 A por mm² em cabo curto */
+  var secs=[16,25,35,50,70,95,120,150,185,240,300];
+  for(var i=0;i<secs.length;i++){if(secs[i]>=nec)return secs[i];}
+  return 300;
+}
+function kwpNecessarioRecarga(b){
+  if(!b||!(b.horasSol>0))return 0;
+  return b.kwhUtil/(b.horasSol*0.82*b.eta);
+}
 
 /* ================= RENDER ================= */
 function render(r){
@@ -818,22 +941,48 @@ function render(r){
   /* bateria */
   if(r.bat){
     var b=r.bat;
-    h+='<div class="card"><h2>🔋 Banco de baterias <span class="tag">'+fmt(b.kwhInst,1)+' kWh</span></h2>'
+    h+='<div class="card"><h2>🔋 Banco de baterias <span class="tag">'+fmt(b.kwhUtilReal,1)+' kWh úteis</span></h2>'
       +'<div class="grid">'
-      +'<div class="kpi hl"><div class="v">'+b.qtd+' un.</div><div class="l">BATERIAS</div></div>'
-      +'<div class="kpi"><div class="v">'+b.serie+'S'+b.par+'P</div><div class="l">ARRANJO</div></div>'
-      +'<div class="kpi"><div class="v">'+fmt(b.kwhNoite,1)+' kWh</div><div class="l">ENERGIA POR NOITE</div></div>'
-      +'<div class="kpi"><div class="v">'+fmt(b.kwhNec,1)+' kWh</div><div class="l">NECESSÁRIO (DoD)</div></div>'
+      +'<div class="kpi big"><div class="v">'+b.total+' baterias</div><div class="l">'+b.serie+' EM SÉRIE × '+b.par+' EM PARALELO</div></div>'
+      +'<div class="kpi hl"><div class="v">'+fmt(b.kwhUtil,1)+' kWh</div><div class="l">ENERGIA ÚTIL PEDIDA</div></div>'
+      +'<div class="kpi"><div class="v">'+fmt(b.kwhNom,1)+' kWh</div><div class="l">NOMINAL NECESSÁRIO</div></div>'
+      +'<div class="kpi"><div class="v">'+fmt(b.kwhInst,1)+' kWh</div><div class="l">NOMINAL INSTALADO</div></div>'
+      +'<div class="kpi"><div class="v">'+fmt(b.kwhUtilReal,1)+' kWh</div><div class="l">ÚTIL REAL DO BANCO</div></div>'
       +'<div class="kpi"><div class="v">'+fmt(b.bancoV,0)+' V</div><div class="l">TENSÃO DO BANCO</div></div>'
-      +'<div class="kpi"><div class="v">R$ '+fmt(b.custo)+'</div><div class="l">CUSTO BATERIAS</div></div>'
+      +'<div class="kpi"><div class="v">'+fmt(b.kwhUnid,2)+' kWh</div><div class="l">CADA BATERIA</div></div>'
+      +'<div class="kpi azul"><div class="v">R$ '+fmt(b.custo)+'</div><div class="l">CUSTO DAS BATERIAS</div></div>'
       +'</div>'
-      +'<table style="margin-top:10px">'
-      +'<tr><th>Corrente</th><th class="num">Valor</th><th>Observação</th></tr>'
-      +'<tr><td>Descarga no pico</td><td class="num">'+fmt(b.iDesc,0)+' A</td><td>'+(b.iDesc<=b.iCarga?"dentro de 0,5C":"⚠️ alto — aumentar paralelo")+'</td></tr>'
-      +'<tr><td>Carga FV máxima</td><td class="num">'+fmt(b.iFv,0)+' A</td><td>'+(b.iFv<=b.iCarga?"ok":"⚠️ limitar carga no inversor")+'</td></tr>'
-      +'<tr><td>Carga recomendada (0,5C)</td><td class="num">'+fmt(b.iCarga,0)+' A</td><td>limite do banco</td></tr>'
-      +'</table>'
-      +'<p class="note">Modelo: <b>'+r.batNome+'</b> · '+b.serie+' em série × '+b.par+' em paralelo ('+fmt(b.kwhUnid,2)+' kWh cada) = <b>'+fmt(b.kwhInst,1)+' kWh instalados</b>. No lítio pode descarregar mais fundo (DoD 90-95%); no chumbo, nunca abaixo de 50%.</p></div>';
+      +'<p class="note">Dimensionado por <b>'+b.origem+'</b>. Energia útil pedida '+fmt(b.kwhUtil,1)+' kWh ÷ DoD '+fmt(b.dod*100,0)+'% ÷ rendimento '+fmt(b.eta*100,0)+'% = <b>'+fmt(b.kwhNom,1)+' kWh nominais</b>. Com '+b.total+' unidades fecha em '+fmt(b.kwhInst,1)+' kWh nominais (<b>'+fmt(b.kwhUtilReal,1)+' kWh realmente utilizáveis</b>).</p>';
+
+    /* verificações de corrente e recarga */
+    h+='<table style="margin-top:10px">'
+      +'<tr><th>Verificação</th><th class="num">Valor</th><th class="num">Limite</th></tr>'
+      +'<tr><td>Descarga no pico da casa</td><td class="num">'+fmt(b.iDescPico,0)+' A</td><td class="num">'+fmt(b.iDescAdm,0)+' A '+(b.okDesc?'✅':'❌')+'</td></tr>'
+      +'<tr><td>Corrente que o inversor puxa</td><td class="num">'+fmt(b.iInvDesc,0)+' A</td><td class="num">'+fmt(b.iDescAdm,0)+' A '+(b.okInv?'✅':'❌')+'</td></tr>'
+      +'<tr><td>Carga vinda do FV</td><td class="num">'+fmt(b.iFv,0)+' A</td><td class="num">'+fmt(b.iCargaAdm,0)+' A '+(b.okCarga?'✅':'❌')+'</td></tr>'
+      +'<tr><td>Recarga do banco cheio</td><td class="num">'+fmt(b.diasRecarga,1)+' dia(s)</td><td class="num">≤ 1 dia '+(b.okRecarga?'✅':'⚠️')+'</td></tr>'
+      +'</table>';
+
+    if(!b.okDesc){
+      var parNec=Math.ceil(Math.max(b.iDescPico,b.iInvDesc)/(n("batAh")*b.cMaxDesc));
+      h+='<div class="alert bad">❌ <div>O banco não entrega a corrente de pico. Precisa de <b>'+parNec+' em paralelo</b> (hoje são '+b.par+'). Suba o C-rate da bateria ou aumente o paralelo.</div></div>';
+    }
+    if(!b.okCarga){
+      h+='<div class="alert warn">⚠️ <div>O FV pode empurrar <b>'+fmt(b.iFv,0)+' A</b> e o banco aceita <b>'+fmt(b.iCargaAdm,0)+' A</b>. Limite a corrente de carga no inversor para não danificar a bateria.</div></div>';
+    }
+    if(!b.okRecarga){
+      h+='<div class="alert warn">⚠️ <div>Com '+fmt(r.kwp,2)+' kWp o banco leva <b>'+fmt(b.diasRecarga,1)+' dias</b> para recarregar o que gastou numa noite. Para recarregar em 1 dia são <b>'+fmt(kwpNecessarioRecarga(b),1)+' kWp</b> ou corte o consumo noturno.</div></div>';
+    }
+    if(b.ajustadoPorCorrente){
+      h+='<div class="alert info">💡 <div>Só de energia seriam <b>'+b.parEnergia+' em paralelo</b>, mas a corrente de pico exige <b>'+b.par+'</b>. Alternativas: aumentar o C-rate da bateria, usar um modelo de maior Ah, ou reduzir a carga que fica no backup.</div></div>';
+    }
+    if(b.okDesc&&b.okCarga&&b.okRecarga){
+      h+='<div class="alert ok">✅ <div>Banco dimensionado e compatível: entrega a descarga de pico, aceita a carga do FV e recarrega em menos de 1 dia de sol.</div></div>';
+    }
+    if(b.par>3){
+      h+='<div class="alert info">ℹ️ <div>'+b.par+' baterias em paralelo. Em lítio acima de 3-4 em paralelo, prefira <b>baterias maiores</b> ou um BMS/barramento próprio — paralelo alto demais desequilibra.</div></div>';
+    }
+    h+='<p class="note">Modelo: <b>'+r.batNome+'</b> ('+fmt(n("batV"),1)+' V / '+fmt(n("batAh"),0)+' Ah). C-rate de descarga <b>'+fmt(b.cMaxDesc,1)+'C</b> e de carga <b>'+fmt(b.cMaxCarga,1)+'C</b> (com '+fmt(n("batAh"),0)+' Ah = '+fmt(n("batAh")*b.cMaxDesc,0)+' A por bateria). Confira o BMS no datasheet: muitos lítios de 100 Ah aceitam 100 A (1C).</p></div>';
   }
 
   /* cabos e proteções */
@@ -874,11 +1023,13 @@ function render(r){
     +'<p class="note">Equivale a <b>R$ '+fmt(r.preco/Math.max(r.kwp,0.01))+'/kWp</b>. Ajuste com seus custos reais em "Custos de referência".</p></div>';
 
   /* resumo */
-  h+='<div class="card noprint"><h2>📤 Compartilhar</h2>'
+  h+='<div class="card noprint"><h2>📤 Projeto e compartilhar</h2>'
+    +'<button class="btn" onclick="gerarProjeto()">📄 GERAR PROJETO COMPLETO (MEMORIAL + MATERIAIS)</button>'
     +'<button class="btn btn3" onclick="copiarResumo()">📋 COPIAR RESUMO P/ WHATSAPP</button>'
-    +'<button class="btn btn2" onclick="window.print()">🖨️ SALVAR EM PDF</button></div>';
+    +'<button class="btn btn2" onclick="window.print()">🖨️ SALVAR EM PDF / IMPRIMIR</button></div>';
 
   $("resultado").innerHTML=h;
+  if(window._projetoAberto){window._semScroll=true;gerarProjeto();window._semScroll=false;}
 }
 
 function copiarResumo(){
@@ -897,6 +1048,143 @@ function copiarResumo(){
   document.body.appendChild(ta);ta.select();
   try{document.execCommand("copy");alert("Resumo copiado! Cole no WhatsApp.");}catch(e){alert(t);}
   document.body.removeChild(ta);
+}
+
+/* ============================================================================
+   PROJETO — memorial descritivo + lista de materiais
+   ============================================================================ */
+function gerarProjeto(){
+  var r=window._res; if(!r){alert("Calcule primeiro.");return;}
+  var _scrollAnterior=window._semScroll;
+  var c=CIDADES[+$("cidade").value];
+  var hoje=new Date().toLocaleDateString("pt-BR");
+
+  /* --- itens de material quantificados --- */
+  var itens=[];
+  itens.push(["Módulo fotovoltaico "+fmt(r.mWp)+" Wp", r.qtdMod, "un", r.modNome]);
+  itens.push(["Inversor "+fmt(n("invPac"),1)+" kW", r.invQtd, "un", r.invNome]);
+  if(r.bat)itens.push(["Bateria "+fmt(r.bat.kwhUnid,2)+" kWh", r.bat.qtd, "un", r.batNome+" ("+r.bat.serie+"S"+r.bat.par+"P)"]);
+  itens.push(["Estrutura de fixação (trilho + grampo)", r.qtdMod, "kit", "alumínio, para telhado ou solo"]);
+  itens.push(["Cabo solar CC "+r.caboCC+" mm²", Math.ceil(r.distCC*2*r.nStrings), "m", "vermelho/preto, 1,5 kV"]);
+  itens.push(["Conector MC4 (par)", r.nStrings*2, "par", "macho/fêmea"]);
+  itens.push(["Cabo CA "+r.caboCA+" mm²", Math.ceil(r.distCA*3), "m", "flexível 750 V"]);
+  itens.push(["Disjuntor CC "+r.disjCC+" A", r.nStrings, "un", "curva CC, 2 polos"]);
+  itens.push(["Disjuntor CA "+r.disjCA+" A", 1, "un", "curva C"]);
+  itens.push(["DPS CC "+r.dpsCC, 1, "un", "proteção de surto lado CC"]);
+  itens.push(["DPS CA 2P 275 V", 1, "un", "proteção de surto lado CA"]);
+  itens.push(["Quadro de proteção CC/CA", 1, "un", "com barramento e aterramento"]);
+  itens.push(["String box / caixa de junção", r.nStrings>1?1:0, "un", "para agrupar as strings"]);
+  itens.push(["Haste de aterramento + cabo verde 6 mm²", 1, "kit", "SPDA e equipotencialização"]);
+  if(r.bat)itens.push(["Cabo do banco de baterias "+secCaboBat(r.bat)+" mm²", Math.max(4,Math.ceil(r.bat.total*0.5)), "m", "com terminais e fusível"]);
+  if(r.bat)itens.push(["Fusível/DC breaker do banco", 1, "un", fmt(r.bat.iDescAdm,0)+" A ou conforme BMS"]);
+
+  var h='<div class="card"><h2>📄 Projeto — '+nmModo()+'</h2>';
+  h+='<p class="note" style="margin-top:0">Memorial simplificado gerado em <b>'+hoje+'</b>. Serve para orçamento e execução; o projeto assinado (ART) é do engenheiro responsável.</p>';
+
+  /* 1. dados do local */
+  h+='<div class="sec">1. Local e irradiação</div><table>';
+  h+='<tr><td>Local</td><td><b>'+c.n+'</b></td></tr>';
+  h+='<tr><td>Irradiação (HSP)</td><td>'+fmt(r.hsp,2)+' h/dia'+(modo=="off"?" · pior mês: "+fmt(r.hspProj,2)+" h/dia":"")+'</td></tr>';
+  h+='<tr><td>Coordenadas / distribuidora</td><td>'+c.uf+' · '+c.dist+'</td></tr>';
+  h+='<tr><td>Tarifa adotada</td><td>R$ '+fmt(r.tar,3)+'/kWh</td></tr>';
+  h+='<tr><td>Perdas do sistema</td><td>'+fmt(n("perdas"),0)+'% (rendimento '+fmt(r.rend*100,0)+'%)</td></tr>';
+  h+='</table>';
+
+  /* 2. carga */
+  h+='<div class="sec">2. Necessidade energética</div><table>';
+  h+='<tr><td>Consumo diário</td><td><b>'+fmt(r.kwhDia,2)+' kWh/dia</b></td></tr>';
+  h+='<tr><td>Consumo mensal</td><td>'+fmt(r.consumoMes,0)+' kWh/mês</td></tr>';
+  if(modo=="off")h+='<tr><td>Potência simultânea</td><td>'+fmt(cargaPico,2)+' kW</td></tr>';
+  if(modo!="off")h+='<tr><td>Conta estimada hoje</td><td>R$ '+fmt(r.contaAtual)+'/mês</td></tr>';
+  h+='</table>';
+
+  /* 3. gerador */
+  h+='<div class="sec">3. Gerador fotovoltaico</div><table>';
+  h+='<tr><td>Potência instalada</td><td><b>'+fmt(r.kwp,2)+' kWp</b></td></tr>';
+  h+='<tr><td>Módulos</td><td>'+r.qtdMod+' × '+fmt(r.mWp)+' Wp — '+r.modNome+'</td></tr>';
+  h+='<tr><td>Arranjo</td><td>'+r.nStrings+' string(s) de '+r.porString+' módulos em série</td></tr>';
+  h+='<tr><td>Área ocupada</td><td>≈ '+fmt(r.area,1)+' m²</td></tr>';
+  h+='<tr><td>Geração estimada</td><td><b>'+fmt(r.gerMes,0)+' kWh/mês</b> · '+fmt(r.gerAno,0)+' kWh/ano</td></tr>';
+  h+='</table>';
+
+  /* 4. compatibilidade CC */
+  h+='<div class="sec">4. Compatibilidade elétrica CC (strings × inversor)</div><table>';
+  h+='<tr><td>Voc da string a '+fmt(n("tmin"),0)+' °C</td><td>'+fmt(r.vocString,0)+' V ≤ '+fmt(r.vmax,0)+' V '+(r.okVoc?"✅":"❌")+'</td></tr>';
+  h+='<tr><td>Vmp da string a '+fmt(n("tmax"),0)+' °C</td><td>'+fmt(r.vmpString,0)+' V ≥ '+fmt(r.mmin,0)+' V '+(r.okVmp?"✅":"❌")+'</td></tr>';
+  h+='<tr><td>MPPTs</td><td>'+r.mpptNec+' necessário(s) de '+r.nmppt+' disponível(is) '+(r.okMppt?"✅":"❌")+'</td></tr>';
+  h+='<tr><td>Corrente por MPPT</td><td>'+fmt(r.iMppt,1)+' A ≤ '+fmt(r.imaxMppt,1)+' A '+(r.okCorr?"✅":"❌")+'</td></tr>';
+  h+='<tr><td>Relação CC/CA</td><td>'+fmt(r.kwp/Math.max(r.invTot,0.01),2)+' (ideal 1,1 a 1,25)</td></tr>';
+  h+='</table>';
+
+  /* 5. bateria */
+  if(r.bat){
+    var b=r.bat;
+    h+='<div class="sec">5. Armazenamento</div><table>';
+    h+='<tr><td>Banco de baterias</td><td><b>'+b.total+' × '+fmt(b.kwhUnid,2)+' kWh</b> = '+fmt(b.kwhInst,1)+' kWh nominais</td></tr>';
+    h+='<tr><td>Arranjo</td><td>'+b.serie+'S'+b.par+'P · '+fmt(b.bancoV,0)+' V</td></tr>';
+    h+='<tr><td>Energia útil</td><td>'+fmt(b.kwhUtilReal,1)+' kWh (DoD '+fmt(b.dod*100,0)+'%, rend. '+fmt(b.eta*100,0)+'%)</td></tr>';
+    h+='<tr><td>Critério de dimensionamento</td><td>'+b.origem+'</td></tr>';
+    h+='<tr><td>Descarga de pico</td><td>'+fmt(b.iDescProj,0)+' A ≤ '+fmt(b.iDescAdm,0)+' A '+(b.okDesc?"✅":"❌")+'</td></tr>';
+    h+='<tr><td>Carga pelo FV</td><td>'+fmt(b.iFv,0)+' A ≤ '+fmt(b.iCargaAdm,0)+' A '+(b.okCarga?"✅":"❌")+'</td></tr>';
+    h+='<tr><td>Recarga</td><td>'+fmt(b.diasRecarga,1)+' dia(s) de sol '+(b.okRecarga?"✅":"⚠️")+'</td></tr>';
+    h+='</table>';
+  }
+
+  /* 6. cabos */
+  h+='<div class="sec">'+(r.bat?"6":"5")+'. Condutores e proteções</div><table>';
+  h+='<tr><td>Cabo CC</td><td>'+r.caboCC+' mm² · queda '+fmt(r.quedaCC,2)+'% em '+fmt(r.distCC,0)+' m</td></tr>';
+  h+='<tr><td>Cabo CA</td><td>'+r.caboCA+' mm² · queda '+fmt(r.quedaCA,2)+'% em '+fmt(r.distCA,0)+' m</td></tr>';
+  h+='<tr><td>Disjuntores</td><td>CC '+r.disjCC+' A (por string) · CA '+r.disjCA+' A</td></tr>';
+  h+='<tr><td>DPS</td><td>'+r.dpsCC+' · DPS CA 2P 275 V</td></tr>';
+  if(r.bat)h+='<tr><td>Cabo do banco</td><td>'+secCaboBat(r.bat)+' mm² · '+fmt(r.bat.iDescProj,0)+' A</td></tr>';
+  h+='</table>';
+
+  /* 7. resultado financeiro */
+  h+='<div class="sec">'+(r.bat?"7":"6")+'. Resultado estimado</div><table>';
+  h+='<tr><td>Economia mensal</td><td><b>R$ '+fmt(r.econMes)+'</b></td></tr>';
+  h+='<tr><td>Investimento</td><td><b>R$ '+fmt(r.preco)+'</b> (R$ '+fmt(r.preco/Math.max(r.kwp,0.01))+'/kWp)</td></tr>';
+  h+='<tr><td>Payback</td><td>'+Math.floor(r.paybackM/12)+' anos e '+Math.round(r.paybackM%12)+' meses</td></tr>';
+  h+='<tr><td>Economia em 25 anos</td><td>R$ '+fmt(r.econMes*12*25)+'</td></tr>';
+  h+='</table>';
+
+  /* 8. lista de materiais */
+  h+='<div class="sec">'+(r.bat?"8":"7")+'. Lista de materiais</div><table>';
+  h+='<tr><th>Material</th><th class="num">Qtd</th><th>Un</th><th>Obs.</th></tr>';
+  var semQtd=false;
+  itens.forEach(function(it){
+    if(it[1]<=0){semQtd=true;return;}
+    h+='<tr><td>'+it[0]+'</td><td class="num">'+fmt(it[1])+'</td><td>'+it[2]+'</td><td style="font-size:.68rem;color:#6b7a70">'+it[3]+'</td></tr>';
+  });
+  h+='</table>';
+
+  /* 9. observações */
+  h+='<div class="sec">'+(r.bat?"9":"8")+'. Observações de execução</div>';
+  h+='<p class="note">• Módulos voltados para o norte geográfico, inclinação de 10° a 20° (maior geração anual na região).<br>'
+    +'• Ventilação livre sob os módulos e afastamento mínimo de 10 cm do telhado.<br>'
+    +'• Aterramento de todas as estruturas, do inversor e do quadro — equipotencialização obrigatória.<br>'
+    +'• Cabos CC em eletroduto exclusivo, identificados, sem emenda fora da caixa de junção.<br>'
+    +'• Instalação em conformidade com a NBR 16690 (instalações FV) e NBR 5410 (baixa tensão).<br>'
+    +'• Inversor em local ventilado, fora do sol direto, com acesso para leitura do visor.<br>'
+    +'• Homologação na distribuidora ('+c.dist+') conforme Lei 14.300/2022 e REN 1.000/2021.'
+    +(modo=="off"?"<br>• Off-grid: prever gerador de backup ou carga programada para dias nublados prolongados.":"")
+    +(modo=="zero"?"<br>• Zero grid: instalar TC/toróide no padrão de entrada e configurar o inversor para não exportar.":"")
+    +'</p>';
+
+  /* assinatura */
+  h+='<div class="sec">Responsabilidade técnica</div>';
+  h+='<p class="note">Projeto elétrico e memorial: <b>Mantena Solar</b> — CNPJ 53.719.077/0001-82.<br>'
+    +'ART/TRT do engenheiro responsável: ______________________________<br><br>'
+    +'_______________________________________<br>Assinatura do responsável técnico</p></div>';
+
+  /* injeta em seção própria, acima dos botões */
+  var alvo=$("projeto");
+  if(!alvo){
+    var div=document.createElement("div");div.id="projeto";
+    $("resultado").appendChild(div);alvo=div;
+  }
+  alvo.innerHTML=h;
+  window._projetoAberto=true;
+  if(!window._semScroll)alvo.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
 </script>
