@@ -994,7 +994,7 @@ function render(r){
     +'<tr><td>Cabo CA (inversor → quadro)</td><td><b>'+r.caboCA+' mm²</b> · '+fmt(r.iCA,1)+' A · queda '+fmt(r.quedaCA,2)+'% ('+fmt(r.distCA,0)+' m)</td></tr>'
     +'<tr><td>Disjuntor CA</td><td><b>'+r.disjCA+' A</b> curva C</td></tr>'
     +'<tr><td>DPS lado CA</td><td><b>DPS CA 2P 275 V</b></td></tr>'
-    +(r.bat?'<tr><td>Cabo do banco</td><td><b>'+Math.max(25,Math.ceil(r.bat.iDesc/3)*5)+' mm²</b> — p/ '+fmt(r.bat.iDesc,0)+' A</td></tr>':'')
+    +(r.bat?'<tr><td>Cabo do banco</td><td><b>'+secCaboBat(r.bat)+' mm²</b> — p/ '+fmt(r.bat.iDescProj,0)+' A</td></tr>':'')
     +'</table>'
     +'<p class="note">Bitola calculada pela corrente <b>e</b> pela queda de tensão (limite 2% CC / 3% CA, cobre a 70 °C). Aumente a distância nos campos de custo e a bitola acompanha.</p></div>';
 
