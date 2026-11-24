@@ -301,10 +301,10 @@ var PRESETS = [
 {c:"❄️ Ar-condicionado",n:"Ar 18.000 BTU",pot:1626,unid:"W",qtd:1,hdia:8,h:AC_NOITE,obs:"1.626 W de consumo — mediana Inmetro dos splits 18.000 BTU"},
 {c:"❄️ Ar-condicionado",n:"Ar 24.000 BTU",pot:2223,unid:"W",qtd:1,hdia:8,h:AC_NOITE,obs:"2.223 W de consumo — mediana Inmetro dos splits 24.000 BTU"},
 {c:"❄️ Ar-condicionado",n:"Ar 30.000 BTU",pot:2590,unid:"W",qtd:1,hdia:8,h:AC_NOITE,obs:"2.590 W de consumo — mediana Inmetro dos splits 30.000 BTU"},
-{c:"❄️ Ar-condicionado",n:"Ar 36.000 BTU (piso-teto)",pot:3500,unid:"W",qtd:1,hdia:8,h:AC_NOITE,obs:"~3.500 W — piso-teto inverter; confira a etiqueta do aparelho"},
-{c:"❄️ Ar-condicionado",n:"Ar 48.000 BTU (piso-teto)",pot:4800,unid:"W",qtd:1,hdia:8,h:AC_NOITE,obs:"~4.800 W — piso-teto inverter; confira a etiqueta do aparelho"},
-{c:"❄️ Ar-condicionado",n:"Ar 56.000 BTU (piso-teto)",pot:5420,unid:"W",qtd:1,hdia:8,h:AC_NOITE,obs:"5.420 W — Gree G-Prime 56.000 piso-teto (Inmetro 015777/2024)"},
-{c:"❄️ Ar-condicionado",n:"Ar 60.000 BTU (piso-teto)",pot:6215,unid:"W",qtd:1,hdia:8,h:AC_NOITE,obs:"6.215 W — Elgin Inverter Plus 60.000 piso-teto"},
+{c:"❄️ Ar-condicionado",n:"Ar 36.000 BTU (piso-teto, salão)",pot:3500,unid:"W",qtd:1,hdia:8,h:AC_NOITE,obs:"~3.500 W — piso-teto inverter; confira a etiqueta do aparelho"},
+{c:"❄️ Ar-condicionado",n:"Ar 48.000 BTU (piso-teto, salão)",pot:4800,unid:"W",qtd:1,hdia:8,h:AC_NOITE,obs:"~4.800 W — piso-teto inverter; confira a etiqueta do aparelho"},
+{c:"❄️ Ar-condicionado",n:"Ar 56.000 BTU (piso-teto, salão)",pot:5420,unid:"W",qtd:1,hdia:8,h:AC_NOITE,obs:"5.420 W — Gree G-Prime 56.000 piso-teto (Inmetro 015777/2024)"},
+{c:"❄️ Ar-condicionado",n:"Ar 60.000 BTU (piso-teto, salão)",pot:6215,unid:"W",qtd:1,hdia:8,h:AC_NOITE,obs:"6.215 W — Elgin Inverter Plus 60.000 piso-teto"},
 {c:"❄️ Ar-condicionado",n:"Ar-condicionado — outra potência",pot:1200,unid:"W",qtd:1,hdia:8,h:AC_NOITE,obs:"Digite a potência que está na etiqueta do aparelho"},
 /* ---------- ILUMINAÇÃO ---------- */
 {c:"💡 Iluminação",n:"Lâmpada LED",pot:9,unid:"W",qtd:10,hdia:5,h:NOITE,obs:"9 W por lâmpada"},
@@ -387,19 +387,21 @@ function custoMesItem(it){ return kWhDiaItem(it)*30*(+S.p.tarifa||0); }
 
 function perfil(){
   var cargaH=[]; for(var z=0;z<24;z++) cargaH.push(0);
-  /* demanda: no horário marcado, o aparelho conta com a potência cheia (pior caso, para disjuntor e pico) */
+  /* demanda no horário: todo aparelho marcado naquela hora conta com a potência cheia.
+     É o pior caso — é isso que define disjuntor e padrão de entrada. */
   S.itens.forEach(function(it){
     var kW=potW(it)/1000;
     for(var h=0;h<24;h++) if(it.h[h]) cargaH[h]+=kW;
   });
   var pico=0,iPico=0;
   for(var h2=0;h2<24;h2++) if(cargaH[h2]>pico){pico=cargaH[h2];iPico=h2;}
-  /* energia: quantidade × potência × horas/dia */
+
+  /* energia: quantidade × potência × horas por dia */
   var dia=0,noite=0;
   S.itens.forEach(function(it){
     dia+=kWhDiaItem(it);
     var m=nMarcadas(it); if(!m) return;
-    var kwH=(+it.hdia||0)/m;               /* horas de uso distribuídas nas horas marcadas */
+    var kwH=(+it.hdia||0)/m;
     for(var q=0;q<24;q++) if(it.h[q]&&(q>=18||q<=5)) noite+=potW(it)/1000*kwH;
   });
   var extra=0;
@@ -409,7 +411,8 @@ function perfil(){
       if(x>extra) extra=x;
     }
   });
-  return {cargaH:cargaH,pico:pico,iPico:iPico,dia:dia,noite:noite,mes:dia*30,
+  return {cargaH:cargaH,pico:pico,iPico:iPico,picoMax:pico,iPicoMax:iPico,
+          dia:dia,noite:noite,mes:dia*30,
           picoPartida:pico+extra,fases:pico>25?3:1};
 }
 
@@ -714,6 +717,37 @@ function renderPerfil(){
     h+='<div class="alert '+cls+'">Conta do cliente: <b>'+fmt(kwhConta,0)+' kWh/mês</b> · levantamento: <b>'+fmt(pf.mes,0)+' kWh/mês</b> ('+(dif>0?"+":"")+fmt(dif,0)+'%). '+msg+'</div>';
   } else if(pf.dia>0){
     h+='<div class="alert warn">Preencha o <b>consumo na conta</b> (kWh/mês) na aba Cargas — assim o app confere se o levantamento bate.</div>';
+  }
+
+  /* referência: consumo médio residencial (EPE 2025) */
+  var REF={MG:154.5,ES:183.2,BR:178.4};
+  var refUF=(S.cliente.cidade||"").indexOf("ES")>-1 ? REF.ES : REF.MG;
+  var temAC=S.itens.some(function(i){return /^(Ar |Ar-condicionado)/.test(i.nome);});
+  if(pf.mes>0){
+    var x=pf.mes/refUF;
+    var classe,cor;
+    if(x<1.5){ classe="na média das casas"; cor="#2e7d46"; }
+    else if(x<3){ classe="acima da média"; cor="#2e7d46"; }
+    else if(x<6){ classe=temAC?"normal para casa com ar-condicionado":"alta para uma casa sem ar-condicionado"; cor=temAC?"#a85300":"#c62828"; }
+    else { classe=temAC?"alta mesmo com ar-condicionado — confira as horas de uso":"muito alta — os equipamentos ou as horas estão inflados"; cor="#c62828"; }
+    h+='<div style="margin-top:12px;padding:12px;background:#f7faf8;border:1px solid var(--line);border-radius:11px">'+
+      '<div style="font-size:.72rem;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.3px">Este consumo é alto?</div>'+
+      '<div style="margin-top:7px;font-size:.82rem;line-height:1.6">Casa média em '+
+      ((S.cliente.cidade||"").indexOf("ES")>-1?"Espírito Santo":"Minas Gerais")+': <b>'+fmt(refUF,0)+' kWh/mês</b> '+
+      '<span style="color:var(--muted)">(EPE 2025)</span><br>'+
+      'Este levantamento: <b style="color:'+cor+'">'+fmt(x,1)+'× a média</b> — '+classe+'.</div>'+
+      '<div style="display:flex;gap:10px;margin-top:10px;align-items:flex-end;height:56px">'+
+        '<div style="flex:1;text-align:center"><div style="background:#c8dccd;height:'+Math.max(6,Math.min(52,52*refUF/pf.mes))+'px;border-radius:4px 4px 0 0"></div>'+
+        '<div style="font-size:.58rem;color:var(--muted);margin-top:3px;font-weight:700">média MG/ES</div></div>'+
+        '<div style="flex:1;text-align:center"><div style="background:#c8dccd;height:'+Math.max(6,Math.min(52,52*500/pf.mes))+'px;border-radius:4px 4px 0 0"></div>'+
+        '<div style="font-size:.58rem;color:var(--muted);margin-top:3px;font-weight:700">casa c/ ar</div></div>'+
+        '<div style="flex:1;text-align:center"><div style="background:'+cor+';height:52px;border-radius:4px 4px 0 0"></div>'+
+        '<div style="font-size:.58rem;color:var(--muted);margin-top:3px;font-weight:700">aqui</div></div>'+
+      '</div>'+
+      '<p class="note" style="margin-top:8px">Casa sem ar-condicionado fica em 150 a 300 kWh/mês. Com <b>1 ar de 12.000 BTU</b> usado 8 h por noite já vai para 500 a 600. Acima de 800 kWh em residência, quase sempre tem ar-condicionado ou bomba puxando.</p>'+
+      (S.itens.some(function(i){return /56\.000|60\.000|48\.000|36\.000/.test(i.nome);})?
+        '<p class="note" style="margin-top:6px;color:#8e1b1b"><b>Atenção:</b> você colocou um ar de 36.000 BTU ou mais — esse tamanho é de <b>salão/comércio</b>. Em quarto ou sala de casa o normal vai até 24.000 BTU.</p>':'')+
+    '</div>';
   }
 
   var top=S.itens.map(function(it){return {n:it.nome,e:kWhDiaItem(it)};})
