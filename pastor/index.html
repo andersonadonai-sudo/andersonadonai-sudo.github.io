@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pr. Anderson — Painel Pastoral</title>
+<style>
+:root{
+  --azul:#1a3a5c; --azul2:#24557f; --dourado:#c9a227; --creme:#f7f4ec;
+  --txt:#22303c; --suave:#6b7a88; --linha:#e3ddd0; --verde:#2e7d46; --verm:#b03a2e;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:var(--creme);color:var(--txt);padding-bottom:76px}
+header{background:linear-gradient(135deg,var(--azul),var(--azul2));color:#fff;padding:16px 16px 14px;
+  position:sticky;top:0;z-index:20;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+header h1{margin:0;font-size:17px;font-weight:600;letter-spacing:.2px}
+header p{margin:3px 0 0;font-size:11.5px;opacity:.8}
+main{padding:14px 12px 20px;max-width:640px;margin:0 auto}
+.tela{display:none}.tela.ativa{display:block}
+.card{background:#fff;border:1px solid var(--linha);border-radius:14px;padding:14px;margin-bottom:12px;
+  box-shadow:0 1px 3px rgba(34,48,60,.05)}
+.card h2{margin:0 0 10px;font-size:14px;color:var(--azul);font-weight:700;display:flex;
+  justify-content:space-between;align-items:center;gap:8px}
+.card h3{margin:14px 0 6px;font-size:12.5px;color:var(--suave);text-transform:uppercase;letter-spacing:.6px}
+label{display:block;font-size:11.5px;color:var(--suave);margin:9px 0 3px;font-weight:600}
+input,select,textarea{width:100%;padding:9px 10px;border:1px solid var(--linha);border-radius:9px;
+  font-size:14px;font-family:inherit;background:#fdfcf9;color:var(--txt)}
+textarea{resize:vertical;min-height:60px;line-height:1.5}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--azul2);background:#fff}
+button{border:none;border-radius:10px;padding:10px 14px;font-size:13.5px;font-weight:600;
+  font-family:inherit;cursor:pointer;background:var(--azul);color:#fff;transition:.15s}
+button:active{transform:scale(.98)}
+button.sec{background:#eceff2;color:var(--azul)}
+button.ok{background:var(--verde)}
+button.danger{background:#fbeae8;color:var(--verm)}
+button.dourado{background:var(--dourado);color:#3a2f00}
+button.sm{padding:7px 11px;font-size:12px;border-radius:8px}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row>*{flex:1;min-width:0}
+.mensagem{background:#e7f3ea;border-left:4px solid var(--verde);border-radius:0 10px 10px 0;
+  padding:12px;font-size:13.5px;line-height:1.62;white-space:pre-wrap;
+  font-family:ui-monospace,"SF Mono",Consolas,monospace;color:#1d3325;margin:8px 0}
+.mensagem.vazia{background:#f4f1ea;border-color:var(--linha);color:var(--suave);font-family:inherit}
+.pessoa{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #f0ece2}
+.pessoa:last-child{border:none}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--azul);color:#fff;display:flex;
+  align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.pinfo{flex:1;min-width:0}
+.pnome{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pmeta{font-size:11.5px;color:var(--suave);margin-top:1px}
+.tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.4px;background:#eef1f4;color:var(--suave)}
+.tag.dev{background:#e7f3ea;color:var(--verde)}
+.tag.vis{background:#fdf2d8;color:#8a6d0b}
+.tag.novo{background:#e8eafd;color:#3f4bab}
+.tag.sens{background:#fbeae8;color:var(--verm)}
+.vazio{text-align:center;color:var(--suave);font-size:13px;padding:22px 10px;line-height:1.6}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--linha);
+  display:flex;justify-content:space-around;padding:6px 2px calc(6px + env(safe-area-inset-bottom));z-index:30}
+nav button{background:none;color:var(--suave);font-size:10px;font-weight:600;padding:6px 4px;
+  display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;border-radius:8px}
+nav button .ic{font-size:18px;line-height:1}
+nav button.ativo{color:var(--azul);background:#f2f5f8}
+.slots{display:grid;grid-template-columns:52px 1fr;gap:6px;font-size:12px}
+.slot-dia{font-weight:700;color:var(--azul);padding:5px 0;font-size:12px}
+.slot-per{display:flex;gap:5px;flex-wrap:wrap;padding:3px 0}
+.slot{border:1px dashed var(--linha);border-radius:8px;padding:6px 9px;font-size:11.5px;
+  background:#fdfcf9;cursor:pointer;color:var(--suave)}
+.slot.livre:hover{border-color:var(--azul2);color:var(--azul)}
+.slot.ocupado{background:#e9eef4;border-style:solid;border-color:#c9d5e2;color:var(--azul);font-weight:600}
+.slot.bloqueado{opacity:.35;cursor:not-allowed}
+.chip{display:inline-block;padding:5px 10px;border-radius:20px;font-size:12px;background:#eef1f4;
+  color:var(--suave);cursor:pointer;margin:0 5px 5px 0;border:1px solid transparent}
+.chip.sel{background:var(--azul);color:#fff}
+.mini{font-size:11px;color:var(--suave);line-height:1.5;margin-top:6px}
+.alerta{background:#fdf2d8;border-left:4px solid var(--dourado);padding:10px 12px;border-radius:0 10px 10px 0;
+  font-size:12.5px;line-height:1.55;margin:8px 0;color:#5c4a08}
+.fab{position:fixed;right:14px;bottom:88px;width:52px;height:52px;border-radius:50%;background:var(--dourado);
+  color:#3a2f00;font-size:24px;box-shadow:0 4px 14px rgba(0,0,0,.22);z-index:25;display:none;align-items:center;justify-content:center}
+.fab.on{display:flex}
+.passo{display:flex;gap:9px;padding:9px 0;border-bottom:1px solid #f0ece2;align-items:flex-start}
+.passo:last-child{border:none}
+.num{width:24px;height:24px;border-radius:50%;background:#eef1f4;color:var(--suave);font-size:12px;
+  font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.num.feito{background:var(--verde);color:#fff}
+.num.atual{background:var(--dourado);color:#3a2f00}
+.ptxt{flex:1;font-size:13px;line-height:1.45}
+</style>
+</head>
+<body>
+<header>
+  <h1>Pr. Anderson</h1>
+  <p id="cabo">AD Alvorada · APEM · <span id="hoje"></span></p>
+</header>
+
+<main>
+  <!-- HOJE -->
+  <section class="tela ativa" id="t-hoje">
+    <div class="card">
+      <h2>Resumo do dia <button class="sm" onclick="copiarResumo()">Copiar</button></h2>
+      <div id="resumoTexto" class="mensagem vazia">—</div>
+      <button class="sec" style="width:100%;margin-top:4px" onclick="gerarResumo()">Atualizar resumo</button>
+    </div>
+    <div class="card">
+      <h2>Devocional de hoje</h2>
+      <div id="devHoje" class="mensagem vazia">—</div>
+      <p class="mini" id="devStatus"></p>
+      <div class="row" style="margin-top:8px">
+        <button class="sec" onclick="ir('dev')">Abrir devocional</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Visitas marcadas</h2>
+      <div id="visitasHoje"></div>
+      <button class="sec sm" style="margin-top:10px" onclick="ir('agenda')">Abrir agenda</button>
+    </div>
+    <div class="card">
+      <h2>Pedidos de oração <span class="tag sens">confidencial</span></h2>
+      <div id="oracoesHoje"></div>
+    </div>
+    <div class="card">
+      <h2>Precisa de você</h2>
+      <div id="sensHoje"></div>
+    </div>
+  </section>
+
+  <!-- DEVOCIONAL -->
+  <section class="tela" id="t-dev">
+    <div class="card">
+      <h2>Tema do mês</h2>
+      <label>Tema</label>
+      <input id="tema" placeholder="Ex.: Esperança que não decepciona" oninput="salvarTema()">
+      <label>Versículo-base do mês</label>
+      <input id="temaVers" placeholder="Ex.: Jeremias 29:11" oninput="salvarTema()">
+      <p class="mini">Ao trocar o tema, o mês recomeça: os versículos já enviados voltam a valer.</p>
+      <button class="sec sm" onclick="novoMes()">Começar mês novo</button>
+    </div>
+    <div class="card">
+      <h2>Gerar devocional <span class="tag dev" id="tagDev">0 hoje</span></h2>
+      <label>Para quem</label>
+      <select id="devQuem" onchange="gerarDevocional()"></select>
+      <div id="devTexto" class="mensagem vazia">Escolha o nome acima</div>
+      <div class="row" style="margin-top:8px">
+        <button class="sec" onclick="gerarDevocional(true)">Outro versículo</button>
+        <button class="ok" onclick="copiarDev()">Copiar</button>
+      </div>
+      <button style="width:100%;margin-top:8px" onclick="marcarEnviado()">Marcar como enviado</button>
+      <p class="mini" id="devInfo"></p>
+    </div>
+    <div class="card">
+      <h2>Fila do devocional</h2>
+      <div id="filaDev"></div>
+    </div>
+  </section>
+
+  <!-- CONTATOS -->
+  <section class="tela" id="t-cont">
+    <div class="card">
+      <h2>Contatos <span class="tag" id="tagCont">0</span></h2>
+      <input id="busca" placeholder="Buscar nome..." oninput="listaContatos()" style="margin-bottom:8px">
+      <div id="listaCont" class="vazio">Nenhum contato ainda. Toque no + para adicionar.</div>
+    </div>
+  </section>
+
+  <!-- AGENDA -->
+  <section class="tela" id="t-agenda">
+    <div class="card">
+      <h2>Agenda de visitas</h2>
+      <p class="mini">Ter · Qui · Sex · Sáb — manhã, tarde e noite. 1 visita por período, até 3 por dia.</p>
+      <div id="semana" style="margin-top:10px"></div>
+    </div>
+    <div class="card">
+      <h2>Visitantes sem visita</h2>
+      <div id="pendentes"></div>
+    </div>
+  </section>
+
+  <!-- ORAÇÃO -->
+  <section class="tela" id="t-oracao">
+    <div class="card">
+      <h2>Pedidos de oração</h2>
+      <label>Nome</label>
+      <input id="orNome" placeholder="Quem pediu">
+      <label>Motivo</label>
+      <textarea id="orMotivo" placeholder="O que está pedindo / passando"></textarea>
+      <button style="width:100%;margin-top:10px" onclick="salvarOracao()">Registrar pedido</button>
+      <p class="mini">Confidencial. Nunca repassar a outro contato.</p>
+    </div>
+    <div class="card">
+      <h2>Lista</h2>
+      <div id="listaOracao"></div>
+    </div>
+  </section>
+
+  <!-- DISCIPULADO -->
+  <section class="tela" id="t-disc">
+    <div class="card">
+      <h2>Novos convertidos</h2>
+      <div id="listaDisc"></div>
+      <button class="sec sm" style="margin-top:10px" onclick="novoConvertido()">+ Novo convertido</button>
+    </div>
+    <div class="card" id="cardPasso" style="display:none">
+      <h2 id="discNome">Etapa</h2>
+      <div id="discTexto" class="mensagem vazia"></div>
+      <div class="row">
+        <button class="ok" onclick="copiarDisc()">Copiar</button>
+        <button class="sec" onclick="avancarEtapa()">Concluir etapa</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- AJUSTES -->
+  <section class="tela" id="t-aj">
+    <div class="card">
+      <h2>Regras aprendidas</h2>
+      <p class="mini">Tudo o que você disser "a partir de agora..." ou "não fala mais assim" entra aqui e vale na hora.</p>
+      <textarea id="regra" placeholder="Ex.: não usar mais 'graça e paz', só 'a paz do Senhor'"></textarea>
+      <button style="width:100%;margin-top:8px" onclick="addRegra()">Adicionar regra</button>
+      <div id="listaRegras" style="margin-top:10px"></div>
+    </div>
+    <div class="card">
+      <h2>Backup</h2>
+      <p class="mini">Salvo neste aparelho. Faça backup de vez em quando.</p>
+      <div class="row" style="margin-top:8px">
+        <button class="sec" onclick="exportar()">Salvar backup</button>
+        <button class="sec" onclick="document.getElementById('imp').click()">Restaurar</button>
+      </div>
+      <input type="file" id="imp" accept="application/json" style="display:none" onchange="importar(event)">
+    </div>
+  </section>
+</main>
+
+<button class="fab" id="fab" onclick="abrirForm()">+</button>
+
+<nav>
+  <button class="ativo" data-t="hoje" onclick="ir('hoje')"><span class="ic">🏠</span>Hoje</button>
+  <button data-t="dev" onclick="ir('dev')"><span class="ic">📖</span>Devocional</button>
+  <button data-t="cont" onclick="ir('cont')"><span class="ic">👥</span>Contatos</button>
+  <button data-t="agenda" onclick="ir('agenda')"><span class="ic">📅</span>Agenda</button>
+  <button data-t="oracao" onclick="ir('oracao')"><span class="ic">🙏</span>Oração</button>
+  <button data-t="disc" onclick="ir('disc')"><span class="ic">🌱</span>Discipulado</button>
+  <button data-t="aj" onclick="ir('aj')"><span class="ic">⚙️</span>Ajustes</button>
+</nav>
+
+<script>
+/* ============ BANCO DE VERSÍCULOS (conferidos) ============ */
+const VERSICULOS = [
+ ["João 3:16","Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna."],
+ ["Salmo 23:1","O Senhor é o meu pastor; nada me faltará."],
+ ["Isaías 41:10","Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus; eu te fortaleço, e te ajudo, e te sustento com a minha destra fiel."],
+ ["Josué 1:9","Sê forte e corajoso; não temas, nem te espantes, porque o Senhor teu Deus é contigo por onde quer que andares."],
+ ["Filipenses 4:13","Posso todas as coisas naquele que me fortalece."],
+ ["Salmo 46:1","Deus é o nosso refúgio e fortaleza, socorro bem presente na angústia."],
+ ["Romanos 8:28","E sabemos que todas as coisas contribuem juntamente para o bem daqueles que amam a Deus."],
+ ["Provérbios 3:5","Confia no Senhor de todo o teu coração e não te estribes no teu próprio entendimento."],
+ ["Mateus 11:28","Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei."],
+ ["1 Pedro 5:7","Lançando sobre ele toda a vossa ansiedade, porque ele tem cuidado de vós."],
+ ["Salmo 119:105","Lâmpada para os meus pés é tua palavra e luz para o meu caminho."],
+ ["João 14:27","Deixo-vos a paz, a minha paz vos dou; não vo-la dou como o mundo a dá. Não se turbe o vosso coração, nem se atemorize."],
+ ["Isaías 40:31","Mas os que esperam no Senhor renovarão as suas forças; subirão com asas como águias; correrão e não se cansarão; caminharão e não se fatigarão."],
+ ["Salmo 34:18","Perto está o Senhor dos que têm o coração quebrantado e salva os contritos de espírito."],
+ ["Romanos 12:12","Alegrai-vos na esperança, sede pacientes na tribulação, perseverai na oração."],
+ ["Efésios 2:8","Porque pela graça sois salvos, por meio da fé; e isto não vem de vós, é dom de Deus."],
+ ["Salmo 37:5","Entrega o teu caminho ao Senhor; confia nele, e ele tudo fará."],
+ ["Lamentações 3:22","As misericórdias do Senhor são a causa de não sermos consumidos, porque as suas misericórdias não têm fim."],
+ ["2 Coríntios 12:9","A minha graça te basta, porque o meu poder se aperfeiçoa na fraqueza."],
+ ["Hebreus 11:1","Ora, a fé é o firme fundamento das coisas que se esperam e a prova das coisas que se não veem."],
+ ["Tiago 1:5","E, se algum de vós tem falta de sabedoria, peça-a a Deus, que a todos dá liberalmente."],
+ ["Salmo 121:1","Elevo os meus olhos para os montes: de onde me vem o socorro? O meu socorro vem do Senhor, que fez o céu e a terra."],
+ ["João 8:32","E conhecereis a verdade, e a verdade vos libertará."],
+ ["1 João 1:9","Se confessarmos os nossos pecados, ele é fiel e justo para nos perdoar os pecados e nos purificar de toda injustiça."],
+ ["Salmo 51:10","Cria em mim, ó Deus, um coração puro e renova em mim um espírito reto."],
+ ["Mateus 6:33","Mas buscai primeiro o reino de Deus e a sua justiça, e todas estas coisas vos serão acrescentadas."],
+ ["Isaías 43:2","Quando passares pelas águas, estarei contigo, e quando pelos rios, eles não te submergirão."],
+ ["Salmo 27:1","O Senhor é a minha luz e a minha salvação; a quem temerei?"],
+ ["Colossenses 3:15","E a paz de Deus, para a qual também fostes chamados, domine em vossos corações."],
+ ["Salmo 91:1","Aquele que habita no esconderijo do Altíssimo, à sombra do Onipotente descansará."],
+ ["Gálatas 6:9","E não nos cansemos de fazer o bem, porque a seu tempo ceifaremos, se não houvermos desfalecido."],
+ ["Salmos 55:22","Lança o teu cuidado sobre o Senhor, e ele te susterá."],
+ ["Provérbios 16:3","Entrega ao Senhor as tuas obras, e teus pensamentos serão estabelecidos."],
+ ["João 15:5","Eu sou a videira, vós as varas; quem está em mim, e eu nele, esse dá muito fruto."],
+ ["Salmo 30:5","O choro pode durar uma noite, mas a alegria vem pela manhã."]
+];
+
+/* focos diários para desdobrar o tema */
+const FOCOS = [
+ "confiar quando não se vê saída","esperar com paciência","agradecer no pouco","força para o dia difícil",
+ "descansar em Deus","orar antes de decidir","perdoar de verdade","cuidar da família",
+ "ser fiel no secreto","vencer o medo","andar em integridade","servir sem esperar retorno",
+ "guardar a mente","falar com sabedoria","não desistir no meio","acreditar de novo",
+ "ter paz no coração","honrar os pais","ser luz no trabalho","vencer a ansiedade",
+ "lembrar das promessas","suportar a espera","perseverar na oração","ter coragem de recomeçar",
+ "afastar a murmuração","andar com os irmãos","amar quem é difícil","dar o primeiro passo",
+ "crer no impossível","a gratidão que muda o dia"
+];
+
+/* ============ ESTADO ============ */
+const CHAVE = "pastor_agente_v1";
+let D = carregar();
+
+function padrao(){
+  return {
+    tema:"", temaVers:"", mes:"", devUsados:[],
+    contatos:[], agenda:{}, oracoes:{}, convertidos:[],
+    regras:[], enviados:{}, sensiveis:[], gerados:{}, geradosMes:[]
+  };
+}
+function carregar(){
+  try{
+    const raw = localStorage.getItem(CHAVE);
+    if(!raw) return padrao();
+    return Object.assign(padrao(), JSON.parse(raw));
+  }catch(e){ return padrao(); }
+}
+function salvar(){ localStorage.setItem(CHAVE, JSON.stringify(D)); }
+function hojeISO(d){ d = d || new Date(); return d.toISOString().slice(0,10); }
+function fmtBR(iso){ const p=iso.split("-"); return p[2]+"/"+p[1]; }
+function nomeDia(iso){ const d=new Date(iso+"T12:00:00"); return ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"][d.getDay()]; }
+
+/* ============ NAVEGAÇÃO ============ */
+let telaAtual = "hoje";
+function ir(t){
+  telaAtual = t;
+  document.querySelectorAll(".tela").forEach(s=>s.classList.remove("ativa"));
+  const el = document.getElementById("t-"+t);
+  if(el) el.classList.add("ativa");
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("ativo", b.dataset.t===t));
+  document.getElementById("fab").classList.toggle("on", t==="cont");
+  if(t==="hoje") gerarResumo();
+  if(t==="cont") listaContatos();
+  if(t==="dev") filaDevocional();
+  if(t==="agenda") renderSemana();
+  if(t==="oracao") renderOracao();
+  if(t==="disc") renderDisc();
+  if(t==="aj") renderRegras();
+  window.scrollTo(0,0);
+}
+
+/* ============ CONTATOS ============ */
+function abrirForm(id){
+  const nome = prompt("Nome do contato:");
+  if(!nome) return;
+  const fone = prompt("WhatsApp (com DDD):") || "";
+  const vinculo = prompt("Vínculo: membro / visitante / novo convertido / líder / pastor","membro") || "membro";
+  const dev = confirm("Recebe o devocional diário?");
+  D.contatos.push({id:Date.now()+"", nome:nome.trim(), fone:fone.replace(/\D/g,""), vinculo:vinculo.trim(), recebeDev:dev, obs:"", desde:hojeISO()});
+  salvar(); listaContatos(); preencherDevQuem();
+}
+function listaContatos(){
+  const q = (document.getElementById("busca").value||"").toLowerCase();
+  const box = document.getElementById("listaCont");
+  const arr = D.contatos.filter(c=>c.nome.toLowerCase().includes(q));
+  document.getElementById("tagCont").textContent = D.contatos.length;
+  if(!arr.length){ box.className="vazio"; box.innerHTML="Nenhum contato aqui."; return; }
+  box.className="";
+  box.innerHTML = arr.map(c=>{
+    const ini = c.nome.trim().split(" ").map(x=>x[0]).slice(0,2).join("").toUpperCase();
+    const tag = c.recebeDev ? '<span class="tag dev">devocional</span>' : '';
+    return `<div class="pessoa">
+      <div class="avatar">${ini}</div>
+      <div class="pinfo">
+        <div class="pnome">${esc(c.nome)}</div>
+        <div class="pmeta">${esc(c.vinculo)} ${c.fone?"· "+esc(c.fone):""} ${tag}</div>
+      </div>
+      <button class="sm sec" onclick="editarContato('${c.id}')">editar</button>
+    </div>`;
+  }).join("");
+}
+function editarContato(id){
+  const c = D.contatos.find(x=>x.id===id); if(!c) return;
+  const n = prompt("Nome:", c.nome); if(n===null) return; c.nome=n.trim()||c.nome;
+  const f = prompt("WhatsApp:", c.fone); if(f!==null) c.fone=f.replace(/\D/g,"");
+  const v = prompt("Vínculo:", c.vinculo); if(v!==null) c.vinculo=v.trim();
+  c.recebeDev = confirm("Recebe devocional diário?");
+  const o = prompt("Observações pastorais (doença, emprego, família...):", c.obs||""); if(o!==null) c.obs=o;
+  salvar(); listaContatos(); preencherDevQuem();
+}
+function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m])); }
+
+/* ============ DEVOCIONAL ============ */
+function salvarTema(){
+  D.tema = document.getElementById("tema").value.trim();
+  D.temaVers = document.getElementById("temaVers").value.trim();
+  salvar(); gerarResumo();
+}
+function novoMes(){
+  if(!confirm("Começar mês novo? Os versículos voltam a ficar disponíveis.")) return;
+  D.devUsados = []; D.mes = new Date().toISOString().slice(0,7); salvar(); alert("Mês novo aberto.");
+}
+function preencherDevQuem(){
+  const sel = document.getElementById("devQuem");
+  const arr = D.contatos.filter(c=>c.recebeDev);
+  sel.innerHTML = '<option value="">Escolha...</option>' + arr.map(c=>`<option value="${c.id}">${esc(c.nome)}</option>`).join("");
+  if(!arr.length) sel.innerHTML = '<option value="">Nenhum contato marcado para o devocional</option>';
+}
+let devCache = null;
+function gerarDevocional(trocar){
+  const id = document.getElementById("devQuem").value;
+  const box = document.getElementById("devTexto");
+  if(!id){ box.className="mensagem vazia"; box.textContent="Escolha o nome acima"; devCache=null; return; }
+  const c = D.contatos.find(x=>x.id===id); if(!c) return;
+  const jaNoMes = new Set([...(D.devUsados||[]), ...(D.geradosMes||[])]);
+  let disponiveis = VERSICULOS.filter(v=>!jaNoMes.has(v[0]));
+  if(!disponiveis.length){ /* mês esgotou: recomeça permitindo reaproveitar */ disponiveis = VERSICULOS.slice(); }
+  const geradosHoje = new Set(D.gerados[hojeISO()] || []);
+  let lista = disponiveis.filter(v=>!geradosHoje.has(v[0]));
+  if(!lista.length) lista = disponiveis;
+  if(trocar && lista.length>1){ /* evita repetir o que está na tela */ }
+  const lista0 = lista;
+  let v = lista0[Math.floor(Math.random()*lista0.length)];
+  if(trocar && devCache && v[0] === devCache.versiculo && lista0.length > 1){
+    v = lista0[(lista0.indexOf(v)+1) % lista0.length];
+  }
+  D.gerados[hojeISO()] = [...(D.gerados[hojeISO()]||[]), v[0]];
+  if(!(D.geradosMes||[]).includes(v[0])) D.geradosMes = [...(D.geradosMes||[]), v[0]];
+  salvar();
+  const d = new Date();
+  const dia = d.getDate();
+  const foco = FOCOS[(dia-1+FOCOS.length)%FOCOS.length];
+  const tema = D.tema || "Palavra pastoral";
+  const primeiro = c.nome.trim().split(" ")[0];
+  const abertura = ["A paz do Senhor, "+primeiro+"! Bom dia.",
+                    "Bom dia, "+primeiro+"! A paz do Senhor.",
+                    "Paz do Senhor, "+primeiro+"! Bom dia pra você."][dia%3];
+  const aplic = [
+    `Hoje o recado é sobre ${foco}. Não é teoria — é o que Deus quer fazer no seu dia comum, no meio do seu trabalho e da sua casa.`,
+    `Pensa nisso hoje: ${foco}. Deus não pede que você entenda tudo, pede que confie nele um passo de cada vez.`,
+    `O convite de hoje é ${foco}. Comece pequeno: uma decisão, uma conversa, uma oração antes de sair.`
+  ][dia%3];
+  const oracao = [
+    `Pai, obrigado por mais um dia. Ensina o ${primeiro} a confiar em ti. Em nome de Jesus, amém.`,
+    `Senhor, sustenta o ${primeiro} hoje. Dá paz no coração e direção no caminho. Amém.`,
+    `Deus, obrigado pela vida do ${primeiro}. Fala com ele hoje pela tua palavra. Amém.`
+  ][dia%3];
+  const texto = `${abertura}\n\n📖 ${tema} — ${foco[0].toUpperCase()+foco.slice(1)}\n\n"${v[1]}"\n(${v[0]})\n\n${aplic}\n\n${oracao}\n\nPr. Anderson`;
+  devCache = {id:id, nome:c.nome, versiculo:v[0], texto:texto, data:hojeISO()};
+  box.className="mensagem"; box.textContent=texto;
+  const jaEnviado = D.enviados[hojeISO()] || [];
+  document.getElementById("devInfo").textContent = jaEnviado.includes(id) ? "⚠️ Você já marcou envio para este contato hoje." : "";
+}
+function copiarDev(){
+  if(!devCache){ alert("Gere o devocional primeiro."); return; }
+  copiar(devCache.texto);
+}
+function marcarEnviado(){
+  if(!devCache){ alert("Gere o devocional primeiro."); return; }
+  const dia = hojeISO();
+  D.enviados[dia] = D.enviados[dia] || [];
+  if(!D.enviados[dia].includes(devCache.id)) D.enviados[dia].push(devCache.id);
+  if(!D.devUsados.includes(devCache.versiculo)) D.devUsados.push(devCache.versiculo);
+  salvar(); filaDevocional(); alert("Marcado. Versículo reservado para o mês.");
+}
+function filaDevocional(){
+  const dia = hojeISO();
+  const feitos = D.enviados[dia] || [];
+  const arr = D.contatos.filter(c=>c.recebeDev);
+  const box = document.getElementById("filaDev");
+  const tag = document.getElementById("tagDev");
+  tag.textContent = feitos.length + "/" + arr.length + " hoje";
+  if(!arr.length){ box.className="vazio"; box.innerHTML="Nenhum contato na lista do devocional."; return; }
+  box.className="";
+  box.innerHTML = arr.map(c=>{
+    const ok = feitos.includes(c.id);
+    return `<div class="pessoa">
+      <div class="avatar" style="${ok?'background:var(--verde)':''}">${ok?'✓':c.nome[0].toUpperCase()}</div>
+      <div class="pinfo"><div class="pnome">${esc(c.nome)}</div>
+      <div class="pmeta">${ok?'enviado hoje':'pendente'}</div></div>
+      <button class="sm ${ok?'sec':''}" onclick="devPara('${c.id}')">${ok?'ver':'gerar'}</button>
+    </div>`;
+  }).join("");
+  preencherDevQuem();
+}
+function devPara(id){
+  ir('dev');
+  document.getElementById("devQuem").value = id;
+  gerarDevocional();
+}
+
+/* ============ AGENDA ============ */
+const DIAS_OK = [2,4,5,6]; // ter, qui, sex, sáb
+const PERIODOS = ["manhã","tarde","noite"];
+function proximosDias(n){
+  const out=[]; let d=new Date();
+  while(out.length<n){
+    if(DIAS_OK.includes(d.getDay())) out.push(hojeISO(d));
+    d.setDate(d.getDate()+1);
+  }
+  return out;
+}
+function chave(iso,per){ return iso+"|"+per; }
+function visitasDoDia(iso){
+  const o = D.agenda[iso] || {};
+  return PERIODOS.filter(p=>o[p]).map(p=>({periodo:p, ...o[p]}));
+}
+function renderSemana(){
+  const box = document.getElementById("semana");
+  const dias = proximosDias(8);
+  let html = '<div class="slots">';
+  dias.forEach(iso=>{
+    const o = D.agenda[iso] || {};
+    const ocup = PERIODOS.filter(p=>o[p]).length;
+    html += `<div class="slot-dia">${nomeDia(iso)} ${fmtBR(iso)}</div><div class="slot-per">`;
+    PERIODOS.forEach(p=>{
+      const v = o[p];
+      if(v) html += `<div class="slot ocupado" onclick="verVisita('${iso}','${p}')">${p}: ${esc(v.nome.split(" ")[0])}</div>`;
+      else html += `<div class="slot livre" onclick="marcarVisita('${iso}','${p}')">${p}</div>`;
+    });
+    if(ocup>=3) html += `<span class="mini">dia cheio</span>`;
+    html += `</div>`;
+  });
+  html += '</div>';
+  box.innerHTML = html;
+  renderPendentes();
+}
+function marcarVisita(iso,per){
+  const doDia = D.agenda[iso] || {};
+  const qtd = PERIODOS.filter(p=>doDia[p]).length;
+  if(qtd>=3){ alert("Este dia já tem 3 visitas. Escolha outro."); return; }
+  const nome = prompt("Nome do visitante:"); if(!nome) return;
+  const bairro = prompt("Bairro / endereço:") || "";
+  const fone = (prompt("WhatsApp:") || "").replace(/\D/g,"");
+  const quem = prompt("Quem indicou / de onde veio:") || "";
+  D.agenda[iso] = doDia;
+  D.agenda[iso][per] = {nome:nome.trim(), bairro:bairro.trim(), fone:fone, indicou:quem.trim(), status:"agendado"};
+  salvar(); renderSemana(); gerarResumo();
+  alert("Visita marcada.\n\nAviso pro pastor:\n" + nome + " — " + nomeDia(iso) + " " + fmtBR(iso) + ", " + per + (bairro?" — "+bairro:""));
+}
+function verVisita(iso,per){
+  const v = D.agenda[iso][per];
+  const msg = `Visita: ${v.nome}\nDia: ${nomeDia(iso)} ${fmtBR(iso)} — ${per}\nBairro: ${v.bairro||"—"}\nWhatsApp: ${v.fone||"—"}\nIndicado por: ${v.indicou||"—"}\nStatus: ${v.status}`;
+  const st = prompt(msg + "\n\nDigite o novo status (agendado / confirmado / realizado / remarcado / cancelado):", v.status);
+  if(st){
+    if(st.toLowerCase()==="cancelado"){ delete D.agenda[iso][per]; }
+    else { v.status = st.toLowerCase(); }
+    salvar(); renderSemana(); gerarResumo();
+  }
+}
+function renderPendentes(){
+  const box = document.getElementById("pendentes");
+  const vis = D.contatos.filter(c=>c.vinculo==="visitante");
+  const marcados = new Set();
+  Object.keys(D.agenda).forEach(iso=>PERIODOS.forEach(p=>{
+    const v=D.agenda[iso][p]; if(v) marcados.add(v.nome.toLowerCase());
+  }));
+  const pend = vis.filter(c=>!marcados.has(c.nome.toLowerCase()));
+  if(!pend.length){ box.className="vazio"; box.innerHTML="Nenhum visitante esperando visita."; return; }
+  box.className="";
+  box.innerHTML = pend.map(c=>`<div class="pessoa"><div class="avatar">${c.nome[0].toUpperCase()}</div>
+    <div class="pinfo"><div class="pnome">${esc(c.nome)}</div><div class="pmeta">visitante desde ${fmtBR(c.desde||hojeISO())}</div></div></div>`).join("");
+}
+
+/* ============ ORAÇÃO ============ */
+function listaOr(){
+  if(!D.oracoes) return [];
+  if(Array.isArray(D.oracoes)) return D.oracoes;
+  return Object.values(D.oracoes);
+}
+function salvarOracao(){
+  const n = document.getElementById("orNome").value.trim();
+  const m = document.getElementById("orMotivo").value.trim();
+  if(!n||!m){ alert("Preencha nome e motivo."); return; }
+  const novoId = Date.now()+"";
+  if(Array.isArray(D.oracoes)) D.oracoes = {};
+  D.oracoes[novoId] = {id:novoId, nome:n, motivo:m, data:hojeISO(), status:"recebido"};
+  document.getElementById("orNome").value=""; document.getElementById("orMotivo").value="";
+  salvar(); renderOracao(); gerarResumo();
+}
+function renderOracao(){
+  const box = document.getElementById("listaOracao");
+  const ors = listaOr();
+  if(!ors.length){ box.className="vazio"; box.innerHTML="Nenhum pedido registrado."; return; }
+  box.className="";
+  box.innerHTML = ors.map(o=>`<div class="pessoa">
+    <div class="avatar" style="background:${o.status==="testemunho"?"var(--verde)":"var(--dourado)"};color:#3a2f00">🙏</div>
+    <div class="pinfo"><div class="pnome">${esc(o.nome)}</div>
+    <div class="pmeta">${fmtBR(o.data)} · ${esc(o.motivo)}</div></div>
+    <button class="sm sec" onclick="mudarOracao('${o.id}')">${o.status}</button>
+  </div>`).join("");
+}
+function mudarOracao(id){
+  const o = listaOr().find(x=>x.id===id); if(!o) return;
+  const s = prompt("Status: recebido / orando / testemunho", o.status);
+  if(s){ o.status = s.toLowerCase(); salvar(); renderOracao(); gerarResumo(); }
+}
+
+/* ============ DISCIPULADO ============ */
+const ETAPAS = [
+ {t:"Boas-vindas e segurança da salvação",
+  msg:"{n}, que alegria ter você com a gente!\n\nA decisão que você tomou não foi por acaso. João 1:12 diz que a todo que o recebeu deu o direito de ser filho de Deus. Você é filho dele agora.\n\nEssa semana leia João capítulo 1, com calma. Depois me conta o que mais te chamou atenção."},
+ {t:"Batismo",
+  msg:"{n}, tudo bem? Vamos falar de batismo.\n\nBatismo não salva ninguém — é a resposta pública de quem já foi salvo. Jesus foi batizado e nos deixou o exemplo.\n\nVocê quer se batizar? Se sim, me diz que eu já vejo a data do próximo batismo na igreja."},
+ {t:"Leitura bíblica diária",
+  msg:"{n}, como tá indo a leitura?\n\nVamos começar simples: um capítulo por dia no Evangelho de João, 7 dias. Não precisa entender tudo, só ler e deixar a Palavra falar.\n\nHoje é o capítulo 1. Amanhã me conta uma frase que te marcou."},
+ {t:"Oração e vida devocional",
+  msg:"{n}, oração não precisa de palavra bonita.\n\nFala com Deus como você fala comigo: do seu jeito, com suas palavras. Cinco minutos por dia, de manhã, já muda a semana.\n\nExperimenta essa semana e depois me diz o que sentiu."},
+ {t:"Comunhão e igreja local",
+  msg:"{n}, crente sozinho não cresce.\n\nA Bíblia fala de não deixar de congregar. Além do culto, temos célula durante a semana — é onde você faz amigos e é cuidado de perto.\n\nQual dia fica melhor pra você ir numa célula?"},
+ {t:"Mordomia e primeiros passos no serviço",
+  msg:"{n}, último passo dessa trilha inicial — e o começo de tudo.\n\nMordomia é cuidar do que Deus confiou: seu tempo, seu talento e seus recursos. Dízimo é gratidão, não obrigação.\n\nE todo crente tem um dom. Em qual área você gostaria de servir? Louvor, recepção, infantil, intercessão?"}
+];
+let discSel = null;
+function novoConvertido(){
+  const nome = prompt("Nome do novo convertido:"); if(!nome) return;
+  D.convertidos.push({id:Date.now()+"", nome:nome.trim(), etapa:0, desde:hojeISO(), ultima:null});
+  salvar(); renderDisc();
+}
+function renderDisc(){
+  const box = document.getElementById("listaDisc");
+  if(!D.convertidos.length){ box.className="vazio"; box.innerHTML="Nenhum novo convertido acompanhado."; return; }
+  box.className="";
+  box.innerHTML = D.convertidos.map(c=>{
+    const pct = Math.round(c.etapa/6*100);
+    return `<div class="pessoa">
+      <div class="avatar" style="background:${c.etapa>=6?'var(--verde)':'var(--dourado)'};color:#3a2f00">${c.etapa>=6?'✓':c.etapa+1}</div>
+      <div class="pinfo"><div class="pnome">${esc(c.nome)}</div>
+      <div class="pmeta">etapa ${Math.min(c.etapa+1,6)} de 6 · ${pct}%</div></div>
+      <button class="sm sec" onclick="verPasso('${c.id}')">abrir</button>
+    </div>`;
+  }).join("");
+}
+function verPasso(id){
+  const c = D.convertidos.find(x=>x.id===id); if(!c) return;
+  discSel = c;
+  document.getElementById("cardPasso").style.display="block";
+  document.getElementById("discNome").textContent = c.nome;
+  if(c.etapa>=6){
+    document.getElementById("discTexto").className="mensagem";
+    document.getElementById("discTexto").textContent = "Trilha concluída! Agora é caminho de igreja: célula, culto e serviço.";
+    return;
+  }
+  const e = ETAPAS[c.etapa];
+  const primeiro = c.nome.split(" ")[0];
+  document.getElementById("discTexto").className="mensagem";
+  document.getElementById("discTexto").textContent = e.msg.replace(/\{n\}/g, primeiro);
+}
+function copiarDisc(){
+  if(!discSel) return;
+  copiar(document.getElementById("discTexto").textContent);
+}
+function avancarEtapa(){
+  if(!discSel) return;
+  discSel.etapa = Math.min(6, discSel.etapa+1);
+  discSel.ultima = hojeISO();
+  salvar(); renderDisc(); verPasso(discSel.id);
+}
+
+/* ============ RESUMO ============ */
+function gerarResumo(){
+  const dia = hojeISO();
+  const sem = proximosDias(8).filter(x=>x!==dia);
+  const visHoje = visitasDoDia(dia);
+  const visSem = Object.keys(D.agenda).filter(iso=>iso>dia && iso<=sem[sem.length-1])
+    .flatMap(iso=>visitasDoDia(iso).map(v=>({iso, ...v})))
+    .sort((a,b)=>a.iso.localeCompare(b.iso));
+  const or24 = listaOr().filter(o=>o.data===dia);
+  const novos = D.contatos.filter(c=>c.vinculo==="visitante");
+  const enc = D.convertidos.filter(c=>c.etapa<6);
+  const pend = (D.sensiveis||[]).filter(s=>s.status!=="resolvido");
+  const conf = Object.keys(D.agenda).flatMap(iso=>visitasDoDia(iso).filter(v=>v.status==="agendado").map(v=>({iso,...v})));
+
+  let t = "📋 *Resumo — " + nomeDia(dia) + " " + fmtBR(dia) + "*\n\n";
+  t += "*Visitas hoje*\n";
+  t += visHoje.length ? visHoje.map(v=>"• "+v.periodo+": "+v.nome+(v.bairro?" — "+v.bairro:"")).join("\n") : "• nenhuma";
+  t += "\n\n*Visitas da semana*\n";
+  t += visSem.length ? visSem.slice(0,8).map(v=>"• "+nomeDia(v.iso)+" "+fmtBR(v.iso)+" "+v.periodo+": "+v.nome).join("\n") : "• nada marcado";
+  t += "\n\n*Pedidos de oração (24h)*\n";
+  t += or24.length ? or24.map(o=>"• "+o.nome+": "+o.motivo).join("\n") : "• nenhum novo";
+  t += "\n\n*Visitantes sem visita*\n";
+  t += novos.length ? novos.slice(0,5).map(c=>"• "+c.nome).join("\n") : "• nenhum";
+  t += "\n\n*Discipulado*\n";
+  t += enc.length ? enc.map(c=>"• "+c.nome+" — etapa "+Math.min(c.etapa+1,6)).join("\n") : "• ninguém em trilha";
+  if(conf.length){
+    t += "\n\n*Aguardando confirmação*\n";
+    t += conf.slice(0,5).map(v=>"• "+v.nome+" ("+nomeDia(v.iso)+" "+v.periodo+")").join("\n");
+  }
+  if(pend.length){
+    t += "\n\n*Precisa de você*\n";
+    t += pend.slice(0,4).map(s=>"• "+s.nome+": "+s.assunto).join("\n");
+  }
+  document.getElementById("resumoTexto").className="mensagem";
+  document.getElementById("resumoTexto").textContent = t;
+
+  // devocional de hoje
+  const feitos = (D.enviados[dia]||[]).length;
+  const total = D.contatos.filter(c=>c.recebeDev).length;
+  const dh = document.getElementById("devHoje");
+  dh.className = "mensagem vazia";
+  dh.textContent = total ? (feitos+"/"+total+" devocionais enviados hoje") : "Nenhum contato na lista do devocional";
+  document.getElementById("devStatus").textContent = total && feitos<total ? "Ainda faltam "+(total-feitos)+" contatos." : (total?"Tudo enviado hoje.":"");
+
+  // visitas hoje
+  const vh = document.getElementById("visitasHoje");
+  vh.className = visHoje.length ? "" : "vazio";
+  vh.innerHTML = visHoje.length ? visHoje.map(v=>`<div class="pessoa"><div class="avatar">${v.periodo[0].toUpperCase()}</div>
+    <div class="pinfo"><div class="pnome">${esc(v.nome)}</div><div class="pmeta">${v.periodo} · ${esc(v.bairro||"sem bairro")} · ${v.status}</div></div></div>`).join("")
+    : "Nenhuma visita hoje.";
+
+  // orações
+  const oh = document.getElementById("oracoesHoje");
+  const ativos = listaOr().filter(o=>o.status!=="testemunho").slice(0,4);
+  oh.className = ativos.length ? "" : "vazio";
+  oh.innerHTML = ativos.length ? ativos.map(o=>`<div class="pessoa"><div class="avatar" style="background:var(--dourado);color:#3a2f00">🙏</div>
+    <div class="pinfo"><div class="pnome">${esc(o.nome)}</div><div class="pmeta">${esc(o.motivo)}</div></div></div>`).join("")
+    : "Nenhum pedido em aberto.";
+
+  // sensíveis
+  const sh = document.getElementById("sensHoje");
+  const sens = D.sensiveis.filter(s=>s.status!=="resolvido");
+  sh.className = sens.length ? "" : "vazio";
+  sh.innerHTML = sens.length ? sens.map(s=>`<div class="alerta"><b>${esc(s.nome)}</b> — ${esc(s.assunto)}<br><span style="opacity:.7">${fmtBR(s.data)}</span></div>`).join("")
+    : "Nada pendente de decisão sua.";
+
+  document.getElementById("hoje").textContent = nomeDia(dia) + " " + fmtBR(dia);
+}
+function copiarResumo(){ copiar(document.getElementById("resumoTexto").textContent); }
+function copiar(txt){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(()=>avisoCopiou(),()=>copiaVelho(txt));
+  } else copiaVelho(txt);
+}
+function copiaVelho(txt){
+  const ta=document.createElement("textarea"); ta.value=txt; ta.style.position="fixed"; ta.style.opacity="0";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); avisoCopiou(); }catch(e){ alert("Não consegui copiar. Selecione o texto manualmente."); }
+  document.body.removeChild(ta);
+}
+function avisoCopiou(){
+  const d=document.createElement("div");
+  d.textContent="Copiado!"; d.style.cssText="position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:#22303c;color:#fff;padding:9px 18px;border-radius:20px;font-size:13px;z-index:99";
+  document.body.appendChild(d); setTimeout(()=>d.remove(),1400);
+}
+
+/* ============ REGRAS ============ */
+function addRegra(){
+  const t = document.getElementById("regra").value.trim();
+  if(!t) return;
+  D.regras.unshift({t:t, data:hojeISO()});
+  document.getElementById("regra").value="";
+  salvar(); renderRegras();
+}
+function renderRegras(){
+  const box = document.getElementById("listaRegras");
+  if(!D.regras.length){ box.className="vazio"; box.innerHTML="Nenhuma regra ainda."; return; }
+  box.className="";
+  box.innerHTML = D.regras.map(r=>`<div class="pessoa"><div class="avatar" style="background:var(--azul2)">✓</div>
+    <div class="pinfo"><div class="pnome" style="font-size:13px;font-weight:600">${esc(r.t)}</div>
+    <div class="pmeta">${fmtBR(r.data)}</div></div></div>`).join("");
+}
+
+/* ============ BACKUP ============ */
+function exportar(){
+  const blob = new Blob([JSON.stringify(D,null,1)],{type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "pastor-backup-"+hojeISO()+".json";
+  a.click();
+}
+function importar(ev){
+  const f = ev.target.files[0]; if(!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try{
+      D = Object.assign(padrao(), JSON.parse(r.result));
+      salvar(); alert("Backup restaurado."); ir("hoje");
+    }catch(e){ alert("Arquivo inválido."); }
+  };
+  r.readAsText(f);
+}
+
+/* ============ INICIO ============ */
+(function(){
+  const hj = document.getElementById("hoje");
+  hj.textContent = nomeDia(hojeISO()) + " " + fmtBR(hojeISO());
+  document.getElementById("tema").value = D.tema || "";
+  document.getElementById("temaVers").value = D.temaVers || "";
+  gerarResumo();
+  preencherDevQuem();
+  filaDevocional();
+})();
+</script>
+</body>
+</html>
