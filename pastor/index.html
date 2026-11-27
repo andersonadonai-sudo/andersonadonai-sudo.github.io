@@ -167,12 +167,40 @@ nav button.ativo{color:var(--azul);background:#f2f5f8}
   <section class="tela" id="t-agenda">
     <div class="card">
       <h2>Agenda de visitas</h2>
-      <p class="mini">Ter · Qui · Sex · Sáb — manhã, tarde e noite. 1 visita por período, até 3 por dia.</p>
+      <p class="mini">Ter · Qui · Sex · Sáb — manhã, tarde e noite. Até 2 visitas por período, 6 por dia.</p>
       <div id="semana" style="margin-top:10px"></div>
     </div>
     <div class="card">
       <h2>Visitantes sem visita</h2>
       <div id="pendentes"></div>
+    </div>
+  </section>
+
+  <!-- RESPONDER -->
+  <section class="tela" id="t-resp">
+    <div class="card">
+      <h2>Responder mensagem <button class="sm sec" onclick="limparResp()">limpar</button></h2>
+      <label>Quem mandou</label>
+      <select id="respQuem" onchange="atualizarResp()"></select>
+      <label>O que a pessoa escreveu</label>
+      <textarea id="respMsg" placeholder="Cole aqui a mensagem que chegou..." oninput="atualizarResp()" style="min-height:90px"></textarea>
+      <label>O que é essa mensagem</label>
+      <div id="respChips"></div>
+      <div id="respAlerta"></div>
+      <button class="ok" style="width:100%;margin-top:10px" onclick="gerarResposta()">Gerar resposta pastoral</button>
+    </div>
+    <div class="card">
+      <h2>Resposta <span class="tag" id="tagResp"></span></h2>
+      <div id="respTexto" class="mensagem vazia">Preencha acima e toque em gerar</div>
+      <div class="row" style="margin-top:8px">
+        <button class="sec" onclick="gerarResposta()">Outra versão</button>
+        <button class="ok" onclick="copiarResp()">Copiar</button>
+      </div>
+      <button class="sec" style="width:100%;margin-top:8px" onclick="marcarSensivel()">Isto é caso pra mim, não pro agente</button>
+    </div>
+    <div class="card">
+      <h2>Casos que você assumiu</h2>
+      <div id="listaSens"></div>
     </div>
   </section>
 
@@ -238,6 +266,7 @@ nav button.ativo{color:var(--azul);background:#f2f5f8}
   <button data-t="dev" onclick="ir('dev')"><span class="ic">📖</span>Devocional</button>
   <button data-t="cont" onclick="ir('cont')"><span class="ic">👥</span>Contatos</button>
   <button data-t="agenda" onclick="ir('agenda')"><span class="ic">📅</span>Agenda</button>
+  <button data-t="resp" onclick="ir('resp')"><span class="ic">💬</span>Responder</button>
   <button data-t="oracao" onclick="ir('oracao')"><span class="ic">🙏</span>Oração</button>
   <button data-t="disc" onclick="ir('disc')"><span class="ic">🌱</span>Discipulado</button>
   <button data-t="aj" onclick="ir('aj')"><span class="ic">⚙️</span>Ajustes</button>
@@ -331,6 +360,7 @@ function ir(t){
   if(t==="cont") listaContatos();
   if(t==="dev") filaDevocional();
   if(t==="agenda") renderSemana();
+  if(t==="resp"){ preencherRespQuem(); atualizarChips(); renderSensiveis(); }
   if(t==="oracao") renderOracao();
   if(t==="disc") renderDisc();
   if(t==="aj") renderRegras();
@@ -342,10 +372,10 @@ function abrirForm(id){
   const nome = prompt("Nome do contato:");
   if(!nome) return;
   const fone = prompt("WhatsApp (com DDD):") || "";
-  const vinculo = prompt("Vínculo: membro / visitante / novo convertido / líder / pastor","membro") || "membro";
+  const vinculo = (prompt("Vínculo: membro / visitante / novo convertido / líder / pastor / empresa","membro") || "membro").toLowerCase().trim();
   const dev = confirm("Recebe o devocional diário?");
   D.contatos.push({id:Date.now()+"", nome:nome.trim(), fone:fone.replace(/\D/g,""), vinculo:vinculo.trim(), recebeDev:dev, obs:"", desde:hojeISO()});
-  salvar(); listaContatos(); preencherDevQuem();
+  salvar(); listaContatos(); preencherDevQuem(); preencherRespQuem();
 }
 function listaContatos(){
   const q = (document.getElementById("busca").value||"").toLowerCase();
@@ -356,7 +386,11 @@ function listaContatos(){
   box.className="";
   box.innerHTML = arr.map(c=>{
     const ini = c.nome.trim().split(" ").map(x=>x[0]).slice(0,2).join("").toUpperCase();
-    const tag = c.recebeDev ? '<span class="tag dev">devocional</span>' : '';
+    const tags = [];
+    if(ehEmpresa(c)) tags.push('<span class="tag sens">empresa</span>');
+    else if(c.recebeDev) tags.push('<span class="tag dev">devocional</span>');
+    if(c.vinculo==="visitante") tags.push('<span class="tag vis">visitante</span>');
+    const tag = tags.join(" ");
     return `<div class="pessoa">
       <div class="avatar">${ini}</div>
       <div class="pinfo">
@@ -390,7 +424,7 @@ function novoMes(){
 }
 function preencherDevQuem(){
   const sel = document.getElementById("devQuem");
-  const arr = D.contatos.filter(c=>c.recebeDev);
+  const arr = D.contatos.filter(c=>c.recebeDev && !ehEmpresa(c));
   sel.innerHTML = '<option value="">Escolha...</option>' + arr.map(c=>`<option value="${c.id}">${esc(c.nome)}</option>`).join("");
   if(!arr.length) sel.innerHTML = '<option value="">Nenhum contato marcado para o devocional</option>';
 }
@@ -454,7 +488,7 @@ function marcarEnviado(){
 function filaDevocional(){
   const dia = hojeISO();
   const feitos = D.enviados[dia] || [];
-  const arr = D.contatos.filter(c=>c.recebeDev);
+  const arr = D.contatos.filter(c=>c.recebeDev && !ehEmpresa(c));
   const box = document.getElementById("filaDev");
   const tag = document.getElementById("tagDev");
   tag.textContent = feitos.length + "/" + arr.length + " hoje";
@@ -489,24 +523,37 @@ function proximosDias(n){
   return out;
 }
 function chave(iso,per){ return iso+"|"+per; }
-function visitasDoDia(iso){
-  const o = D.agenda[iso] || {};
-  return PERIODOS.filter(p=>o[p]).map(p=>({periodo:p, ...o[p]}));
+function visitasDoPeriodo(iso, per){
+  const o = (D.agenda[iso] || {})[per];
+  if(!o) return [];
+  return Array.isArray(o) ? o : [o];   // compatível com o formato antigo
 }
+function visitasDoDia(iso){
+  const out = [];
+  PERIODOS.forEach(p => visitasDoPeriodo(iso, p).forEach(v => out.push({periodo:p, ...v})));
+  return out;
+}
+const MAX_POR_PERIODO = 2;
+const MAX_POR_DIA = 6;
 function renderSemana(){
   const box = document.getElementById("semana");
   const dias = proximosDias(8);
   let html = '<div class="slots">';
   dias.forEach(iso=>{
-    const o = D.agenda[iso] || {};
-    const ocup = PERIODOS.filter(p=>o[p]).length;
+    const ocup = PERIODOS.reduce((n,p)=>n+visitasDoPeriodo(iso,p).length,0);
     html += `<div class="slot-dia">${nomeDia(iso)} ${fmtBR(iso)}</div><div class="slot-per">`;
     PERIODOS.forEach(p=>{
-      const v = o[p];
-      if(v) html += `<div class="slot ocupado" onclick="verVisita('${iso}','${p}')">${p}: ${esc(v.nome.split(" ")[0])}</div>`;
-      else html += `<div class="slot livre" onclick="marcarVisita('${iso}','${p}')">${p}</div>`;
+      const vs = visitasDoPeriodo(iso, p);
+      if(!vs.length){
+        html += `<div class="slot livre" onclick="marcarVisita('${iso}','${p}')">${p}</div>`;
+      } else {
+        const nomes = vs.map(v=>esc(v.nome.split(" ")[0])).join(", ");
+        const cheio = vs.length >= MAX_POR_PERIODO;
+        html += `<div class="slot ocupado" style="${cheio?'background:#dfe8f0':''}" onclick="verVisita('${iso}','${p}')">${p} (${vs.length}): ${nomes}</div>`;
+        if(!cheio) html += `<div class="slot livre" onclick="marcarVisita('${iso}','${p}')">+ ${p}</div>`;
+      }
     });
-    if(ocup>=3) html += `<span class="mini">dia cheio</span>`;
+    if(ocup>=MAX_POR_DIA) html += `<span class="mini">dia cheio</span>`;
     html += `</div>`;
   });
   html += '</div>';
@@ -515,39 +562,211 @@ function renderSemana(){
 }
 function marcarVisita(iso,per){
   const doDia = D.agenda[iso] || {};
-  const qtd = PERIODOS.filter(p=>doDia[p]).length;
-  if(qtd>=3){ alert("Este dia já tem 3 visitas. Escolha outro."); return; }
+  const qtdDia = PERIODOS.reduce((n,p)=>n+visitasDoPeriodo(iso,p).length,0);
+  const qtdPer = visitasDoPeriodo(iso, per).length;
+  if(qtdPer >= MAX_POR_PERIODO){ alert("Esse período já tem "+MAX_POR_PERIODO+" visitas. Escolha manhã, tarde, noite ou outro dia."); return; }
+  if(qtdDia >= MAX_POR_DIA){ alert("Este dia já tem "+MAX_POR_DIA+" visitas. Escolha outro dia."); return; }
   const nome = prompt("Nome do visitante:"); if(!nome) return;
   const bairro = prompt("Bairro / endereço:") || "";
   const fone = (prompt("WhatsApp:") || "").replace(/\D/g,"");
   const quem = prompt("Quem indicou / de onde veio:") || "";
   D.agenda[iso] = doDia;
-  D.agenda[iso][per] = {nome:nome.trim(), bairro:bairro.trim(), fone:fone, indicou:quem.trim(), status:"agendado"};
+  const lista = visitasDoPeriodo(iso, per);
+  lista.push({nome:nome.trim(), bairro:bairro.trim(), fone:fone, indicou:quem.trim(), status:"agendado"});
+  D.agenda[iso][per] = lista;
   salvar(); renderSemana(); gerarResumo();
   alert("Visita marcada.\n\nAviso pro pastor:\n" + nome + " — " + nomeDia(iso) + " " + fmtBR(iso) + ", " + per + (bairro?" — "+bairro:""));
 }
-function verVisita(iso,per){
-  const v = D.agenda[iso][per];
+function verVisita(iso, per){
+  const lista = visitasDoPeriodo(iso, per);
+  if(!lista.length) return;
+  const v = lista.length === 1 ? lista[0] : (function(){
+    const nomes = lista.map((x,i)=>(i+1)+") "+x.nome).join("\n");
+    const esc2 = prompt("Quem?\n" + nomes, "1");
+    const i = Math.max(1, Math.min(lista.length, parseInt(esc2||"1",10)||1)) - 1;
+    return lista[i];
+  })();
   const msg = `Visita: ${v.nome}\nDia: ${nomeDia(iso)} ${fmtBR(iso)} — ${per}\nBairro: ${v.bairro||"—"}\nWhatsApp: ${v.fone||"—"}\nIndicado por: ${v.indicou||"—"}\nStatus: ${v.status}`;
-  const st = prompt(msg + "\n\nDigite o novo status (agendado / confirmado / realizado / remarcado / cancelado):", v.status);
-  if(st){
-    if(st.toLowerCase()==="cancelado"){ delete D.agenda[iso][per]; }
-    else { v.status = st.toLowerCase(); }
-    salvar(); renderSemana(); gerarResumo();
-  }
+  const st = prompt(msg + "\n\nNovo status (agendado / confirmado / realizado / remarcado / cancelado):", v.status);
+  if(!st) return;
+  const novo = st.toLowerCase();
+  if(novo === "cancelado"){
+    const i = lista.indexOf(v); lista.splice(i,1);
+    if(!lista.length) delete D.agenda[iso][per]; else D.agenda[iso][per] = lista;
+  } else { v.status = novo; D.agenda[iso][per] = lista; }
+  salvar(); renderSemana(); gerarResumo();
 }
 function renderPendentes(){
   const box = document.getElementById("pendentes");
   const vis = D.contatos.filter(c=>c.vinculo==="visitante");
   const marcados = new Set();
   Object.keys(D.agenda).forEach(iso=>PERIODOS.forEach(p=>{
-    const v=D.agenda[iso][p]; if(v) marcados.add(v.nome.toLowerCase());
+    visitasDoPeriodo(iso,p).forEach(v=>{ if(v && v.nome) marcados.add(v.nome.toLowerCase()); });
   }));
   const pend = vis.filter(c=>!marcados.has(c.nome.toLowerCase()));
   if(!pend.length){ box.className="vazio"; box.innerHTML="Nenhum visitante esperando visita."; return; }
   box.className="";
   box.innerHTML = pend.map(c=>`<div class="pessoa"><div class="avatar">${c.nome[0].toUpperCase()}</div>
     <div class="pinfo"><div class="pnome">${esc(c.nome)}</div><div class="pmeta">visitante desde ${fmtBR(c.desde||hojeISO())}</div></div></div>`).join("");
+}
+
+/* ============ RESPONDER ============ */
+const TIPOS = [
+  ["favor","pedido de favor/ajuda"], ["doenca","doença ou hospital"], ["luto","luto ou morte na família"],
+  ["emprego","emprego ou dinheiro"], ["visita","quer visita ou marcar encontro"], ["confirmacao","confirmando presença"],
+  ["desabafo","desabafo / tristeza"], ["duvida","dúvida bíblica ou sobre a igreja"], ["gratidao","agradecimento ou testemunho"],
+  ["convite","convite para pregar / evento"], ["conflito","briga ou conflito"], ["outro","outro assunto"]
+];
+const PESADOS = ["luto","conflito","doenca"];
+let respTipo = "outro";
+
+function atualizarChips(){
+  const box = document.getElementById("respChips");
+  box.innerHTML = TIPOS.map(([k,r])=>
+    `<span class="chip ${respTipo===k?'sel':''}" onclick="setTipo('${k}')">${r}</span>`).join("");
+}
+function setTipo(k){ respTipo = k; atualizarChips(); atualizarResp(); }
+
+function ehEmpresa(c){
+  if(!c) return false;
+  const v = (c.vinculo||"").toLowerCase();
+  return v.includes("empresa") || v.includes("trabalho") || v.includes("fornecedor") || v.includes("comercial");
+}
+function atualizarResp(){
+  atualizarChips();
+  const msg = (document.getElementById("respMsg").value||"").toLowerCase();
+  // detecta caso pesado pelo texto
+  const pesadoPorTexto = /morreu|faleceu|enterro|velório|velorio|câncer|cancer|internad|uti|cirurgia|cirurgia|divórcio|divorcio|trai[çc]|separ|briga|conflito|me bater|amea[çc]|suic|não aguento|nao aguento|acabou comigo/.test(msg);
+  const pesado = pesadoPorTexto || (PESADOS.includes(respTipo) && respTipo!=="doenca");
+  const box = document.getElementById("respAlerta");
+  const selId0 = document.getElementById("respQuem").value;
+  const c0 = D.contatos.find(x=>x.id===selId0);
+  if(ehEmpresa(c0)){
+    box.innerHTML = '<div class="alerta"><b>Contato de empresa.</b><br>Esse é assunto seu, não do agente. O painel não gera resposta pastoral pra contato comercial — resolve pelo WhatsApp direto.</div>';
+    return;
+  }
+  if(pesado){
+    box.innerHTML = '<div class="alerta"><b>Este é caso pra você.</b><br>Pelo que a pessoa escreveu, não é assunto de resposta automática — pode ser luto, conflito grave, doença séria ou crise. O agente escreve uma mensagem curta só de acolhimento (sem prometer nada), registra o caso e te avisa.</div>';
+  } else box.innerHTML = "";
+}
+
+function preencherRespQuem(){
+  const sel = document.getElementById("respQuem");
+  const atual = sel.value;
+  sel.innerHTML = '<option value="">— sem nome (não inventar) —</option>' +
+    D.contatos.map(c=>`<option value="${c.id}">${esc(c.nome)}</option>`).join("");
+  if(atual) sel.value = atual;
+}
+
+let respCache = "";
+function gerarResposta(){
+  const selId = document.getElementById("respQuem").value;
+  const c = D.contatos.find(x=>x.id===selId);
+  if(ehEmpresa(c)){
+    document.getElementById("respTexto").className = "mensagem vazia";
+    document.getElementById("respTexto").textContent = "Contato de empresa — você mesmo responde. O agente não entra nessa conversa.";
+    document.getElementById("tagResp").textContent = "sua vez";
+    return;
+  }
+  const primeiro = c ? c.nome.trim().split(" ")[0] : "";
+  const msg = (document.getElementById("respMsg").value||"").toLowerCase();
+  const pesadoTxt = /morreu|faleceu|enterro|velório|velorio|câncer|cancer|internad|uti|cirurgia|divórcio|divorcio|trai[çc]|briga|conflito|amea[çc]|suic|não aguento|nao aguento/.test(msg);
+  const pesado = pesadoTxt || PESADOS.includes(respTipo);
+
+  // abertura variada
+  const aberturas = primeiro
+    ? [`A paz do Senhor, ${primeiro}! Tudo bem aí?`, `Paz de Cristo, ${primeiro}! Como você tá?`, `${primeiro}, a paz do Senhor! Tudo bem com você?`]
+    : [`A paz do Senhor! Tudo bem aí?`, `Paz de Cristo! Como você está?`, `A paz do Senhor, meu irmão! Tudo bem?`];
+  const ab = aberturas[Math.floor(Math.random()*aberturas.length)];
+
+  // corpo por tipo, tom pastoral
+  const corpo = {
+    favor: [`Me conta direitinho o que você precisa que eu vejo como te ajudar. Estamos juntos.`,
+            `Pode falar, irmão. Vou ver o que consigo fazer e te retorno ainda hoje.`,
+            `Tô aqui com você nessa. Me explica melhor a situação que eu vejo o caminho.`],
+    doenca: [`Fico orando por você e pela recuperação. O Senhor é o nosso médico maior, e eu creio que ele está cuidando desse caso.`,
+             `Sinto muito por esse momento. Deus está perto de quem tem o coração apertado. Vou orar por você hoje.`,
+             `Vamos orar juntos por isso. A doença assusta, mas o Senhor sustenta. Conte comigo e com a igreja.`],
+    luto: [`Não tenho palavra que tire a sua dor, irmão, e não vou fingir que tenho. Só quero que você saiba que não está sozinho.`,
+           `Perder alguém assim doi demais. Eu não vou te dar fórmula, só quero estar perto de você nesse momento.`,
+           `Estou aqui com você nesse momento tão difícil. Não fique sozinho — posso passar aí se você quiser.`],
+    emprego: [`Deus não esqueceu de você. Continua firme que a porta vai abrir, e eu vou orar por essa situação.`,
+              `Essa fase aperta de verdade, eu sei. Mas o Senhor cuida dos seus. Vamos orar juntos por isso.`,
+              `Não desanima, irmão. Já vi Deus abrir porta em momento que parecia fechada. Segura na mão dele.`],
+    visita: [`Vou marcar com você sim. Me diz o melhor dia e se pode ser na parte da manhã, tarde ou noite.`,
+             `Com certeza passo aí. Você prefere manhã, tarde ou noite? Eu me organizo por aqui.`,
+             `Pode deixar que eu marco. Me passa o dia que fica melhor pra você e o endereço que eu confirmo.`],
+    confirmacao: [`Que bom saber! Te espero então, vai ser uma bênção.`,
+                  `Amém! Fico feliz. Nos vemos lá então.`,
+                  `Glória a Deus! Conto com você. Vai ser bom demais.`],
+    desabafo: [`Obrigado por confiar em mim pra falar disso. Não leve isso sozinho, o Senhor está com você.`,
+               `Entendo, e fico grato pela sua transparência. Vamos orar sobre isso juntos.`,
+               `Ninguém deveria carregar um peso desses sozinho. Eu tô aqui e Deus está mais perto ainda.`],
+    duvida: [`É uma boa pergunta. Deixa eu te responder com calma, e se precisar a gente senta e estuda junto.`,
+             `Fico feliz que você queira entender melhor. Vou te explicar com cuidado.`,
+             `Boa dúvida, irmão. Vou te responder e se ficar qualquer coisa em aberto, me chama.`],
+    gratidao: [`Glória a Deus por isso! Fico muito feliz de verdade.`,
+               `Que testemunho bonito. Obrigado por compartilhar comigo.`,
+               `Amém! Deus é fiel mesmo. Fico alegre com você.`],
+    convite: [`Agradeço o convite e considero uma honra. Deixa eu ver minha agenda e te confirmo.`,
+              `Fico grato pelo convite, é sempre uma alegria. Vou verificar a agenda e te respondo.`,
+              `Agradecido pelo convite. Vou olhar os compromissos aqui e te dou a resposta certinha.`],
+    conflito: [`Vou ouvir você com calma, mas esse assunto eu preciso tratar pessoalmente, não por mensagem.`,
+               `Entendo a sua dor. Esse tipo de coisa não se resolve no WhatsApp, vamos sentar e conversar.`,
+               `Isso merece nossa atenção com cuidado. Posso te ligar hoje ou passar aí pra conversarmos.`],
+    outro: [`Entendi. Se eu puder ajudar em algo, me fala.`,
+            `Tá certo, obrigado por me contar. Se precisar de mim, é só chamar.`,
+            `Anotado por aqui. Qualquer coisa me chama.`]
+  }[respTipo] || [];
+
+  const fechos = [`Deus abençoe você e a família.`, `Fica na paz do Senhor.`, `Um abraço, conte comigo.`];
+  let corpoEsc = corpo[Math.floor(Math.random()*corpo.length)] || "Entendi. Fico à disposição.";
+  if(pesado){
+    corpoEsc = respTipo === "luto"
+      ? `Não vou te dar resposta bonita agora, não é hora disso. Só quero que você saiba que estou aqui e que a igreja está com você.`
+      : `Quero te ouvir com calma sobre isso. É assunto que merece conversa pessoal, não mensagem corrida.`;
+  }
+  const fecho = fechos[Math.floor(Math.random()*fechos.length)];
+  respCache = ab + "\n\n" + corpoEsc + "\n\n" + (pesado ? "Vou passar aí ou te ligar hoje. " : "") + fecho + "\n\nPr. Anderson";
+
+  const box = document.getElementById("respTexto");
+  box.className = "mensagem"; box.textContent = respCache;
+  document.getElementById("tagResp").textContent = pesado ? "acolhimento" : "normal";
+  window.__respPesado = pesado;
+}
+function copiarResp(){
+  if(!respCache){ alert("Gere a resposta primeiro."); return; }
+  copiar(respCache);
+}
+function limparResp(){
+  document.getElementById("respMsg").value = "";
+  respCache = ""; respTipo = "outro"; atualizarChips();
+  document.getElementById("respTexto").className = "mensagem vazia";
+  document.getElementById("respTexto").textContent = "Preencha acima e toque em gerar";
+  document.getElementById("respAlerta").innerHTML = "";
+}
+function marcarSensivel(){
+  const selId = document.getElementById("respQuem").value;
+  const c = D.contatos.find(x=>x.id===selId);
+  const nome = c ? c.nome : (prompt("Nome de quem falou:") || "Contato sem nome");
+  const assunto = prompt("Resuma o caso pra você (1 linha):", document.getElementById("respMsg").value.slice(0,90));
+  if(!assunto) return;
+  D.sensiveis.unshift({id:Date.now()+"", nome:nome, assunto:assunto, data:hojeISO(), status:"aguardando"});
+  salvar(); renderSensiveis(); gerarResumo();
+  alert("Registrado. Vai aparecer no seu resumo como 'Precisa de você'.");
+}
+function renderSensiveis(){
+  const box = document.getElementById("listaSens");
+  const arr = (D.sensiveis||[]).filter(s=>s.status!=="resolvido");
+  if(!arr.length){ box.className="vazio"; box.innerHTML="Nenhum caso pendente. Bom sinal."; return; }
+  box.className="";
+  box.innerHTML = arr.map(s=>`<div class="alerta"><b>${esc(s.nome)}</b> — ${esc(s.assunto)}<br>
+    <span style="opacity:.7">${fmtBR(s.data)}</span>
+    <button class="sm sec" style="margin-top:6px" onclick="resolverSens('${s.id}')">marcar resolvido</button></div>`).join("");
+}
+function resolverSens(id){
+  const s = D.sensiveis.find(x=>x.id===id); if(!s) return;
+  s.status = "resolvido"; salvar(); renderSensiveis(); gerarResumo();
 }
 
 /* ============ ORAÇÃO ============ */
@@ -673,6 +892,11 @@ function gerarResumo(){
   if(conf.length){
     t += "\n\n*Aguardando confirmação*\n";
     t += conf.slice(0,5).map(v=>"• "+v.nome+" ("+nomeDia(v.iso)+" "+v.periodo+")").join("\n");
+  }
+  const emp = D.contatos.filter(c=>ehEmpresa(c));
+  if(emp.length){
+    t += "\n\n*Contatos de empresa* (você responde)\n";
+    t += emp.slice(0,5).map(c=>"• "+c.nome).join("\n");
   }
   if(pend.length){
     t += "\n\n*Precisa de você*\n";
