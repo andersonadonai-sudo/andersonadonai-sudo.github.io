@@ -3,221 +3,121 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16324f">
 <title>Pr. Anderson — Painel Pastoral</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&display=swap');
-
 :root{
   --noite:#0e1c2e; --azul:#16324f; --azul2:#1e4a72; --azul3:#2a6491;
   --ouro:#c9a227; --ouro2:#e8c653; --ouro-claro:#fdf6e3;
   --creme:#f6f2e9; --papel:#fffdf8;
   --txt:#1c2b3a; --suave:#6b7c8d; --linha:#e6dfd0;
-  --verde:#25734a; --verde-claro:#e8f5ee;
-  --verm:#a5342a; --verm-claro:#fceeec;
+  --verde:#25734a; --verm:#a5342a; --verm-claro:#fceeec;
   --sombra:0 1px 2px rgba(14,28,46,.06), 0 8px 24px -12px rgba(14,28,46,.18);
-  --sombra2:0 2px 4px rgba(14,28,46,.08), 0 16px 40px -16px rgba(14,28,46,.28);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%}
-body{
-  margin:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-  background:var(--creme);color:var(--txt);padding-bottom:88px;
-  -webkit-font-smoothing:antialiased;line-height:1.5;
-}
-
-/* ---------- cabecalho ---------- */
-header{
-  background:linear-gradient(150deg,#0e1c2e 0%,#16324f 45%,#1e4a72 100%);
-  color:#fff;padding:20px 18px 22px;position:sticky;top:0;z-index:20;
-  box-shadow:0 8px 28px -14px rgba(14,28,46,.7);overflow:hidden;
-}
-header::after{
-  content:'';position:absolute;right:-40px;top:-40px;width:180px;height:180px;
-  background:radial-gradient(circle,rgba(201,162,39,.22),transparent 68%);pointer-events:none;
-}
+body{margin:0;font-family:'Inter',-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  background:var(--creme);color:var(--txt);padding-bottom:88px;-webkit-font-smoothing:antialiased;line-height:1.5}
+header{background:linear-gradient(150deg,#0e1c2e 0%,#16324f 45%,#1e4a72 100%);color:#fff;
+  padding:20px 18px 22px;position:sticky;top:0;z-index:20;
+  box-shadow:0 8px 28px -14px rgba(14,28,46,.7);overflow:hidden}
+header::after{content:'';position:absolute;right:-40px;top:-40px;width:180px;height:180px;
+  background:radial-gradient(circle,rgba(201,162,39,.22),transparent 68%);pointer-events:none}
 .hrow{display:flex;align-items:center;gap:12px;position:relative;z-index:1}
-.cruz{
-  width:40px;height:40px;border-radius:12px;flex-shrink:0;
-  background:linear-gradient(150deg,var(--ouro2),var(--ouro));
-  display:flex;align-items:center;justify-content:center;
-  font-size:20px;color:#0e1c2e;box-shadow:0 4px 14px -4px rgba(201,162,39,.7);
-}
-header h1{
-  margin:0;font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:700;
-  letter-spacing:-.3px;line-height:1.1;
-}
-header .sub{
-  margin:3px 0 0;font-size:11.5px;opacity:.72;letter-spacing:.3px;font-weight:500;
-}
+.cruz{width:40px;height:40px;border-radius:12px;flex-shrink:0;
+  background:linear-gradient(150deg,var(--ouro2),var(--ouro));display:flex;align-items:center;
+  justify-content:center;font-size:20px;color:#0e1c2e;box-shadow:0 4px 14px -4px rgba(201,162,39,.7)}
+header h1{margin:0;font-family:'Fraunces',Georgia,serif;font-size:21px;font-weight:700;letter-spacing:-.3px;line-height:1.1}
+header .sub{margin:3px 0 0;font-size:11.5px;opacity:.72;letter-spacing:.3px;font-weight:500}
 .versao{opacity:.45;font-size:10px}
-
-/* ---------- conteudo ---------- */
 main{padding:16px 13px 24px;max-width:660px;margin:0 auto}
 .tela{display:none;animation:entra .22s ease}
 .tela.ativa{display:block}
 @keyframes entra{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-
-.card{
-  background:var(--papel);border:1px solid var(--linha);border-radius:16px;
-  padding:16px;margin-bottom:13px;box-shadow:var(--sombra);
-}
-.card h2{
-  margin:0 0 12px;font-size:13px;color:var(--azul);font-weight:700;
-  display:flex;justify-content:space-between;align-items:center;gap:8px;
-  text-transform:uppercase;letter-spacing:.7px;
-}
+.card{background:var(--papel);border:1px solid var(--linha);border-radius:16px;padding:16px;
+  margin-bottom:13px;box-shadow:var(--sombra)}
+.card h2{margin:0 0 12px;font-size:13px;color:var(--azul);font-weight:700;display:flex;
+  justify-content:space-between;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:.7px}
 .card h2 .ico{font-size:15px;margin-right:7px;opacity:.85}
-
-/* ---------- formularios ---------- */
-label{
-  display:block;font-size:11px;color:var(--suave);margin:12px 0 5px;
-  font-weight:700;text-transform:uppercase;letter-spacing:.5px;
-}
+label{display:block;font-size:11px;color:var(--suave);margin:12px 0 5px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.5px}
 label:first-of-type{margin-top:0}
-input,select,textarea{
-  width:100%;padding:11px 12px;border:1.5px solid var(--linha);border-radius:11px;
-  font-size:15px;font-family:inherit;background:#fff;color:var(--txt);
-  transition:border-color .15s,box-shadow .15s;
-}
+input,select,textarea{width:100%;padding:11px 12px;border:1.5px solid var(--linha);border-radius:11px;
+  font-size:15px;font-family:inherit;background:#fff;color:var(--txt);transition:border-color .15s,box-shadow .15s}
 textarea{resize:vertical;min-height:64px;line-height:1.55}
-input:focus,select:focus,textarea:focus{
-  outline:none;border-color:var(--azul3);box-shadow:0 0 0 3px rgba(42,100,145,.12);
-}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--azul3);box-shadow:0 0 0 3px rgba(42,100,145,.12)}
 input::placeholder,textarea::placeholder{color:#a8b3bf}
-
-/* ---------- botoes ---------- */
-button{
-  border:none;border-radius:11px;padding:12px 16px;font-size:14px;font-weight:700;
-  font-family:inherit;cursor:pointer;background:var(--azul);color:#fff;
-  transition:transform .12s,filter .15s;letter-spacing:.2px;
-}
+button{border:none;border-radius:11px;padding:12px 16px;font-size:14px;font-weight:700;
+  font-family:inherit;cursor:pointer;background:var(--azul);color:#fff;transition:transform .12s,filter .15s;letter-spacing:.2px}
 button:active{transform:scale(.975);filter:brightness(.94)}
 button.sec{background:#eef1f4;color:var(--azul)}
 button.ok{background:linear-gradient(160deg,#2e8657,#25734a)}
 button.dourado{background:linear-gradient(160deg,var(--ouro2),var(--ouro));color:#3a2f00}
 button.danger{background:var(--verm-claro);color:var(--verm)}
 button.sm{padding:8px 12px;font-size:12px;border-radius:9px}
-button.grande{
-  width:100%;padding:15px;font-size:15px;border-radius:13px;
-  box-shadow:0 8px 20px -8px rgba(37,115,74,.6);
-}
+button.grande{width:100%;padding:15px;font-size:15px;border-radius:13px}
+button.ok.grande{box-shadow:0 8px 20px -8px rgba(37,115,74,.6)}
+button.dourado.grande{box-shadow:0 8px 20px -8px rgba(201,162,39,.7)}
 .row{display:flex;gap:9px;flex-wrap:wrap}
 .row>*{flex:1;min-width:0}
-
-/* ---------- mensagem gerada ---------- */
-.mensagem{
-  background:linear-gradient(170deg,#f2faf5,#e9f6ee);
-  border:1px solid #cfe8d9;border-left:4px solid var(--verde);
-  border-radius:6px 13px 13px 6px;padding:15px;font-size:14px;line-height:1.68;
-  white-space:pre-wrap;color:#12301f;margin:12px 0 0;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
-}
-.mensagem.vazia{
-  background:#faf8f2;border:1px dashed var(--linha);border-left:1px dashed var(--linha);
-  color:var(--suave);text-align:center;font-size:13.5px;padding:26px 16px;line-height:1.6;
-}
-
-/* ---------- pessoas ---------- */
-.pessoa{
-  display:flex;align-items:center;gap:11px;padding:11px 0;
-  border-bottom:1px solid #f2ede1;
-}
+.mensagem{background:linear-gradient(170deg,#f2faf5,#e9f6ee);border:1px solid #cfe8d9;
+  border-left:4px solid var(--verde);border-radius:6px 13px 13px 6px;padding:15px;
+  font-size:14px;line-height:1.68;white-space:pre-wrap;color:#12301f;margin:12px 0 0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+.mensagem.vazia{background:#faf8f2;border:1px dashed var(--linha);border-left:1px dashed var(--linha);
+  color:var(--suave);text-align:center;font-size:13.5px;padding:26px 16px;line-height:1.6}
+.pessoa{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid #f2ede1}
 .pessoa:last-child{border-bottom:none;padding-bottom:0}
 .pessoa:first-child{padding-top:0}
-.avatar{
-  width:38px;height:38px;border-radius:11px;background:linear-gradient(150deg,var(--azul2),var(--azul));
-  color:#fff;display:flex;align-items:center;justify-content:center;
-  font-size:14px;font-weight:700;flex-shrink:0;letter-spacing:.3px;
-}
+.avatar{width:38px;height:38px;border-radius:11px;background:linear-gradient(150deg,var(--azul2),var(--azul));
+  color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;
+  flex-shrink:0;letter-spacing:.3px}
 .pinfo{flex:1;min-width:0}
 .pnome{font-size:14.5px;font-weight:600;line-height:1.25}
 .pmeta{font-size:11.5px;color:var(--suave);margin-top:2px;line-height:1.4}
-
-/* ---------- tags ---------- */
-.tag{
-  display:inline-block;font-size:9.5px;padding:3px 8px;border-radius:20px;font-weight:800;
-  text-transform:uppercase;letter-spacing:.5px;background:#eef1f4;color:var(--suave);
-  vertical-align:middle;
-}
-.tag.dev{background:var(--verde-claro);color:var(--verde)}
+.tag{display:inline-block;font-size:9.5px;padding:3px 8px;border-radius:20px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.5px;background:#eef1f4;color:var(--suave);vertical-align:middle}
+.tag.dev{background:#e8f5ee;color:var(--verde)}
 .tag.vis{background:var(--ouro-claro);color:#8a6d0b}
 .tag.novo{background:#eaeaff;color:#3f4bab}
 .tag.sens{background:var(--verm-claro);color:var(--verm)}
 .tag.emp{background:#f3e8ff;color:#6b3fa0}
-.tag.ouro{background:linear-gradient(160deg,var(--ouro2),var(--ouro));color:#3a2f00}
-
-/* ---------- vazio ---------- */
 .vazio{text-align:center;color:var(--suave);font-size:13px;padding:26px 14px;line-height:1.65}
 .vazio .emo{display:block;font-size:30px;margin-bottom:8px;opacity:.5}
-
-/* ---------- nav inferior ---------- */
-nav{
-  position:fixed;bottom:0;left:0;right:0;z-index:30;
-  background:rgba(255,253,248,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border-top:1px solid var(--linha);
-  display:flex;justify-content:space-around;
-  padding:7px 3px calc(7px + env(safe-area-inset-bottom));
-  box-shadow:0 -6px 24px -18px rgba(14,28,46,.5);
-}
-nav button{
-  background:none;color:#9aa7b4;font-size:9.5px;font-weight:700;padding:5px 3px;
-  display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;
-  border-radius:10px;letter-spacing:.2px;transition:color .15s;
-}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:30;background:rgba(255,253,248,.96);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--linha);
+  display:flex;justify-content:space-around;padding:7px 3px calc(7px + env(safe-area-inset-bottom));
+  box-shadow:0 -6px 24px -18px rgba(14,28,46,.5)}
+nav button{background:none;color:#9aa7b4;font-size:9.5px;font-weight:700;padding:5px 3px;
+  display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;border-radius:10px;
+  letter-spacing:.2px;transition:color .15s}
 nav button .ic{font-size:19px;line-height:1}
 nav button.ativo{color:var(--azul);background:rgba(30,74,114,.07)}
-
-/* ---------- destaque ---------- */
 .slots{display:grid;grid-template-columns:46px 1fr;gap:8px;font-size:12px;align-items:start}
 .slot-dia{font-weight:800;color:var(--azul);padding:7px 0;font-size:11.5px;letter-spacing:.2px}
 .slot-per{display:flex;gap:6px;flex-wrap:wrap;padding:4px 0}
-.slot{
-  border:1.5px dashed #d8d0bf;border-radius:9px;padding:7px 10px;font-size:11.5px;
-  background:#fffdf8;cursor:pointer;color:var(--suave);font-weight:600;
-}
-.slot.livre:hover{border-color:var(--azul3);color:var(--azul)}
-.slot.ocupado{
-  background:linear-gradient(160deg,#eaf1f7,#dfe9f2);border-style:solid;
-  border-color:#bfd3e4;color:var(--azul);font-weight:700;
-}
-.chip{
-  display:inline-block;padding:7px 12px;border-radius:20px;font-size:12px;
-  background:#f2efe7;color:#6b7c8d;cursor:pointer;margin:0 5px 6px 0;
-  border:1.5px solid transparent;font-weight:600;transition:.15s;
-}
+.slot{border:1.5px dashed #d8d0bf;border-radius:9px;padding:7px 10px;font-size:11.5px;
+  background:#fffdf8;cursor:pointer;color:var(--suave);font-weight:600}
+.slot.ocupado{background:linear-gradient(160deg,#eaf1f7,#dfe9f2);border-style:solid;
+  border-color:#bfd3e4;color:var(--azul);font-weight:700}
+.chip{display:inline-block;padding:7px 12px;border-radius:20px;font-size:12px;background:#f2efe7;
+  color:#6b7c8d;cursor:pointer;margin:0 5px 6px 0;border:1.5px solid transparent;font-weight:600;transition:.15s}
 .chip.sel{background:var(--azul);color:#fff;border-color:var(--azul)}
-
-.alerta{
-  background:linear-gradient(160deg,#fef8e6,#fdf2d8);
-  border:1px solid #efdda8;border-left:4px solid var(--ouro);
-  padding:12px 14px;border-radius:6px 12px 12px 6px;
-  font-size:12.5px;line-height:1.6;margin:10px 0;color:#5c4a08;
-}
-
+.alerta{background:linear-gradient(160deg,#fef8e6,#fdf2d8);border:1px solid #efdda8;
+  border-left:4px solid var(--ouro);padding:12px 14px;border-radius:6px 12px 12px 6px;
+  font-size:12.5px;line-height:1.6;margin:10px 0;color:#5c4a08}
 .mini{font-size:11.5px;color:var(--suave);line-height:1.55;margin-top:7px}
-
-.fab{
-  position:fixed;right:16px;bottom:98px;width:56px;height:56px;border-radius:16px;
-  background:linear-gradient(160deg,var(--ouro2),var(--ouro));color:#2a2200;
-  font-size:27px;font-weight:400;box-shadow:0 10px 26px -8px rgba(201,162,39,.8);
-  z-index:25;display:none;align-items:center;justify-content:center;
-}
+.fab{position:fixed;right:16px;bottom:98px;width:56px;height:56px;border-radius:16px;
+  background:linear-gradient(160deg,var(--ouro2),var(--ouro));color:#2a2200;font-size:27px;
+  font-weight:400;box-shadow:0 10px 26px -8px rgba(201,162,39,.8);z-index:25;display:none;
+  align-items:center;justify-content:center}
 .fab.on{display:flex}
-
-.passo{display:flex;gap:11px;padding:10px 0;border-bottom:1px solid #f2ede1;align-items:flex-start}
-.passo:last-child{border:none}
-.num{
-  width:26px;height:26px;border-radius:9px;background:#eef1f4;color:var(--suave);
-  font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.num.feito{background:var(--verde);color:#fff}
-.num.atual{background:linear-gradient(160deg,var(--ouro2),var(--ouro));color:#3a2f00}
-
+.num{width:26px;height:26px;border-radius:9px;background:#eef1f4;color:var(--suave);
+  font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:13px}
-.kpi .box{
-  background:var(--papel);border:1px solid var(--linha);border-radius:13px;
-  padding:12px 10px;text-align:center;box-shadow:var(--sombra);
-}
+.kpi .box{background:var(--papel);border:1px solid var(--linha);border-radius:13px;
+  padding:12px 10px;text-align:center;box-shadow:var(--sombra)}
 .kpi .n{font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:700;color:var(--azul);line-height:1}
 .kpi .l{font-size:9.5px;color:var(--suave);text-transform:uppercase;letter-spacing:.5px;margin-top:5px;font-weight:700}
 </style>
@@ -228,7 +128,7 @@ nav button.ativo{color:var(--azul);background:rgba(30,74,114,.07)}
     <div class="cruz">✝</div>
     <div style="flex:1;min-width:0">
       <h1>Pr. Anderson</h1>
-      <p class="sub">AD Alvorada · APEM <span class="versao">· v4</span></p>
+      <p class="sub">AD Alvorada · APEM <span class="versao">· v5</span></p>
     </div>
   </div>
   <p class="sub" style="margin-top:10px;opacity:.6" id="hoje"></p>
@@ -238,34 +138,30 @@ nav button.ativo{color:var(--azul);background:rgba(30,74,114,.07)}
   <!-- HOJE -->
   <section class="tela ativa" id="t-hoje">
     <div class="kpi">
-      <div class="box"><div class="n" id="kVis">0</div><div class="l">Visitas hoje</div></div>
+      <div class="box"><div class="n" id="kVis">0</div><div class="l">Visitas</div></div>
       <div class="box"><div class="n" id="kDev">0</div><div class="l">Devocionais</div></div>
       <div class="box"><div class="n" id="kOr">0</div><div class="l">Orações</div></div>
     </div>
     <div class="card">
-      <h2><span><span class="ico">📋</span>Resumo do dia</span> <button class="sm" onclick="copiarResumo()">Copiar</button></h2>
+      <h2><span><span class="ico">📋</span>Resumo do dia</span><button class="sm dourado" onclick="copiarResumo()">Copiar</button></h2>
       <div id="resumoTexto" class="mensagem vazia">—</div>
-      <button class="sec" style="width:100%;margin-top:4px" onclick="gerarResumo()">Atualizar resumo</button>
     </div>
     <div class="card">
-      <h2>Devocional de hoje</h2>
+      <h2><span><span class="ico">📖</span>Devocional de hoje</span></h2>
       <div id="devHoje" class="mensagem vazia">—</div>
-      <p class="mini" id="devStatus"></p>
-      <div class="row" style="margin-top:8px">
-        <button class="sec" onclick="ir('dev')">Abrir devocional</button>
-      </div>
+      <button class="sec" style="width:100%;margin-top:10px" onclick="ir('dev')">Abrir devocional</button>
     </div>
     <div class="card">
-      <h2>Visitas marcadas</h2>
+      <h2><span><span class="ico">📅</span>Visitas marcadas</span></h2>
       <div id="visitasHoje"></div>
       <button class="sec sm" style="margin-top:10px" onclick="ir('agenda')">Abrir agenda</button>
     </div>
     <div class="card">
-      <h2>Pedidos de oração <span class="tag sens">confidencial</span></h2>
+      <h2><span><span class="ico">🙏</span>Pedidos de oração</span><span class="tag sens">confidencial</span></h2>
       <div id="oracoesHoje"></div>
     </div>
     <div class="card">
-      <h2>Precisa de você</h2>
+      <h2><span><span class="ico">⚠️</span>Precisa de você</span></h2>
       <div id="sensHoje"></div>
     </div>
   </section>
@@ -273,10 +169,9 @@ nav button.ativo{color:var(--azul);background:rgba(30,74,114,.07)}
   <!-- DEVOCIONAL -->
   <section class="tela" id="t-dev">
     <div class="card">
-      <h2><span><span class="ico">📖</span>Devocional de hoje</span><span class="tag dev" id="tagDev">0</span></h2>
+      <h2><span><span class="ico">📖</span>Gerar devocional</span><span class="tag dev" id="tagDev">0</span></h2>
       <label>Nome da pessoa</label>
       <input id="devNome" placeholder="Ex.: Maria, João, Irmã Ana..." oninput="gerarDevocional()">
-      <p class="mini">Ou escolha um contato salvo:</p>
       <select id="devQuem" onchange="devPorContato()"></select>
       <button class="ok grande" style="margin-top:14px" onclick="gerarDevocional()">GERAR DEVOCIONAL</button>
       <div id="devTexto" class="mensagem vazia" style="margin-top:14px">Digite o nome e toque em gerar</div>
@@ -290,23 +185,31 @@ nav button.ativo{color:var(--azul);background:rgba(30,74,114,.07)}
 
     <div class="card">
       <h2><span><span class="ico">👥</span>Gerar para todos</span></h2>
-      <p class="mini" style="margin:0 0 10px">Cole os nomes, um por linha. Ele gera um devocional diferente para cada pessoa.</p>
+      <p class="mini" style="margin:0 0 10px">Cole os nomes, um por linha. Cada pessoa recebe um versículo diferente, e ele lembra o que já mandou para cada uma.</p>
       <textarea id="loteNomes" placeholder="Maria&#10;João&#10;Irmã Ana&#10;Pedro" style="min-height:110px"></textarea>
       <button class="dourado grande" style="margin-top:12px" onclick="gerarLote()">GERAR PARA TODOS</button>
       <div id="loteResultado"></div>
     </div>
 
     <div class="card">
-      <h2>Tema do mês</h2>
-      <label>Tema</label>
+      <h2><span><span class="ico">🎯</span>Tema do mês</span></h2>
+      <select id="temaPronto" onchange="usarTemaPronto()"></select>
+      <label>Tema livre</label>
       <input id="tema" placeholder="Ex.: Esperança que não decepciona" oninput="salvarTema()">
-      <label>Versículo-base do mês</label>
+      <label>Versículo-base</label>
       <input id="temaVers" placeholder="Ex.: Jeremias 29:11" oninput="salvarTema()">
-      <p class="mini">Ao trocar o tema, o mês recomeça: os versículos já enviados voltam a valer.</p>
+      <p class="mini" id="temaInfo"></p>
       <button class="sec sm" onclick="novoMes()">Começar mês novo</button>
     </div>
+
     <div class="card">
-      <h2>Fila do devocional</h2>
+      <h2><span><span class="ico">🧠</span>O que ele lembra</span></h2>
+      <p class="mini" style="margin:0 0 10px">Cada pessoa nunca recebe o mesmo versículo duas vezes.</p>
+      <div id="memoriaBox"></div>
+    </div>
+
+    <div class="card">
+      <h2><span><span class="ico">📊</span>Fila de hoje</span></h2>
       <div id="filaDev"></div>
       <button class="sec sm" style="margin-top:10px" onclick="ir('cont')">+ Cadastrar contatos</button>
     </div>
@@ -315,21 +218,21 @@ nav button.ativo{color:var(--azul);background:rgba(30,74,114,.07)}
   <!-- CONTATOS -->
   <section class="tela" id="t-cont">
     <div class="card">
-      <h2>Contatos <span class="tag" id="tagCont">0</span></h2>
-      <input id="busca" placeholder="Buscar nome..." oninput="listaContatos()" style="margin-bottom:8px">
-      <div id="listaCont" class="vazio">Nenhum contato ainda. Toque no + para adicionar.</div>
+      <h2><span><span class="ico">👥</span>Contatos</span><span class="tag" id="tagCont">0</span></h2>
+      <input id="busca" placeholder="Buscar nome..." oninput="listaContatos()" style="margin-bottom:10px">
+      <div id="listaCont" class="vazio">Carregando...</div>
     </div>
   </section>
 
   <!-- AGENDA -->
   <section class="tela" id="t-agenda">
     <div class="card">
-      <h2>Agenda de visitas</h2>
-      <p class="mini">Ter · Qui · Sex · Sáb — manhã, tarde e noite. Até 2 visitas por período, 6 por dia.</p>
-      <div id="semana" style="margin-top:10px"></div>
+      <h2><span><span class="ico">📅</span>Agenda de visitas</span></h2>
+      <p class="mini" style="margin:0">Ter · Qui · Sex · Sáb — manhã, tarde e noite.<br>Até 2 visitas por período, 6 por dia.</p>
+      <div id="semana" style="margin-top:12px"></div>
     </div>
     <div class="card">
-      <h2>Visitantes sem visita</h2>
+      <h2><span><span class="ico">🕊️</span>Visitantes sem visita</span></h2>
       <div id="pendentes"></div>
     </div>
   </section>
@@ -337,7 +240,7 @@ nav button.ativo{color:var(--azul);background:rgba(30,74,114,.07)}
   <!-- RESPONDER -->
   <section class="tela" id="t-resp">
     <div class="card">
-      <h2>Responder mensagem <button class="sm sec" onclick="limparResp()">limpar</button></h2>
+      <h2><span><span class="ico">💬</span>Responder mensagem</span><button class="sm sec" onclick="limparResp()">limpar</button></h2>
       <label>Quem mandou</label>
       <select id="respQuem" onchange="atualizarResp()"></select>
       <label>O que a pessoa escreveu</label>
@@ -345,36 +248,36 @@ nav button.ativo{color:var(--azul);background:rgba(30,74,114,.07)}
       <label>O que é essa mensagem</label>
       <div id="respChips"></div>
       <div id="respAlerta"></div>
-      <button class="ok" style="width:100%;margin-top:10px" onclick="gerarResposta()">Gerar resposta pastoral</button>
+      <button class="ok grande" style="margin-top:10px" onclick="gerarResposta()">GERAR RESPOSTA PASTORAL</button>
     </div>
     <div class="card">
-      <h2>Resposta <span class="tag" id="tagResp"></span></h2>
+      <h2><span><span class="ico">✍️</span>Resposta</span><span class="tag" id="tagResp"></span></h2>
       <div id="respTexto" class="mensagem vazia">Preencha acima e toque em gerar</div>
-      <div class="row" style="margin-top:8px">
-        <button class="sec" onclick="gerarResposta()">Outra versão</button>
-        <button class="ok" onclick="copiarResp()">Copiar</button>
+      <div class="row" style="margin-top:10px">
+        <button class="sec" onclick="gerarResposta()">🔄 Outra versão</button>
+        <button class="dourado" onclick="copiarResp()">📋 Copiar</button>
       </div>
-      <button class="sec" style="width:100%;margin-top:8px" onclick="marcarSensivel()">Isto é caso pra mim, não pro agente</button>
+      <button class="sec" style="width:100%;margin-top:9px" onclick="marcarSensivel()">⚠️ Isto é caso pra mim</button>
     </div>
     <div class="card">
-      <h2>Casos que você assumiu</h2>
+      <h2><span><span class="ico">📌</span>Casos que você assumiu</span></h2>
       <div id="listaSens"></div>
     </div>
   </section>
 
-  <!-- ORAÇÃO -->
+  <!-- ORACAO -->
   <section class="tela" id="t-oracao">
     <div class="card">
-      <h2>Pedidos de oração</h2>
+      <h2><span><span class="ico">🙏</span>Registrar pedido</span></h2>
       <label>Nome</label>
       <input id="orNome" placeholder="Quem pediu">
       <label>Motivo</label>
       <textarea id="orMotivo" placeholder="O que está pedindo / passando"></textarea>
-      <button style="width:100%;margin-top:10px" onclick="salvarOracao()">Registrar pedido</button>
+      <button class="grande" style="margin-top:12px" onclick="salvarOracao()">REGISTRAR PEDIDO</button>
       <p class="mini">Confidencial. Nunca repassar a outro contato.</p>
     </div>
     <div class="card">
-      <h2>Lista</h2>
+      <h2><span><span class="ico">📜</span>Lista</span></h2>
       <div id="listaOracao"></div>
     </div>
   </section>
@@ -382,16 +285,16 @@ nav button.ativo{color:var(--azul);background:rgba(30,74,114,.07)}
   <!-- DISCIPULADO -->
   <section class="tela" id="t-disc">
     <div class="card">
-      <h2>Novos convertidos</h2>
+      <h2><span><span class="ico">🌱</span>Novos convertidos</span></h2>
       <div id="listaDisc"></div>
-      <button class="sec sm" style="margin-top:10px" onclick="novoConvertido()">+ Novo convertido</button>
+      <button class="sec grande" style="margin-top:12px" onclick="novoConvertido()">+ Novo convertido</button>
     </div>
     <div class="card" id="cardPasso" style="display:none">
       <h2 id="discNome">Etapa</h2>
       <div id="discTexto" class="mensagem vazia"></div>
-      <div class="row">
-        <button class="ok" onclick="copiarDisc()">Copiar</button>
-        <button class="sec" onclick="avancarEtapa()">Concluir etapa</button>
+      <div class="row" style="margin-top:10px">
+        <button class="dourado" onclick="copiarDisc()">📋 Copiar</button>
+        <button class="ok" onclick="avancarEtapa()">✓ Concluir etapa</button>
       </div>
     </div>
   </section>
@@ -399,16 +302,17 @@ nav button.ativo{color:var(--azul);background:rgba(30,74,114,.07)}
   <!-- AJUSTES -->
   <section class="tela" id="t-aj">
     <div class="card">
-      <h2>Regras aprendidas</h2>
-      <p class="mini">Tudo o que você disser "a partir de agora..." ou "não fala mais assim" entra aqui e vale na hora.</p>
-      <textarea id="regra" placeholder="Ex.: não usar mais 'graça e paz', só 'a paz do Senhor'"></textarea>
-      <button style="width:100%;margin-top:8px" onclick="addRegra()">Adicionar regra</button>
-      <div id="listaRegras" style="margin-top:10px"></div>
+      <h2><span><span class="ico">⚙️</span>Regras aprendidas</span></h2>
+      <p class="mini" style="margin:0 0 10px">Tudo que você disser "a partir de agora..." ou "não fala mais assim" entra aqui.</p>
+      <textarea id="regra" placeholder="Ex.: não usar 'graça e paz', só 'a paz do Senhor'"></textarea>
+      <button class="grande" style="margin-top:10px" onclick="addRegra()">ADICIONAR REGRA</button>
+      <div id="listaRegras" style="margin-top:14px"></div>
     </div>
     <div class="card">
-      <h2>Backup</h2>
+      <h2><span><span class="ico">💾</span>Backup</span></h2>
+      <p class="mini" id="backupInfo">—</p>
       <p class="mini">Salvo neste aparelho. Faça backup de vez em quando.</p>
-      <div class="row" style="margin-top:8px">
+      <div class="row" style="margin-top:10px">
         <button class="sec" onclick="exportar()">Salvar backup</button>
         <button class="sec" onclick="document.getElementById('imp').click()">Restaurar</button>
       </div>
@@ -426,226 +330,208 @@ nav button.ativo{color:var(--azul);background:rgba(30,74,114,.07)}
   <button data-t="agenda" onclick="ir('agenda')"><span class="ic">📅</span>Agenda</button>
   <button data-t="resp" onclick="ir('resp')"><span class="ic">💬</span>Responder</button>
   <button data-t="oracao" onclick="ir('oracao')"><span class="ic">🙏</span>Oração</button>
-  <button data-t="disc" onclick="ir('disc')"><span class="ic">🌱</span>Discipulado</button>
+  <button data-t="disc" onclick="ir('disc')"><span class="ic">🌱</span>Discípulo</button>
   <button data-t="aj" onclick="ir('aj')"><span class="ic">⚙️</span>Ajustes</button>
 </nav>
 
 <script>
-/* ============ BANCO DE VERSÍCULOS (conferidos) ============ */
-const VERSICULOS = [
- ["João 3:16","Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna."],
- ["Salmo 23:1","O Senhor é o meu pastor; nada me faltará."],
- ["Isaías 41:10","Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus; eu te fortaleço, e te ajudo, e te sustento com a minha destra fiel."],
- ["Josué 1:9","Sê forte e corajoso; não temas, nem te espantes, porque o Senhor teu Deus é contigo por onde quer que andares."],
- ["Filipenses 4:13","Posso todas as coisas naquele que me fortalece."],
- ["Salmo 46:1","Deus é o nosso refúgio e fortaleza, socorro bem presente na angústia."],
- ["Romanos 8:28","E sabemos que todas as coisas contribuem juntamente para o bem daqueles que amam a Deus."],
- ["Provérbios 3:5","Confia no Senhor de todo o teu coração e não te estribes no teu próprio entendimento."],
- ["Mateus 11:28","Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei."],
- ["1 Pedro 5:7","Lançando sobre ele toda a vossa ansiedade, porque ele tem cuidado de vós."],
- ["Salmo 119:105","Lâmpada para os meus pés é tua palavra e luz para o meu caminho."],
- ["João 14:27","Deixo-vos a paz, a minha paz vos dou; não vo-la dou como o mundo a dá. Não se turbe o vosso coração, nem se atemorize."],
- ["Isaías 40:31","Mas os que esperam no Senhor renovarão as suas forças; subirão com asas como águias; correrão e não se cansarão; caminharão e não se fatigarão."],
- ["Salmo 34:18","Perto está o Senhor dos que têm o coração quebrantado e salva os contritos de espírito."],
- ["Romanos 12:12","Alegrai-vos na esperança, sede pacientes na tribulação, perseverai na oração."],
- ["Efésios 2:8","Porque pela graça sois salvos, por meio da fé; e isto não vem de vós, é dom de Deus."],
- ["Salmo 37:5","Entrega o teu caminho ao Senhor; confia nele, e ele tudo fará."],
- ["Lamentações 3:22","As misericórdias do Senhor são a causa de não sermos consumidos, porque as suas misericórdias não têm fim."],
- ["2 Coríntios 12:9","A minha graça te basta, porque o meu poder se aperfeiçoa na fraqueza."],
- ["Hebreus 11:1","Ora, a fé é o firme fundamento das coisas que se esperam e a prova das coisas que se não veem."],
- ["Tiago 1:5","E, se algum de vós tem falta de sabedoria, peça-a a Deus, que a todos dá liberalmente."],
- ["Salmo 121:1","Elevo os meus olhos para os montes: de onde me vem o socorro? O meu socorro vem do Senhor, que fez o céu e a terra."],
- ["João 8:32","E conhecereis a verdade, e a verdade vos libertará."],
- ["1 João 1:9","Se confessarmos os nossos pecados, ele é fiel e justo para nos perdoar os pecados e nos purificar de toda injustiça."],
- ["Salmo 51:10","Cria em mim, ó Deus, um coração puro e renova em mim um espírito reto."],
- ["Mateus 6:33","Mas buscai primeiro o reino de Deus e a sua justiça, e todas estas coisas vos serão acrescentadas."],
- ["Isaías 43:2","Quando passares pelas águas, estarei contigo, e quando pelos rios, eles não te submergirão."],
- ["Salmo 27:1","O Senhor é a minha luz e a minha salvação; a quem temerei?"],
- ["Colossenses 3:15","E a paz de Deus, para a qual também fostes chamados, domine em vossos corações."],
- ["Salmo 91:1","Aquele que habita no esconderijo do Altíssimo, à sombra do Onipotente descansará."],
- ["Gálatas 6:9","E não nos cansemos de fazer o bem, porque a seu tempo ceifaremos, se não houvermos desfalecido."],
- ["Salmos 55:22","Lança o teu cuidado sobre o Senhor, e ele te susterá."],
- ["Provérbios 16:3","Entrega ao Senhor as tuas obras, e teus pensamentos serão estabelecidos."],
- ["João 15:5","Eu sou a videira, vós as varas; quem está em mim, e eu nele, esse dá muito fruto."],
- ["Salmo 30:5","O choro pode durar uma noite, mas a alegria vem pela manhã."]
-];
-
-/* focos diários para desdobrar o tema */
-const FOCOS = [
- "confiar quando não se vê saída","esperar com paciência","agradecer no pouco","força para o dia difícil",
- "descansar em Deus","orar antes de decidir","perdoar de verdade","cuidar da família",
- "ser fiel no secreto","vencer o medo","andar em integridade","servir sem esperar retorno",
- "guardar a mente","falar com sabedoria","não desistir no meio","acreditar de novo",
- "ter paz no coração","honrar os pais","ser luz no trabalho","vencer a ansiedade",
- "lembrar das promessas","suportar a espera","perseverar na oração","ter coragem de recomeçar",
- "afastar a murmuração","andar com os irmãos","amar quem é difícil","dar o primeiro passo",
- "crer no impossível","a gratidão que muda o dia"
-];
-
-/* ============ ESTADO ============ */
+const DADOS = {"devocionais":[{"ref":"João 3:16","tema":"o amor que entrega","texto":"Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito, para que todo aquele que nele crê não pereça, mas tenha a vida eterna.","exegese":"Jesus diz isso a Nicodemos, um mestre religioso que chegou de noite para perguntar. Nicodemos tinha conhecimento, mas faltava a ele o essencial: entender que a salvação não se compra com religião — é presente. A palavra grega para 'de tal maneira' aponta intensidade, não quantidade.","aplicacao":"Você não precisa ser bom o suficiente primeiro. O amor de Deus chegou antes de você merecer. Hoje, em vez de tentar pagar, apenas receba e agradeça.","oracao":"Pai, obrigado porque o teu amor chegou primeiro. Ensina o {n} a receber, e não apenas a tentar merecer. Em nome de Jesus, amém."},{"ref":"Salmo 23:1","tema":"nada faltará","texto":"O Senhor é o meu pastor; nada me faltará.","exegese":"Davi era pastor antes de ser rei. Ele sabia que um pastor não é um empregado distante — caminha junto, conhece cada ovelha pelo nome e responde pela vida dela. A frase não promete ausência de vale, promete companhia dentro dele.","aplicacao":"O que te falta hoje não é resposta, é companhia. Antes de pedir a solução, reconheça quem está caminhando com você. Escreva uma coisa que não faltou esta semana.","oracao":"Senhor, tu és o meu pastor. Mesmo sem ver o caminho inteiro, eu confio em quem caminha comigo. Sustenta o {n} hoje. Amém."},{"ref":"Isaías 41:10","tema":"não temas","texto":"Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus; eu te fortaleço, e te ajudo, e te sustento com a minha destra fiel.","exegese":"Israel estava diante da ameaça da Assíria, um império muito maior. Deus não diz 'o perigo não existe' — diz 'eu sou contigo'. São três verbos em sequência: fortaleço, ajudo, sustento. O último é imagem de alguém segurando a mão de quem cambaleia.","aplicacao":"Coragem bíblica não é ausência de medo, é presença de Deus no medo. Nomeie o que te assusta hoje e entregue, em vez de carregar calado.","oracao":"Deus, tu conheces o medo do {n} melhor do que ele mesmo. Fortalece, ajuda e sustenta. Nós confiamos. Amém."},{"ref":"Josué 1:9","tema":"a força que vem do chamado","texto":"Sê forte e corajoso; não temas, nem te espantes, porque o Senhor teu Deus é contigo por onde quer que andares.","exegese":"Moisés tinha morrido e Josué assumia a liderança de um povo difícil, para atravessar um rio e enfrentar cidades fortificadas. Deus repete 'sê forte' várias vezes nesse capítulo — quando algo se repete é porque precisamos ouvir de novo.","aplicacao":"Talvez você esteja entrando numa função que não escolheu, ou continuando uma obra que outro começou. Deus não promete facilidade, promete presença por onde andares. Dê o primeiro passo hoje.","oracao":"Senhor, dá coragem ao {n} para começar, mesmo sem garantia de resultado. Que ele ande sabendo que tu vais junto. Amém."},{"ref":"Filipenses 4:13","tema":"força em Cristo","texto":"Posso todas as coisas naquele que me fortalece.","exegese":"Este versículo é muito usado fora de contexto. No texto, Paulo está preso e falando de aprender a viver com pouco e com muito — contentamento. 'Todas as coisas' aqui é suportar qualquer circunstância, não conquistar qualquer coisa.","aplicacao":"A força que você precisa hoje talvez não seja para vencer, e sim para atravessar sem perder o coração. Isso também é poder de Deus.","oracao":"Pai, dá ao {n} a força de Cristo para atravessar o que ele não escolheu. Que ele não desista no meio do caminho. Amém."},{"ref":"Salmo 46:1","tema":"socorro presente","texto":"Deus é o nosso refúgio e fortaleza, socorro bem presente na angústia.","exegese":"Refúgio é lugar para onde se foge. Fortaleza é lugar de onde se resiste. O salmo usa as duas imagens porque a vida exige ora esconder-se, ora resistir. E o socorro é descrito como 'bem presente' — não distante, não atrasado.","aplicacao":"Deus não chega atrasado, chega no tempo dele, e o tempo dele inclui o agora. Antes de resolver tudo sozinho, pare e ore cinco minutos sobre o que te aperta.","oracao":"Deus, sê refúgio e fortaleza do {n} nesta angústia. Que ele sinta que não está sozinho. Amém."},{"ref":"Romanos 8:28","tema":"todas as coisas","texto":"E sabemos que todas as coisas contribuem juntamente para o bem daqueles que amam a Deus, daqueles que são chamados segundo o seu propósito.","exegese":"Paulo não diz que tudo o que acontece é bom. Diz que tudo 'contribui juntamente' — a palavra é de quem mistura ingredientes. Alguns são amargos sozinhos, mas entram numa receita maior que Paulo chama de propósito.","aplicacao":"Não é preciso fingir que a dor é boa. É preciso crer que ela não é a última palavra. O que está doendo hoje pode ser usado amanhã.","oracao":"Senhor, não entendo tudo, mas confio no teu propósito. Escreve o bem do {n} até nas páginas que ele não escolheu. Amém."},{"ref":"Provérbios 3:5-6","tema":"confiar sem entender","texto":"Confia no Senhor de todo o teu coração e não te estribes no teu próprio entendimento. Reconhece-o em todos os teus caminhos, e ele endireitará as tuas veredas.","exegese":"'Estribar' é apoiar o peso. O sábio avisa: não carregue o peso da decisão só na sua própria cabeça. E o verbo 'reconhecer' implica considerar Deus na escolha antes de fazê-la, não só depois que deu errado.","aplicacao":"Qual decisão você tem adiado por medo de errar? Ore sobre ela antes de decidir, não depois. Depois é apenas pedido de desculpa.","oracao":"Pai, ensina o {n} a te consultar antes das escolhas, e não apenas depois. Endireita as suas veredas. Amém."},{"ref":"Mateus 11:28","tema":"o convite de Jesus","texto":"Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei.","exegese":"Jesus fala a pessoas carregando o peso de leis religiosas que ninguém conseguia cumprir. O convite não é 'vinde melhorar primeiro', é 'vinde assim como estais'. O alívio oferecido é de descanso, não de mérito.","aplicacao":"Você não precisa se arrumar para chegar a Deus. Chegue cansado, chegue como está. É exatamente assim que ele chama.","oracao":"Jesus, o {n} está cansado. Recebe esse cansaço, e dá o descanso que só tu podes dar. Amém."},{"ref":"1 Pedro 5:7","tema":"entregar a ansiedade","texto":"Lançando sobre ele toda a vossa ansiedade, porque ele tem cuidado de vós.","exegese":"'Lançar' é o verbo usado para jogar um fardo em cima de um animal de carga. Pedro escreveu isso a crentes perseguidos e dispersos, que tinham motivo real de temer. A base da entrega não é o otimismo, é o cuidado de Deus.","aplicacao":"Ansiedade não se resolve com 'vai dar tudo certo'. Resolve-se com destino: onde eu coloco esse peso. Entregue hoje uma coisa específica, com nome.","oracao":"Senhor, o {n} entrega hoje a ansiedade dele em tuas mãos. Cuida, porque tu cuidas de verdade. Amém."},{"ref":"Salmo 119:105","tema":"direção","texto":"Lâmpada para os meus pés é tua palavra e luz para o meu caminho.","exegese":"A imagem é de um viajante à noite com uma lamparina de azeite. A luz não ilumina o horizonte inteiro — ilumina apenas o próximo passo. É assim que a Palavra guia: não mostra tudo, mostra o suficiente para não tropeçar.","aplicacao":"Talvez você queira ver o caminho completo antes de andar. Deus oferece luz para o próximo passo. Leia um capítulo da Bíblia hoje e pergunte: o que isso muda no meu hoje?","oracao":"Deus, obrigado por não me deixar andar no escuro. Ilumina o próximo passo do {n}. Amém."},{"ref":"João 14:27","tema":"paz que o mundo não dá","texto":"Deixo-vos a paz, a minha paz vos dou; não vo-la dou como o mundo a dá. Não se turbe o vosso coração, nem se atemorize.","exegese":"Jesus diz isso na noite em que seria traído. É testamento, não slogan. A palavra hebraica shalom não é apenas ausência de conflito: é integridade, tudo no lugar. Por isso ele diz que o mundo não dá essa paz — o mundo dá trégua.","aplicacao":"Paz não é quando acaba o problema. É quando o coração sabe em quem descansar mesmo com o problema de pé. Guarde o seu coração hoje com mais cuidado do que guarda o celular.","oracao":"Jesus, dá ao {n} a tua paz, aquela que não depende de tudo estar resolvido. Aquieta o coração dele. Amém."},{"ref":"Isaías 40:31","tema":"esperar renova","texto":"Mas os que esperam no Senhor renovarão as suas forças; subirão com asas como águias; correrão e não se cansarão; caminharão e não se fatigarão.","exegese":"O capítulo fala a um povo exilado, convencido de que Deus se esqueceu dele. A palavra 'esperar' aqui não é passividade — é tensão de quem aguarda atento. E o clímax é o mais simples: 'caminharão'. Voar é exceção; caminhar é rotina, e é o que precisa de mais força.","aplicacao":"Deus renova força para a caminhada comum, não só para os grandes momentos. Hoje, o seu milagre talvez seja conseguir fazer o dia normal sem desmoronar.","oracao":"Senhor, renova as forças do {n} para o dia comum. Que ele não desfaleça esperando. Amém."},{"ref":"Salmo 34:18","tema":"perto dos quebrantados","texto":"Perto está o Senhor dos que têm o coração quebrantado e salva os contritos de espírito.","exegese":"'Quebrantado' no original é a imagem de algo estilhaçado, e 'contrito' aponta para quem foi esmagado por dentro. Não é o forte que recebe aqui a promessa: é o que está em pedaços. A proximidade de Deus não depende do nosso desempenho.","aplicacao":"Se você está quebrado hoje, esse versículo é sobre você. Deus não está longe esperando você se recompor. Ele chega perto justamente aí.","oracao":"Pai, chega perto do {n} hoje. Ele está com o coração partido, e tu conheces esse lugar. Cuida dele. Amém."},{"ref":"Romanos 12:12","tema":"as três posturas","texto":"Alegrai-vos na esperança, sede pacientes na tribulação, perseverai na oração.","exegese":"São três verbos que formam uma disciplina completa: esperança (olhar para frente), paciência (olhar para o presente), oração (olhar para cima). Paulo não diz para sentir as três coisas — diz para praticá-las, porque às vezes o sentimento vem depois da prática.","aplicacao":"Escolha um dos três para praticar hoje: se o futuro assusta, esperança; se a dor aperta, paciência; se a fé esfria, oração. Não tente os três de uma vez.","oracao":"Senhor, ensina o {n} a alegrar-se na esperança, ter paciência e perseverar orando. Um passo por dia. Amém."},{"ref":"Efésios 2:8","tema":"graça e não mérito","texto":"Porque pela graça sois salvos, por meio da fé; e isto não vem de vós, é dom de Deus.","exegese":"Paulo escreve a uma igreja tentada a voltar ao sistema de regras. A palavra 'dom' é presente que não se paga. Ele insiste: nem as obras, nem o merecimento — para que ninguém se glorie. É a base de toda a vida cristã.","aplicacao":"Você não está sendo aceito por desempenho e nunca será rejeitado por falha. Isso muda a forma como você trabalha, serve e descansa.","oracao":"Pai, obrigado porque não preciso pagar o que tu já me deste. Ensina o {n} a viver por graça, e não por medo. Amém."},{"ref":"Salmo 37:5","tema":"entregar o caminho","texto":"Entrega o teu caminho ao Senhor; confia nele, e ele tudo fará.","exegese":"'Entrega' aqui é a imagem de rolar um peso — transferir a carga de quem não aguenta para quem pode. O salmo é de Davi já idoso, olhando para trás e vendo como Deus foi fiel ao longo de uma vida cheia de perdas.","aplicacao":"Qual peso você tem carregado há tempo demais? Escreva em uma folha o que não é mais sua responsabilidade carregar.","oracao":"Senhor, o {n} rola sobre ti o fardo que não consegue carregar. Confia em ti, e sabe que tu farás. Amém."},{"ref":"Lamentações 3:22-23","tema":"misericórdia renovada","texto":"As misericórdias do Senhor são a causa de não sermos consumidos, porque as suas misericórdias não têm fim; renovam-se cada manhã. Grande é a tua fidelidade.","exegese":"Este livro foi escrito olhando para Jerusalém destruída, sob escombros. No meio da ruína, o profeta faz uma pausa e lembra: o que não acaba é a misericórdia. 'Renovam-se' é o mesmo verbo usado para trocar roupa.","aplicacao":"Deus não tem cota diária de paciência com você. Cada manhã ele começa de novo. Faça o mesmo com você mesmo hoje.","oracao":"Deus, obrigado porque a tua misericórdia não acabou ontem. Renova o {n} nesta manhã. Amém."},{"ref":"2 Coríntios 12:9","tema":"força na fraqueza","texto":"A minha graça te basta, porque o meu poder se aperfeiçoa na fraqueza.","exegese":"Paulo pediu três vezes que Deus removesse um problema e recebeu um 'não'. A resposta não foi consolo fácil: foi um paradoxo — o poder de Deus atinge a plenitude justamente onde somos frágeis. É a inversão mais radical do cristianismo.","aplicacao":"O que você esconde por vergonha pode ser exatamente o lugar onde Deus vai agir. Não esconda a fraqueza de Deus, esconda-a dos olhos que julgam.","oracao":"Senhor, usa a fraqueza do {n} para mostrar a tua força. Que ele pare de fingir que é forte sozinho. Amém."},{"ref":"Hebreus 11:1","tema":"fé como fundamento","texto":"Ora, a fé é o firme fundamento das coisas que se esperam e a prova das coisas que se não veem.","exegese":"A palavra traduzida por 'firme fundamento' é a mesma usada para o título de escritura de uma propriedade: é a garantia documental de algo que ainda não está nas mãos, mas é certo. Fé bíblica não é otimismo — é convicção baseada em caráter de quem prometeu.","aplicacao":"Sua fé está apoiada em circunstâncias ou no caráter de Deus? Circunstâncias mudam na quinta-feira. Caráter, não.","oracao":"Pai, firma a fé do {n} no teu caráter e não nas circunstâncias. Ajuda ele a esperar com confiança. Amém."},{"ref":"Tiago 1:5","tema":"pedir sabedoria","texto":"E, se algum de vós tem falta de sabedoria, peça-a a Deus, que a todos dá liberalmente e não o lança em rosto; e ser-lhe-á dada.","exegese":"'Não lança em rosto' significa: não fica cobrando por ter dado. Tiago escreve a pessoas passando por provações e diz que a primeira coisa a pedir não é alívio, é entendimento. Sabedoria aqui é saber viver bem no meio do que não se escolheu.","aplicacao":"Antes de pedir a solução, peça entendimento. Ore assim hoje: 'Deus, me ensina a passar por isso'.","oracao":"Deus, dá sabedoria ao {n} para atravessar o que está vivendo. Tu dás sem cobrar. Amém."},{"ref":"Salmo 121:1-2","tema":"de onde vem o socorro","texto":"Elevo os meus olhos para os montes: de onde me vem o socorro? O meu socorro vem do Senhor, que fez o céu e a terra.","exegese":"Os montes eram onde ficavam os santuários pagãos e as cidades fortificadas — lugares em que se confiava. O salmista olha para lá, faz a pergunta e responde corrigindo a direção: o socorro não está nos montes, está em quem fez os montes.","aplicacao":"Onde você tem buscado socorro? Pode ser no salário, na família, na influência. Todos são montes. Bons, mas não são Deus.","oracao":"Senhor, que o {n} levante os olhos para ti e não para os montes. Tu és o socorro verdadeiro. Amém."},{"ref":"João 8:32","tema":"verdade que liberta","texto":"E conhecereis a verdade, e a verdade vos libertará.","exegese":"Jesus diz isso a judeus que se achavam livres e eram, na verdade, escravos do pecado. A liberdade que ele oferece não é política nem social: é interior. E o caminho é o conhecimento — não informação, mas relacionamento com a verdade que é ele mesmo.","aplicacao":"Existe algo que você evita olhar de frente? A verdade dita por Deus dói primeiro e alivia depois. A mentira alivia primeiro e prende depois.","oracao":"Jesus, dá coragem ao {n} para encarar a verdade contigo. Que ela o liberte de verdade. Amém."},{"ref":"1 João 1:9","tema":"perdão completo","texto":"Se confessarmos os nossos pecados, ele é fiel e justo para nos perdoar os pecados e nos purificar de toda injustiça.","exegese":"João escreve contra um grupo que dizia não ter pecado. A palavra para confessar é 'dizer a mesma coisa' — concordar com Deus sobre o que aconteceu, sem desconto e sem justificativa. A promessa tem duas partes: perdoar (dívida cancelada) e purificar (mancha tirada).","aplicacao":"Existe algo que você confessou a Deus mas continuou carregando? Se ele já perdoou, carregar é desconfiança, não humildade.","oracao":"Pai, obrigado porque és fiel para perdoar. Ajuda o {n} a receber o perdão e não voltar a ele. Amém."},{"ref":"Salmo 51:10","tema":"coração novo","texto":"Cria em mim, ó Deus, um coração puro e renova em mim um espírito reto.","exegese":"Davi escreve isso depois do seu pior pecado. Ele não pede para ser perdoado apenas, pede algo impossível: que Deus crie de novo. O verbo 'criar' é o mesmo de Gênesis 1 — fazer do nada. Ele sabe que não consegue consertar o próprio coração.","aplicacao":"Você não consegue melhorar a raiz sozinho. Pode mudar comportamento, não coração. Peça criação, não reforma.","oracao":"Deus, cria no {n} um coração puro. Renova o espírito dele, porque só tu podes fazer isso. Amém."},{"ref":"Mateus 6:33","tema":"primeiro o reino","texto":"Mas buscai primeiro o reino de Deus e a sua justiça, e todas estas coisas vos serão acrescentadas.","exegese":"No sermão do monte, Jesus fala a pessoas ansiosas com comida, roupa e amanhã. 'Primeiro' não é ordem cronológica, é hierarquia de prioridade. Ele não proíbe trabalhar pelo pão, proíbe que o pão governe o coração.","aplicacao":"O que ganha o seu primeiro pensamento ao acordar? Se for o problema, inverta a ordem hoje: primeiro Deus, depois a lista.","oracao":"Senhor, que o {n} te busque primeiro e confie que o resto virá. Ordena as prioridades dele. Amém."},{"ref":"Isaías 43:2","tema":"presença no fogo","texto":"Quando passares pelas águas, estarei contigo, e quando pelos rios, eles não te submergirão; quando passares pelo fogo, não te queimarás, nem a chama arderá em ti.","exegese":"Note o verbo: 'quando', não 'se'. Deus não promete que Israel evitará os rios e o fogo — promete atravessar junto. As três imagens (água, rio, fogo) cobrem o que afoga, o que arrasta e o que destrói.","aplicacao":"O que você está atravessando hoje tem nome? Coloque o nome dessa situação dentro do 'quando' deste versículo e leia de novo.","oracao":"Senhor, tu prometeste estar comigo na água e no fogo. Segura o {n} nesta travessia. Amém."},{"ref":"Salmo 27:1","tema":"luz e salvação","texto":"O Senhor é a minha luz e a minha salvação; a quem temerei? O Senhor é a força da minha vida; de quem me recearei?","exegese":"Davi escreve como soldado que já lutou contra exércitos e também como alguém que foi caçado pelo próprio rei. As três afirmações — luz, salvação, força — respondem a três medos: a escuridão, a perda, a fraqueza. E cada uma termina em pergunta retórica.","aplicacao":"Qual dos três medos te acompanha agora: não ver a saída, perder algo, não ter força? Leve esse medo à afirmação certa.","oracao":"Senhor, tu és luz, salvação e força do {n}. Tira o medo que o acompanha hoje. Amém."},{"ref":"Colossenses 3:15","tema":"paz que governa","texto":"E a paz de Deus, para a qual também fostes chamados em um corpo, domine em vossos corações; e sede agradecidos.","exegese":"'Domine' é o verbo usado para o árbitro que decide a partida. Paulo está pedindo que a paz de Deus tenha a palavra final nos conflitos do coração. E ele liga isso a gratidão, porque coração grato briga menos.","aplicacao":"Antes de decidir algo que te irrita, pergunte: isso está produzindo paz ou guerra em mim? Decida depois da resposta.","oracao":"Pai, que a tua paz arbitre no coração do {n} hoje. E que ele se lembre de agradecer. Amém."},{"ref":"Salmo 91:1","tema":"descanso no esconderijo","texto":"Aquele que habita no esconderijo do Altíssimo, à sombra do Onipotente descansará.","exegese":"O verbo é 'habitar' — não visitar. Não é esconder-se nas horas de pânico, é morar ali. A imagem é de alguém à sombra, protegido do sol que queima e do olho de quem persegue. A promessa é descanso, não imunidade a problemas.","aplicacao":"Você tem visitado Deus ou morado nele? A diferença aparece no nível de descanso do seu coração.","oracao":"Deus, ensina o {n} a habitar contigo e não apenas te procurar na crise. Que ele descanse. Amém."},{"ref":"Gálatas 6:9","tema":"não desistir de fazer o bem","texto":"E não nos cansemos de fazer o bem, porque a seu tempo ceifaremos, se não houvermos desfalecido.","exegese":"A imagem é de agricultor: a colheita existe, mas não vem no dia seguinte ao plantio. Paulo escreve para quem já estava cansado de servir sem ver resultado. A cláusula 'a seu tempo' é a chave — a demora não é ausência de fruto.","aplicacao":"Em que você tem servido e sentido que não é reconhecido? Continue, mas descanse também. Cansaço não é falta de chamado.","oracao":"Senhor, sustenta o {n} para não desistir de fazer o bem. Dá paciência para esperar o tempo da colheita. Amém."},{"ref":"Salmo 55:22","tema":"o fardo e o sustento","texto":"Lança o teu cuidado sobre o Senhor, e ele te susterá; nunca permitirá que o justo seja abalado.","exegese":"Este salmo é de Davi em profunda angústia, traído por um amigo próximo. Ele descreve insônia, medo na cidade e desejo de fugir para o deserto. No meio do lamento real, ele se obriga a lembrar: Deus sustenta.","aplicacao":"Você tem dormido mal? O salmista descreveu exatamente isso. Antes de dormir, escreva o que te mantém acordado e leia esse versículo em voz alta.","oracao":"Senhor, sustenta o {n} e tira o peso que não deixa ele dormir. Que ele descanse em ti. Amém."},{"ref":"Provérbios 16:3","tema":"planos estabelecidos","texto":"Entrega ao Senhor as tuas obras, e teus pensamentos serão estabelecidos.","exegese":"O original traz a ideia de 'rolar' as obras sobre Deus, como quem projeta o trabalho sobre ele. 'Estabelecidos' aponta para algo firme, que não balança. O versículo não promete sucesso garantido, promete firmeza de propósito.","aplicacao":"Seus planos balançam porque estão apoiados só em você? Apresente o projeto a Deus antes de começar, e não apenas quando der errado.","oracao":"Pai, recebe os planos do {n}. Estabelece o que é teu e firma ele nos caminhos certos. Amém."},{"ref":"João 15:5","tema":"permanecer","texto":"Eu sou a videira, vós as varas; quem está em mim, e eu nele, esse dá muito fruto; porque sem mim nada podeis fazer.","exegese":"O ramo não produz fruto por esforço, produz por conexão. Jesus diz isso na mesma noite em que lava os pés dos discípulos, mostrando que fruto na vida cristã é consequência de permanecer, não de performance. 'Sem mim nada' é radical: não é 'pouco', é nada.","aplicacao":"Está dando fruto por esforço próprio ou por permanência? Permaneça hoje: um tempo de oração, um capítulo lido, antes de correr para a lista de tarefas.","oracao":"Jesus, ensina o {n} a permanecer em ti. Que ele pare de tentar frutificar sozinho. Amém."},{"ref":"Salmo 30:5","tema":"a alegria vem pela manhã","texto":"O choro pode durar uma noite, mas a alegria vem pela manhã.","exegese":"Davi escreve após uma crise quase fatal e celebra a reviravolta. Ele não diz que o choro é curto — diz que tem limite. A noite tem hora, a manhã é promessa. Este salmo foi cantado na ceia de dedicação do templo.","aplicacao":"Qual noite você está atravessando? Ela tem duração, não é para sempre. E vale lembrar: quem espera a manhã precisa atravessar a noite acordado.","oracao":"Deus, sustenta o {n} nesta noite, e traz a manhã no tempo certo. Que ele não perca a esperança. Amém."},{"ref":"Josué 1:8","tema":"meditar a Palavra","texto":"Não se aparte da tua boca o livro desta lei; antes medita nele dia e noite, para que tenhas cuidado de fazer conforme tudo quanto nele está escrito; porque então farás prosperar o teu caminho, e serás bem-sucedido.","exegese":"O sucesso prometido aqui está ligado a um hábito, não a um evento: meditar. Meditar no hebraico é murmurar, repetir em voz baixa. Não é leitura rápida, é ruminar. E a condição é 'ter cuidado de fazer', não apenas saber.","aplicacao":"Leia menos e rere mais. Pegue um versículo por dia e repita até decorar. Doze versículos por mês muda mais que cem lidos com pressa.","oracao":"Senhor, cria no {n} fome pela tua Palavra. Que ele medite nela e a viva, e não apenas a escute. Amém."},{"ref":"Mateus 5:16","tema":"luz diante dos homens","texto":"Assim resplandeça a vossa luz diante dos homens, para que vejam as vossas boas obras e glorifiquem a vosso Pai, que está nos céus.","exegese":"Jesus usa a imagem de cidade sobre o monte e candeia no velador: uma luz não precisa se esforçar para ser vista, ela só precisa não ser escondida. O objetivo não é o elogio à pessoa, é a glória ao Pai — o fruto aponta para a raiz.","aplicacao":"Onde você trabalha, estuda ou mora, sua luz está escondida ou bastando? Certifique-se de que o 'resplandeça' vem sem barulho: um favor a mais, uma honestidade feita.","oracao":"Senhor, ajuda o {n} a brilhar sem exibição, para que os homens te glorifiquem. Amém."},{"ref":"Efésios 6:10","tema":"força no Senhor","texto":"Fortalecei-vos no Senhor e na força do seu poder.","exegese":"É o começo da passagem da armadura. A ordem é 'fortalecei-vos' — reflexivo e contínuo — no Senhor, não em si mesmo. A palavra para 'força' aqui é de poder que se exerce, não apenas resistência passiva.","aplicacao":"Você tem se fortalecido ou apenas aguentado? Não é a mesma coisa. Busque hoje a fonte antes da batalha.","oracao":"Senhor, fortalece o {n} na tua força, porque a dele já deu o que tinha que dar. Amém."},{"ref":"Jeremias 29:11","tema":"pensamentos de paz","texto":"Porque eu bem sei os pensamentos que tenho a vosso respeito, diz o Senhor; pensamentos de paz e não de mal, para vos dar o fim que esperais.","exegese":"Este versículo é escrito a judeus exilados na Babilônia, que estavam em terra estranha e achavam que Deus os abandonara. Deus diz que tem plano — mas o plano é longo, setenta anos. É promessa dentro de espera, não fora dela.","aplicacao":"Deus tem plano mesmo quando nada parece andar. A frase que acompanha: 'construí casas, plantai jardins, continuai vivendo' (v.5). Planta onde você está.","oracao":"Senhor, eu confio nos teus pensamentos, mesmo sem ver o fim. Ajuda o {n} a plantar onde ele está hoje. Amém."},{"ref":"Salmo 139:14","tema":"formado com cuidado","texto":"Eu te louvarei, porque de um modo assombroso e tão maravilhoso fui formado; maravilhosas são as tuas obras, e a minha alma o sabe muito bem.","exegese":"Este salmo descreve Deus formando o ser humano no ventre e conhecendo cada pensamento antes de ser formado. É um dos mais íntimos da Bíblia. Davi diz que sua própria alma sabe disso — é verdade que ele precisa lembrar, mas já conhece.","aplicacao":"Antes de se corrigir, se agradeça. Você foi feito com cuidado. Isso inclui os limites que você não escolheu.","oracao":"Deus, obrigado porque o {n} foi formado por ti, com cuidado e propósito. Ensina ele a se ver com os teus olhos. Amém."},{"ref":"1 Coríntios 13:4","tema":"amor que sofre","texto":"O amor é sofredor, é benigno; o amor não é invejoso, não trata com leviandade, não se ensoberbece.","exegese":"Paulo escreve para uma igreja cheia de dons e vazia de amor. A palavra traduzida por 'sofredor' é a mesma que descreve a paciência de Deus conosco. O amor que ele descreve é uma lista de atitudes, não um sentimento.","aplicacao":"Amor é o que você faz quando ninguém está vendo e não esperando nada em troca. Escolha hoje uma pessoa difícil e faça um bem a ela.","oracao":"Senhor, ensina o {n} a amar com paciência. Que ele pare de medir o outro pelo retorno. Amém."},{"ref":"Salmo 103:2","tema":"não esquecer","texto":"Bendize, ó minha alma, ao Senhor, e não te esqueças de nenhum de seus benefícios.","exegese":"Davi fala com a própria alma como quem dá uma ordem. É um santo exercício de memória: quando a alma desanima, ele se obriga a recordar. O verbo 'esquecer' aqui é negligência, não amnésia involuntária.","aplicacao":"Liste três coisas que Deus já fez na sua vida. Hoje, antes de pedir algo novo, agradeça algo antigo.","oracao":"Deus, não deixa o {n} esquecer o que já fizeste. Reaviva a memória dele e a gratidão. Amém."},{"ref":"Provérbios 15:1","tema":"resposta branda","texto":"A resposta branda desvia o furor, mas a palavra dura suscita a ira.","exegese":"Provérbio de dois lados, com uma escolha no meio. 'Branda' não é falsa nem omissa: é a resposta que interrompe o ciclo da raiva. O livro de Provérbios trata muito de palavras porque é nelas que se ganha ou se perde o relacionamento.","aplicacao":"Existe uma conversa que vai explodir hoje? Responda mais devagar e mais baixo. Não é perda de razão, é sabedoria.","oracao":"Pai, ensina o {n} a responder com brandura. Que as palavras dele construam e não destruam. Amém."},{"ref":"Marcos 11:24","tema":"fé na oração","texto":"Portanto, vos digo: tudo o que pedirdes, orando, crede que o recebereis, e tê-lo-eis.","exegese":"Jesus fala depois de mostrar a figueira seca, aos discípulos admirados. Fé aqui não é convencer Deus por insistência: é confiança que não depende de já ver a resposta. Note a expressão 'orando': a fé é exercida dentro da relação, não fora dela.","aplicacao":"Qual pedido você já deixou de fazer por achar que não seria ouvido? Faça de novo, com palavras simples e confiança honesta.","oracao":"Senhor, ensina o {n} a pedir com fé e esperar com paciência. Que ele confie no teu tempo. Amém."},{"ref":"Salmo 42:1","tema":"sede de Deus","texto":"Como o cervo brama pelas correntes das águas, assim suspira a minha alma por ti, ó Deus!","exegese":"A imagem é de um animal cercado de seca, procurando água com sede física — não simbólica. O salmista está longe do templo e deprimido. Ele pergunta duas vezes à própria alma por que está abatida, e se responde com esperança.","aplicacao":"Você tem sede de Deus ou de alívio? As duas coisas são humanas, mas só uma sacia. Leve a sede real a quem tem água.","oracao":"Deus, desperta no {n} sede de ti. Que ele te busque não só pelo alívio, mas por quem tu és. Amém."},{"ref":"2 Timóteo 1:7","tema":"não espírito de temor","texto":"Porque Deus não nos deu o espírito de temor, mas de fortaleza, e de amor, e de moderação.","exegese":"Paulo escreve ao jovem Timóteo, que liderava uma igreja com problemas e era naturalmente tímido. As três palavras são precisas: fortaleza para agir, amor para conduzir os outros, moderação para decidir bem. É um pacote equilibrado, não apenas coragem bruta.","aplicacao":"Qual área da sua vida está paralisada por medo? Fortaleza, amor e moderação são o contrário de paralisia. Escolha hoje uma ação pequena e firme.","oracao":"Senhor, obrigado porque não me destes espírito de temor. Dá fortaleza, amor e moderação ao {n}. Amém."},{"ref":"Salmo 4:8","tema":"dormir em paz","texto":"Em paz também me deitarei e dormirei, porque só tu, Senhor, me fazes habitar em segurança.","exegese":"Davi escreveu este salmo em meio a perseguição, com adversários ao redor. Dormir em paz, nessa situação, é ato de fé: ele reconhece que seu perímetro de segurança não é a guarda da casa, é Deus.","aplicacao":"Se o sono está ruim, o problema talvez não seja o colchão, mas o peso que você leva para a cama. Entregue antes de deitar.","oracao":"Senhor, que o {n} deite em paz e durma, confiando que tu guardas enquanto ele dorme. Amém."},{"ref":"Neemias 8:10","tema":"a alegria é a força","texto":"Não vos entristeçais, porque a alegria do Senhor é a vossa força.","exegese":"O povo acabava de ouvir a lei e chorava ao reconhecer seus erros. Neemias não proíbe o arrependimento, mas avisa que o luto sem alegria não sustenta nenhuma obra. A alegria aqui é resultado, não humor: vem do Senhor.","aplicacao":"Alegria não é fingir que está tudo bem. É ter motivo de esperança no meio do real. Encontre uma razão hoje e deixe que ela te sustente.","oracao":"Senhor, devolve a alegria ao {n}, porque ela é força. Que ele não desanime. Amém."}],"serie":[{"etapa":1,"titulo":"Boas-vindas e segurança da salvação","base":"João 1:12","texto":"Mas, a todos quantos o receberam, deu-lhes o poder de serem feitos filhos de Deus, aos que creem no seu nome.","ensino":"Receber Cristo não é assinar uma religião, é ganhar uma identidade nova: filho. O verbo 'poder' no original é autoridade concedida. Você não se torna filho por sentimento, se torna por decisão de quem prometeu.","tarefa":"Leia João capítulo 1 com calma, um parágrafo por vez. Não precisa entender tudo.","pergunta":"O que mais te chamou atenção nessa leitura?"},{"etapa":2,"titulo":"Batismo — a resposta pública","base":"Romanos 6:4","texto":"De sorte que fomos sepultados com ele pelo batismo na morte, para que, como Cristo foi ressuscitado dentre os mortos pela glória do Pai, assim andemos nós também em novidade de vida.","ensino":"O batismo não lava pecado — o sangue de Jesus faz isso. O batismo é sepultamento e ressurreição encenados: você diz publicamente que a vida antiga ficou para trás. Por isso é feito depois da fé, não antes.","tarefa":"Escolha uma data: qual domingo você vai se batizar?","pergunta":"Tem alguém da sua família que você quer convidar para esse dia?"},{"etapa":3,"titulo":"Leitura bíblica diária","base":"Salmo 1:2-3","texto":"Antes tem o seu prazer na lei do Senhor, e na sua lei medita de dia e de noite. Pois será como a árvore plantada junto a ribeiros de águas.","ensino":"A imagem é de árvore: raiz perto da água não se vê, mas é o que sustenta a copa na seca. Meditar é diferente de ler rápido — é voltar ao mesmo texto. Comece por João: um capítulo por dia, sete dias.","tarefa":"Leia João 2 e 3 nesta semana.","pergunta":"Qual frase você guardou de ontem?"},{"etapa":4,"titulo":"Oração e vida devocional","base":"Mateus 6:6-7","texto":"Mas tu, quando orares, entra no teu aposento e, fechando a tua porta, ora a teu Pai que está em secreto; e teu Pai, que vê em secreto, te recompensará publicamente.","ensino":"Jesus corrige duas coisas: orar para ser visto (religião de palco) e orar com muitas palavras vazias (religião de fórmula). Oração é conversa, não performance. Cinco minutos honestos valem mais que uma hora decorada.","tarefa":"Escolha um horário fixo e ore 5 minutos por dia esta semana.","pergunta":"Qual horário ficou melhor pra você?"},{"etapa":5,"titulo":"Comunhão e igreja local","base":"Hebreus 10:24-25","texto":"E consideremo-nos uns aos outros, para nos estimularmos ao amor e às boas obras, não deixando a nossa congregação, como é costume de alguns, antes admoestando-nos uns aos outros.","ensino":"Crente sozinho é brasa fora do fogo: esfria. O texto não pede presença passiva, pede estímulo mútuo — alguém que te puxe para cima. É por isso que a célula importa mais que o culto de domingo para quem está começando.","tarefa":"Vá a uma célula esta semana e conheça duas pessoas pelo nome.","pergunta":"Qual dia da semana fica melhor pra você ir na célula?"},{"etapa":6,"titulo":"Mordomia e primeiros passos no serviço","base":"1 Pedro 4:10","texto":"Cada um administre aos outros o dom como o recebeu, como bons despenseiros da multiforme graça de Deus.","ensino":"Despenseiro é quem cuida do que não é dele. Tempo, talento e recursos são confiados, não possuídos. Dízimo é gratidão, não taxa. E todo crente tem dom — não existe cristão sem função no corpo.","tarefa":"Escolha uma área para servir: louvor, recepção, infantil ou intercessão.","pergunta":"Em qual área você se sente chamado a começar?"}],"temas":{"EXPANSÃO":{"versiculo":"Isaías 54:2-3","base":"Alarga o espaço da tua tenda... porque te estenderás para a direita e para a esquerda.","focos":["alargar o espaço","quebrar o medo do novo","preparar antes do crescimento","cuidar das estacas","não caber mais no antigo","ousar pedir mais","investir no que permanece","formar quem vem depois","ver além do próprio quintal","crescer sem perder a raiz","multiplicar o pouco","ser referência sem ser arrogante","abrir a porta para o desconhecido","honrar quem plantou","colher com gratidão","organizar para suportar o peso novo","não desprezar os pequenos começos","delegar sem medo","crescer na graça antes do número","proteger o que já foi conquistado","não comparar seu tamanho","servir mais e aparecer menos","aceitar correção de quem ama","sonhar com gente, não com estrutura","pagar o preço do preparo","manter a mesa aberta","ser ponte e não muro","fazer o simples com excelência","lembrar que o crescimento é de Deus","celebrar o que Deus já fez"]},"ESPERANÇA":{"versiculo":"Romanos 15:13","base":"Ora, o Deus de esperança vos encha de todo o gozo e paz em crença, para que abundeis em esperança.","focos":["esperança que não depende de circunstância","esperar sem murmurar","lembrar das promessas","esperança na espera longa","o que fazer quando nada muda","confiar no tempo de Deus","esperança que sustenta a família","não perder o primeiro amor","orar com expectativa","esperança que atravessa a perda","ver o invisível","descansar sem desistir","fortalecer quem desanimou","recomeçar sem culpa","esperança que não é otimismo","aguentar mais um dia","crer de novo","sair do lamento para o louvor","esperança e trabalho de mãos dadas","guardar o coração da amargura","o que a fé vê na noite","esperar em comunidade","não envelhecer sonhando","plantar para quem vem depois","esperança que produz coragem","lembrar do que Deus já fez","o perigo da pressa","esperança que evangeliza","entregar o resultado","celebrar antes de ver"]},"FÉ QUE MOVE":{"versiculo":"Hebreus 11:1","base":"A fé é o firme fundamento das coisas que se esperam e a prova das coisas que se não veem.","focos":["fé que não é sentimento","fé que obedece antes de entender","fé e ação","fé na crise","fé de Abraão","fé que espera","fé que renuncia","fé que enfrenta gigante","fé que restaura","fé que ora","fé que perdoa","fé que sustenta a casa","fé no trabalho","fé que não negocia","fé em tempos de silêncio","fé que dá o primeiro passo","fé que não desiste","fé e humildade","fé que produz fruto","fé comunitária","fé que cura feridas","fé que honra os pais","fé que cuida do próximo","fé que vence o medo","fé que espera resposta","fé que muda a rotina","fé que gera generosidade","fé que atravessa a dúvida","fé que termina bem","fé que agradece"]},"RESTAURAÇÃO":{"versiculo":"Joel 2:25","base":"E restituir-vos-ei os anos que o gafanhoto, e o pulgão, e o alfinete, e a locusta comeram.","focos":["Deus devolve o que foi perdido","restaurar o que ficou quebrado","curar feridas antigas","recomeçar depois do erro","reconstruir a confiança","restaurar a alegria","voltar ao primeiro amor","sarar a família","perdoar quem feriu","pedir perdão de verdade","restaurar o tempo perdido","reerguer o que caiu","Deus não desperdiça dor","levantar do chão","cuidar das ruínas","esperança depois da perda","restaurar a saúde","recomeçar o projeto","limpar o que ficou sujo","reconectar com quem se afastou","curar a memória","voltar a sonhar","reconstruir hábitos","recuperar a fé","restaurar o casamento","sarar a autoestima","recomeçar sem amargura","aceitar a graça","testemunhar a restauração","agradecer pelo novo"]}},"respostas":{"favor":["Claro, me conta direitinho o que você precisa que eu vejo o que dá pra fazer. Se estiver ao meu alcance, conta comigo.","Pode falar, irmão. Vou ver com carinho o que posso resolver e te dou um retorno ainda hoje. O que eu puder, eu faço.","Tô aqui com você nessa. Me explica melhor a situação, que eu penso junto e vejo o que dá pra fazer."],"doenca":["Sinto muito por esse momento. Vou orar por você hoje, e creio que o Senhor está perto de quem está passando por isso. Se precisar de alguma coisa prática, me avisa.","Fico orando pela recuperação. A doença assusta, mas o Senhor sustenta. Tem alguém te acompanhando aí?","Vamos orar juntos por isso. Não fique sem me dar notícia, quero acompanhar você de perto."],"luto":["Não tenho palavra que tire a sua dor, e não vou fingir que tenho. Só quero que você saiba que não está sozinho hoje nem amanhã.","Sinto muito. Nesse momento eu não vou te dar versículo, vou te dar presença. Posso passar aí, ou se preferir eu fico à disposição por aqui.","Perder alguém assim dói de um jeito que ninguém explica. Eu não vou te pedir para ser forte agora. Só não fica sozinho."],"emprego":["Essa fase aperta de verdade, eu sei. Mas o Senhor não esqueceu de você. Vamos orar por essa porta, e se eu souber de algo na região, te aviso.","Não desanima, irmão. Já vi Deus abrir porta em tempo que parecia fechado. Enquanto isso, não deixa de congregar — é onde a gente se sustenta.","Vou orar com você por isso. E me diz: você está procurando em qual área? As vezes aparece alguma coisa por aqui que eu possa indicar."],"visita":["Vou marcar sim. Me diz qual dia fica melhor pra você e se pode ser pela manhã, à tarde ou à noite.","Com certeza passo aí. Você prefere manhã, tarde ou noite? Eu organizo a agenda e confirmo com você.","Pode deixar que eu marco. Me passa o endereço e o melhor horário, que eu confirmo por aqui."],"confirmacao":["Que bom saber! Te espero então, vai ser uma bênção.","Amém! Fico feliz. Nos vemos lá então, chega cedo pra gente conversar.","Glória a Deus! Conto com você. Vai ser bom demais."],"desabafo":["Obrigado por confiar em mim pra falar disso. Não leve esse peso sozinho, o Senhor está com você.","Entendo, e fico grato pela sua transparência. Vamos orar sobre isso juntos. Tem como você vir no culto essa semana?","Ninguém deveria carregar isso sozinho. Eu tô aqui, e Deus está mais perto ainda. Você quer que eu passe aí?"],"duvida":["É uma boa pergunta, e fico feliz que você queira entender. Deixa eu te responder com calma, e se ficar algo em aberto a gente senta e estuda junto.","Boa dúvida. Muita gente tem essa mesma e não pergunta. Vou te explicar com cuidado.","Fico contente com esse tipo de pergunta, mostra que você está buscando. Vou te responder e depois me conta se fez sentido."],"gratidao":["Glória a Deus por isso! Fico muito feliz de verdade.","Que testemunho bonito. Obrigado por compartilhar comigo — isso alegra o meu dia também.","Amém! Deus é fiel mesmo. Fico alegre com você, e que isso fortaleça a sua fé pra próxima batalha."],"convite":["Agradeço o convite, é sempre uma honra. Deixa eu ver minha agenda e te confirmo com certeza.","Fico grato pelo convite. Vou olhar os compromissos da igreja e do pastorado aqui e te dou a resposta certinha.","Agradecido pela lembrança. Me passa a data e o horário que eu verifico e retorno."],"conflito":["Vou te ouvir com calma, mas esse assunto eu preciso tratar pessoalmente, não por mensagem. Posso te ligar hoje?","Entendo a sua dor. Esse tipo de coisa não se resolve no WhatsApp. Vamos sentar e conversar, com calma e verdade.","Isso merece cuidado. Me diz quando você pode conversar, que eu faço questão de te ouvir pessoalmente."],"outro":["Entendi. Se eu puder ajudar em algo, me fala.","Tá certo, obrigado por me contar. Se precisar de mim, é só chamar.","Anotado por aqui. Qualquer coisa me chama."]}};
+</script>
+<script>
+/* ================= MOTOR PASTORAL v5 ================= */
 const CHAVE = "pastor_agente_v1";
-let D = carregar();
 
 function padrao(){
   return {
-    tema:"", temaVers:"", mes:"", devUsados:[],
+    tema:"EXPANSÃO", temaVers:"", mes:"",
     contatos:[], agenda:{}, oracoes:{}, convertidos:[],
-    regras:[], enviados:{}, sensiveis:[], gerados:{}, geradosMes:[]
+    regras:[], enviados:{}, sensiveis:[], gerados:{}, geradosMes:[],
+    historico:{}, versao:5
   };
 }
+let D = carregar();
+
 function carregar(){
   try{
     const raw = localStorage.getItem(CHAVE);
     if(!raw) return padrao();
-    return Object.assign(padrao(), JSON.parse(raw));
+    const o = JSON.parse(raw);
+    const p = padrao();
+    // migracao de versoes antigas
+    Object.keys(p).forEach(k => { if(o[k] === undefined) o[k] = p[k]; });
+    if(Array.isArray(o.oracoes)) o.oracoes = {};
+    if(!o.historico) o.historico = {};
+    return o;
   }catch(e){ return padrao(); }
 }
-function salvar(){ localStorage.setItem(CHAVE, JSON.stringify(D)); }
-function hojeISO(d){ d = d || new Date(); return d.toISOString().slice(0,10); }
-function fmtBR(iso){ const p=iso.split("-"); return p[2]+"/"+p[1]; }
-function nomeDia(iso){ const d=new Date(iso+"T12:00:00"); return ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"][d.getDay()]; }
+function salvar(){ try{ localStorage.setItem(CHAVE, JSON.stringify(D)); }catch(e){ alert("Não consegui salvar. Memória do aparelho cheia?"); } }
 
-/* ============ NAVEGAÇÃO ============ */
+const hojeISO = (d) => (d ? new Date(d) : new Date()).toISOString().slice(0,10);
+const fmtBR = (iso) => { if(!iso) return ""; const p = iso.split("-"); return p[2]+"/"+p[1]; };
+const nomeDia = (iso) => ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"][new Date(iso+"T12:00:00").getDay()];
+const esc = (s) => String(s==null?"":s).replace(/[&<>"]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const primeiroNome = (n) => (n||"").trim().split(" ")[0];
+
+/* ---------- navegacao ---------- */
 let telaAtual = "hoje";
 function ir(t){
   telaAtual = t;
-  document.querySelectorAll(".tela").forEach(s=>s.classList.remove("ativa"));
-  const el = document.getElementById("t-"+t);
+  document.querySelectorAll(".tela").forEach(s => s.classList.remove("ativa"));
+  const el = document.getElementById("t-" + t);
   if(el) el.classList.add("ativa");
-  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("ativo", b.dataset.t===t));
-  document.getElementById("fab").classList.toggle("on", t==="cont");
-  if(t==="hoje") gerarResumo();
-  if(t==="cont") listaContatos();
-  if(t==="dev") filaDevocional();
-  if(t==="agenda") renderSemana();
-  if(t==="resp"){ preencherRespQuem(); atualizarChips(); renderSensiveis(); }
-  if(t==="oracao") renderOracao();
-  if(t==="disc") renderDisc();
-  if(t==="aj") renderRegras();
+  document.querySelectorAll("nav button").forEach(b => b.classList.toggle("ativo", b.dataset.t === t));
+  const fab = document.getElementById("fab");
+  if(fab) fab.classList.toggle("on", t === "cont");
+  if(t === "hoje") gerarResumo();
+  if(t === "cont") listaContatos();
+  if(t === "dev") { filaDevocional(); preencherDevQuem(); renderTemaInfo(); renderMemoria(); }
+  if(t === "agenda") renderSemana();
+  if(t === "resp") { preencherRespQuem(); atualizarChips(); renderSensiveis(); }
+  if(t === "oracao") renderOracao();
+  if(t === "disc") renderDisc();
+  if(t === "aj") { renderRegras(); renderBackupInfo(); }
   window.scrollTo(0,0);
 }
 
-/* ============ CONTATOS ============ */
-function abrirForm(id){
+/* ---------- contatos ---------- */
+function ehEmpresa(c){
+  if(!c) return false;
+  const v = (c.vinculo||"").toLowerCase();
+  return /empresa|trabalho|fornecedor|comercial/.test(v);
+}
+function abrirForm(){ novoContato(); }
+function novoContato(){
   const nome = prompt("Nome do contato:");
-  if(!nome) return;
-  const fone = prompt("WhatsApp (com DDD):") || "";
-  const vinculo = (prompt("Vínculo: membro / visitante / novo convertido / líder / pastor / empresa","membro") || "membro").toLowerCase().trim();
-  const dev = confirm("Recebe o devocional diário?");
-  D.contatos.push({id:Date.now()+"", nome:nome.trim(), fone:fone.replace(/\D/g,""), vinculo:vinculo.trim(), recebeDev:dev, obs:"", desde:hojeISO()});
+  if(!nome || !nome.trim()) return;
+  const fone = (prompt("WhatsApp com DDD (só números):") || "").replace(/\D/g,"");
+  const vinculo = (prompt("Vínculo:\nmembro / visitante / novo convertido / líder / pastor / empresa","membro") || "membro").toLowerCase().trim();
+  const recebeDev = confirm("Recebe o devocional diário?");
+  const obs = prompt("Observações pastorais (doença, emprego, família...):","") || "";
+  D.contatos.push({
+    id: Date.now()+"", nome: nome.trim(), fone, vinculo, recebeDev,
+    obs: obs.trim(), desde: hojeISO()
+  });
   salvar(); listaContatos(); preencherDevQuem(); preencherRespQuem();
 }
 function listaContatos(){
-  const q = (document.getElementById("busca").value||"").toLowerCase();
+  const q = (document.getElementById("busca").value || "").toLowerCase();
   const box = document.getElementById("listaCont");
-  const arr = D.contatos.filter(c=>c.nome.toLowerCase().includes(q));
-  document.getElementById("tagCont").textContent = D.contatos.length;
-  if(!arr.length){ box.className="vazio"; box.innerHTML="Nenhum contato aqui."; return; }
-  box.className="";
-  box.innerHTML = arr.map(c=>{
-    const ini = c.nome.trim().split(" ").map(x=>x[0]).slice(0,2).join("").toUpperCase();
+  const arr = D.contatos.filter(c => c.nome.toLowerCase().includes(q));
+  const tag = document.getElementById("tagCont");
+  if(tag) tag.textContent = D.contatos.length;
+  if(!arr.length){
+    box.className = "vazio";
+    box.innerHTML = '<span class="emo">👥</span>Nenhum contato ainda.<br>Toque no <b>+</b> para adicionar.';
+    return;
+  }
+  box.className = "";
+  box.innerHTML = arr.map(c => {
     const tags = [];
-    if(ehEmpresa(c)) tags.push('<span class="tag sens">empresa</span>');
+    if(ehEmpresa(c)) tags.push('<span class="tag emp">empresa</span>');
     else if(c.recebeDev) tags.push('<span class="tag dev">devocional</span>');
-    if(c.vinculo==="visitante") tags.push('<span class="tag vis">visitante</span>');
-    const tag = tags.join(" ");
-    return `<div class="pessoa">
-      <div class="avatar">${ini}</div>
-      <div class="pinfo">
-        <div class="pnome">${esc(c.nome)}</div>
-        <div class="pmeta">${esc(c.vinculo)} ${c.fone?"· "+esc(c.fone):""} ${tag}</div>
-      </div>
-      <button class="sm sec" onclick="editarContato('${c.id}')">editar</button>
-    </div>`;
+    if(c.vinculo === "visitante") tags.push('<span class="tag vis">visitante</span>');
+    if(c.vinculo === "novo convertido") tags.push('<span class="tag novo">novo</span>');
+    const ini = c.nome.trim().split(" ").map(x=>x[0]).slice(0,2).join("").toUpperCase();
+    return '<div class="pessoa">'
+      + '<div class="avatar">' + esc(ini) + '</div>'
+      + '<div class="pinfo"><div class="pnome">' + esc(c.nome) + '</div>'
+      + '<div class="pmeta">' + esc(c.vinculo) + (c.fone ? " · " + esc(c.fone) : "") + ' ' + tags.join(" ") + '</div></div>'
+      + '<button class="sm sec" onclick="editarContato(\'' + c.id + '\')">editar</button>'
+      + '</div>';
   }).join("");
 }
 function editarContato(id){
-  const c = D.contatos.find(x=>x.id===id); if(!c) return;
-  const n = prompt("Nome:", c.nome); if(n===null) return; c.nome=n.trim()||c.nome;
-  const f = prompt("WhatsApp:", c.fone); if(f!==null) c.fone=f.replace(/\D/g,"");
-  const v = prompt("Vínculo:", c.vinculo); if(v!==null) c.vinculo=v.trim();
+  const c = D.contatos.find(x => x.id === id); if(!c) return;
+  const n = prompt("Nome:", c.nome); if(n !== null) c.nome = n.trim() || c.nome;
+  const f = prompt("WhatsApp:", c.fone); if(f !== null) c.fone = f.replace(/\D/g,"");
+  const v = prompt("Vínculo (membro/visitante/novo convertido/líder/pastor/empresa):", c.vinculo); if(v !== null) c.vinculo = v.toLowerCase().trim();
   c.recebeDev = confirm("Recebe devocional diário?");
-  const o = prompt("Observações pastorais (doença, emprego, família...):", c.obs||""); if(o!==null) c.obs=o;
+  const o = prompt("Observações pastorais:", c.obs || ""); if(o !== null) c.obs = o.trim();
+  if(confirm("Excluir este contato?")){
+    D.contatos = D.contatos.filter(x => x.id !== id);
+  }
   salvar(); listaContatos(); preencherDevQuem();
 }
-function esc(s){ return String(s==null?"":s).replace(/[&<>"]/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m])); }
 
-/* ============ DEVOCIONAL ============ */
-function salvarTema(){
-  D.tema = document.getElementById("tema").value.trim();
-  D.temaVers = document.getElementById("temaVers").value.trim();
-  salvar(); gerarResumo();
+/* ---------- motor do devocional ---------- */
+function versaoUsada(ref){
+  const h = D.historico || {};
+  return Object.values(h).some(p => (p.versiculos||[]).includes(ref));
 }
-function novoMes(){
-  if(!confirm("Começar mês novo? Os versículos voltam a ficar disponíveis.")) return;
-  D.devUsados = []; D.mes = new Date().toISOString().slice(0,7); salvar(); alert("Mês novo aberto.");
-}
-function preencherDevQuem(){
-  const sel = document.getElementById("devQuem");
-  const arr = D.contatos.filter(c=>c.recebeDev && !ehEmpresa(c));
-  sel.innerHTML = '<option value="">— digitar nome acima —</option>' + arr.map(c=>`<option value="${c.id}">${esc(c.nome)}</option>`).join("");
-}
-let devCache = null;
-
-function devPorContato(){
-  const id = document.getElementById("devQuem").value;
-  if(!id) return;
-  const c = D.contatos.find(x=>x.id===id);
-  if(!c) return;
-  document.getElementById("devNome").value = c.nome;
-  gerarDevocional();
+function historicoPessoa(nome){
+  const k = (nome||"").toLowerCase().trim();
+  if(!D.historico[k]) D.historico[k] = {nome: nome, versiculos:[], temas:[], envios:[]};
+  return D.historico[k];
 }
 
-function montarDevocional(nome){
-  const primeiro = (nome||"").split(" ")[0];
-  const hoje = hojeISO();
-  const jaNoMes = new Set([...(D.devUsados||[]), ...(D.geradosMes||[])]);
-  let disponiveis = VERSICULOS.filter(v=>!jaNoMes.has(v[0]));
-  if(disponiveis.length < 8) disponiveis = VERSICULOS.slice();  // renova quando aperta
-  const geradosHoje = new Set(D.gerados[hoje] || []);
-  let lista = disponiveis.filter(v=>!geradosHoje.has(v[0]));
-  if(!lista.length) lista = disponiveis;
-  const v = lista[Math.floor(Math.random()*lista.length)];
+function escolherVersiculo(nome){
+  const h = historicoPessoa(nome);
+  const jaDeleP = new Set(h.versiculos || []);
+  const mesUsados = new Set([...(D.devUsados||[]), ...(D.geradosMes||[])]);
+  const hojeUsados = new Set(D.gerados[hojeISO()] || []);
+  const all = DADOS.devocionais;
 
-  D.gerados[hoje] = [...(D.gerados[hoje]||[]), v[0]];
-  if(!(D.geradosMes||[]).includes(v[0])) D.geradosMes = [...(D.geradosMes||[]), v[0]];
+  // preferencia: nao usou com essa pessoa, nem no mes, nem hoje
+  let fila = all.filter(v => !jaDeleP.has(v.ref) && !mesUsados.has(v.ref) && !hojeUsados.has(v.ref));
+  if(!fila.length) fila = all.filter(v => !mesUsados.has(v.ref));
+  if(!fila.length) fila = all.filter(v => !hojeUsados.has(v.ref));
+  if(!fila.length) fila = all.slice();
+  return fila[Math.floor(Math.random()*fila.length)];
+}
 
+function focosDoTema(){
+  const t = (D.tema || "").trim().toUpperCase();
+  if(DADOS.temas[t]) return DADOS.temas[t].focos;
+  // tema livre: usa os focos como base
+  return DADOS.temas["EXPANSÃO"].focos;
+}
+
+function montarDevocional(nome, forcarTroca){
+  const primeiro = primeiroNome(nome);
+  const h = historicoPessoa(nome);
+  let v = escolherVersiculo(nome);
+  if(forcarTroca && h.versiculos && h.versiculos.length){
+    const ultimo = h.versiculos[h.versiculos.length-1];
+    if(v.ref === ultimo){
+      const outro = DADOS.devocionais.filter(x => x.ref !== ultimo);
+      v = outro[Math.floor(Math.random()*outro.length)];
+    }
+  }
   const dia = new Date().getDate();
-  const foco = FOCOS[(dia-1+FOCOS.length)%FOCOS.length];
-  const tema = D.tema || "Palavra pastoral";
+  const focos = focosDoTema();
+  const foco = focos[(dia-1) % focos.length];
 
   const aberturas = [
     "A paz do Senhor, " + primeiro + "! Bom dia.",
     "Bom dia, " + primeiro + "! A paz do Senhor.",
     "Paz do Senhor, " + primeiro + "! Bom dia pra você."
   ];
-  const aplics = [
-    "Hoje o recado é sobre " + foco + ". Não é teoria — é o que Deus quer fazer no seu dia comum, no meio do trabalho e da casa.",
-    "Pensa nisso hoje: " + foco + ". Deus não pede que você entenda tudo, pede que confie um passo de cada vez.",
-    "O convite de hoje é " + foco + ". Comece pequeno: uma decisão, uma conversa, uma oração antes de sair."
-  ];
-  const oracoes = [
-    "Pai, obrigado por mais um dia. Ensina o " + primeiro + " a confiar em ti. Em nome de Jesus, amém.",
-    "Senhor, sustenta o " + primeiro + " hoje. Dá paz no coração e direção no caminho. Amém.",
-    "Deus, obrigado pela vida do " + primeiro + ". Fala com ele hoje pela tua palavra. Amém."
-  ];
-
-  const texto = aberturas[dia%3] + "\n\n"
-    + "📖 " + tema + " — " + foco.charAt(0).toUpperCase() + foco.slice(1) + "\n\n"
-    + '"' + v[1] + '"\n(' + v[0] + ')\n\n'
-    + aplics[dia%3] + "\n\n"
-    + oracoes[dia%3] + "\n\n"
+  const txt = aberturas[dia % 3] + "\n\n"
+    + "📖 " + (D.tema || "Palavra pastoral") + " — " + foco.charAt(0).toUpperCase() + foco.slice(1) + "\n\n"
+    + '"' + v.texto + '"\n(' + v.ref + ')\n\n'
+    + v.exegese + "\n\n"
+    + v.aplicacao + "\n\n"
+    + "Pra pensar hoje: onde " + foco + " aparece na sua rotina esta semana?\n\n"
+    + v.oracao.replace("{n}", primeiro) + "\n\n"
     + "Pr. Anderson";
 
-  return {nome: nome, versiculo: v[0], texto: texto, data: hoje};
+  // registra no historico e nos controles do mes
+  if(!h.versiculos.includes(v.ref)) h.versiculos.push(v.ref);
+  if(!h.temas.includes(D.tema)) h.temas.push(D.tema);
+  if(!h.envios.includes(hojeISO())) h.envios.push(hojeISO());
+  D.gerados[hojeISO()] = [...(D.gerados[hojeISO()]||[]), v.ref];
+  if(!(D.geradosMes||[]).includes(v.ref)) D.geradosMes = [...(D.geradosMes||[]), v.ref];
+
+  return {nome: nome, ref: v.ref, tema: v.tema, foco: foco, texto: txt, data: hojeISO()};
 }
 
+let devCache = null;
 function gerarDevocional(trocar){
   const box = document.getElementById("devTexto");
   let nome = (document.getElementById("devNome").value || "").trim();
   if(!nome){
     const id = document.getElementById("devQuem").value;
-    const c = D.contatos.find(x=>x.id===id);
+    const c = D.contatos.find(x => x.id === id);
     if(c) nome = c.nome;
   }
   if(!nome){
@@ -654,447 +540,378 @@ function gerarDevocional(trocar){
     devCache = null;
     return;
   }
-  if(trocar && devCache && devCache.nome === nome){
-    // tenta outro versiculo: remove o atual do "gerados hoje"
-    const hoje = hojeISO();
-    D.gerados[hoje] = (D.gerados[hoje]||[]).filter(x=>x !== devCache.versiculo);
-  }
-  devCache = montarDevocional(nome);
+  devCache = montarDevocional(nome, trocar);
   salvar();
   box.className = "mensagem";
   box.textContent = devCache.texto;
-  document.getElementById("devInfo").textContent = "";
+  const info = document.getElementById("devInfo");
+  info.innerHTML = 'Versículo: <b>' + esc(devCache.ref) + '</b> · tema: ' + esc(devCache.tema)
+    + ' · ' + (historicoPessoa(nome).versiculos.length) + ' versículos já usados com ' + esc(primeiroNome(nome));
+  renderMemoria();
 }
 
 function gerarLote(){
   const bruto = (document.getElementById("loteNomes").value || "")
-    .split(/[\n,;]+/).map(x=>x.trim()).filter(Boolean);
+    .split(/[\n,;]+/).map(x => x.trim()).filter(Boolean);
   const box = document.getElementById("loteResultado");
   if(!bruto.length){
     box.innerHTML = '<div class="vazio"><span class="emo">✍️</span>Cole os nomes, um por linha.</div>';
     return;
   }
-  const vistos = new Set();
-  const nomes = [];
-  bruto.forEach(n=>{
-    const k = n.toLowerCase();
-    if(!vistos.has(k)){ vistos.add(k); nomes.push(n); }
-  });
-  const gerados = nomes.map(n=>montarDevocional(n));
+  const vistos = new Set(); const nomes = [];
+  bruto.forEach(n => { const k = n.toLowerCase(); if(!vistos.has(k)){ vistos.add(k); nomes.push(n); } });
+  const gerados = nomes.map(n => montarDevocional(n));
   salvar();
-
-  box.innerHTML = '<div class="alerta" style="margin-top:12px;background:linear-gradient(160deg,#eef7f1,#e5f4ec);border-color:#cfe8d9;border-left-color:var(--verde);color:#12301f">'
-    + '<b>' + gerados.length + ' devocionais gerados</b> — cada um com versículo diferente. Copie um por vez e envie.'
+  const distintos = new Set(gerados.map(g => g.ref)).size;
+  box.innerHTML = '<div class="alerta" style="background:linear-gradient(160deg,#eef7f1,#e5f4ec);border-color:#cfe8d9;border-left-color:var(--verde);color:#12301f">'
+    + '<b>' + gerados.length + ' devocionais</b> · ' + distintos + ' versículos diferentes · tema ' + esc(D.tema)
     + '</div>'
-    + gerados.map((g,i)=>
-        '<div style="margin-top:14px">'
-        + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">'
-        + '<b style="font-size:13px;color:var(--azul)">' + (i+1) + '. ' + esc(g.nome) + '</b>'
-        + '<button class="sm dourado" onclick="copiarTexto(' + i + ')">copiar</button>'
-        + '</div>'
-        + '<div class="mensagem" style="font-size:13px;padding:12px">' + esc(g.texto) + '</div>'
-        + '</div>'
-      ).join("");
+    + gerados.map((g,i) =>
+      '<div style="margin-top:16px">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px">'
+      + '<b style="font-size:13px;color:var(--azul);flex:1">' + (i+1) + '. ' + esc(g.nome) + '<br><span class="mini">' + esc(g.ref) + '</span></b>'
+      + '<button class="sm dourado" onclick="copiarTexto(' + i + ')">copiar</button>'
+      + '</div>'
+      + '<div class="mensagem" style="font-size:12.5px;padding:12px">' + esc(g.texto) + '</div>'
+      + '</div>'
+    ).join("");
   window.__lote = gerados;
 }
-
 function copiarTexto(i){
   if(!window.__lote || !window.__lote[i]) return;
   copiar(window.__lote[i].texto);
 }
 
-function copiarDev(){
-  if(!devCache){ alert("Gere o devocional primeiro."); return; }
-  copiar(devCache.texto);
-}
 function marcarEnviado(){
   if(!devCache){ alert("Gere o devocional primeiro."); return; }
   const dia = hojeISO();
   D.enviados[dia] = D.enviados[dia] || [];
-  const chave = (devCache.nome||"").toLowerCase();
-  if(!D.enviados[dia].includes(chave)) D.enviados[dia].push(chave);
-  if(!D.devUsados.includes(devCache.versiculo)) D.devUsados.push(devCache.versiculo);
+  const k = (devCache.nome||"").toLowerCase();
+  if(!D.enviados[dia].includes(k)) D.enviados[dia].push(k);
+  if(!(D.devUsados||[]).includes(devCache.ref)) D.devUsados = [...(D.devUsados||[]), devCache.ref];
   salvar(); filaDevocional();
-  alert("Marcado como enviado para " + devCache.nome + ".");
+  alert("Marcado: " + devCache.nome + " (" + devCache.ref + ")");
+}
+function copiarDev(){
+  if(!devCache){ alert("Gere o devocional primeiro."); return; }
+  copiar(devCache.texto);
 }
 
 function filaDevocional(){
   const dia = hojeISO();
   const feitos = D.enviados[dia] || [];
-  const arr = D.contatos.filter(c=>c.recebeDev && !ehEmpresa(c));
+  const arr = D.contatos.filter(c => c.recebeDev && !ehEmpresa(c));
   const box = document.getElementById("filaDev");
   const tag = document.getElementById("tagDev");
-  tag.textContent = feitos.length + "/" + arr.length + " hoje";
+  if(tag) tag.textContent = feitos.length + "/" + arr.length;
   if(!arr.length){
-    box.className="vazio";
-    box.innerHTML="Nenhum contato na lista ainda. Cadastre em Contatos marcando 'recebe devocional'.";
+    box.className = "vazio";
+    box.innerHTML = '<span class="emo">📖</span>Nenhum contato marcado para o devocional.<br>Cadastre em Contatos marcando "recebe devocional".';
     return;
   }
-  box.className="";
-  box.innerHTML = arr.map(c=>{
-    const chave = c.nome.toLowerCase();
-    const ok = feitos.includes(chave);
+  box.className = "";
+  box.innerHTML = arr.map(c => {
+    const ok = feitos.includes(c.nome.toLowerCase());
     return '<div class="pessoa">'
-      + '<div class="avatar" style="' + (ok?'background:var(--verde)':'') + '">' + (ok?'✓':c.nome[0].toUpperCase()) + '</div>'
+      + '<div class="avatar" style="' + (ok ? 'background:linear-gradient(150deg,#2e8657,#25734a)' : '') + '">' + (ok ? '✓' : c.nome[0].toUpperCase()) + '</div>'
       + '<div class="pinfo"><div class="pnome">' + esc(c.nome) + '</div>'
-      + '<div class="pmeta">' + (ok?'enviado hoje':'pendente') + '</div></div>'
-      + '<button class="sm ' + (ok?'sec':'') + '" onclick="devPara(\'' + c.id + '\')">' + (ok?'ver':'gerar') + '</button>'
+      + '<div class="pmeta">' + (ok ? 'enviado hoje' : 'pendente') + '</div></div>'
+      + '<button class="sm ' + (ok ? 'sec' : '') + '" onclick="devPara(\'' + c.id + '\')">' + (ok ? 'ver' : 'gerar') + '</button>'
       + '</div>';
   }).join("");
-  preencherDevQuem();
 }
-
 function devPara(id){
-  const c = D.contatos.find(x=>x.id===id);
-  ir('dev');
-  if(c){
-    document.getElementById("devNome").value = c.nome;
-    document.getElementById("devQuem").value = id;
-  }
+  const c = D.contatos.find(x => x.id === id); if(!c) return;
+  ir("dev");
+  document.getElementById("devNome").value = c.nome;
+  document.getElementById("devQuem").value = id;
+  gerarDevocional();
+}
+function preencherDevQuem(){
+  const sel = document.getElementById("devQuem");
+  if(!sel) return;
+  const arr = D.contatos.filter(c => c.recebeDev && !ehEmpresa(c));
+  sel.innerHTML = '<option value="">— ou digite o nome acima —</option>'
+    + arr.map(c => '<option value="' + c.id + '">' + esc(c.nome) + '</option>').join("");
+}
+function devPorContato(){
+  const id = document.getElementById("devQuem").value;
+  if(!id) return;
+  const c = D.contatos.find(x => x.id === id); if(!c) return;
+  document.getElementById("devNome").value = c.nome;
   gerarDevocional();
 }
 
-/* ============ AGENDA ============ */
+/* ---------- tema mensal ---------- */
+function salvarTema(){
+  D.tema = document.getElementById("tema").value.trim();
+  D.temaVers = document.getElementById("temaVers").value.trim();
+  salvar(); renderTemaInfo();
+}
+function renderTemaInfo(){
+  const el = document.getElementById("temaInfo");
+  if(!el) return;
+  const focos = focosDoTema();
+  const dia = new Date().getDate();
+  const focoHoje = focos[(dia-1) % focos.length];
+  el.innerHTML = 'Tema: <b>' + esc(D.tema || "—") + '</b> · foco de hoje: <b>' + esc(focoHoje) + '</b><br>'
+    + 'Versículos usados neste mês: <b>' + (D.geradosMes||[]).length + '</b> de ' + DADOS.devocionais.length;
+}
+function usarTemaPronto(){
+  const k = document.getElementById("temaPronto").value;
+  if(!k) return;
+  const t = DADOS.temas[k];
+  if(!t) return;
+  D.tema = k; D.temaVers = t.versiculo;
+  document.getElementById("tema").value = D.tema;
+  document.getElementById("temaVers").value = t.versiculo;
+  D.devUsados = []; D.geradosMes = [];
+  salvar(); renderTemaInfo();
+  alert("Tema do mês: " + k + "\nBase: " + t.versiculo + "\n30 focos diários prontos.");
+}
+function novoMes(){
+  if(!confirm("Começar mês novo? Os versículos voltam a ficar disponíveis e as contagens zeram.")) return;
+  D.devUsados = []; D.geradosMes = []; D.mes = new Date().toISOString().slice(0,7);
+  salvar(); renderTemaInfo(); alert("Mês novo aberto.");
+}
+
+/* ---------- memoria do historico ---------- */
+function renderMemoria(){
+  const box = document.getElementById("memoriaBox");
+  if(!box) return;
+  const h = Object.values(D.historico || {}).filter(x => (x.versiculos||[]).length);
+  if(!h.length){
+    box.className = "vazio";
+    box.innerHTML = '<span class="emo">🧠</span>Nada no histórico ainda.<br>Gere um devocional e ele começa a lembrar.';
+    return;
+  }
+  box.className = "";
+  box.innerHTML = h.sort((a,b) => (b.envios||[]).length - (a.envios||[]).length).slice(0,20).map(x =>
+    '<div class="pessoa">'
+    + '<div class="avatar" style="background:linear-gradient(150deg,#1e4a72,#16324f)">' + (x.versiculos||[]).length + '</div>'
+    + '<div class="pinfo"><div class="pnome">' + esc(x.nome) + '</div>'
+    + '<div class="pmeta">' + (x.versiculos||[]).length + ' versículos · último: ' + esc((x.versiculos||[]).slice(-1)[0] || "—") + '</div></div>'
+    + '</div>'
+  ).join("");
+}
+
+/* ================= AGENDA ================= */
 const DIAS_OK = [2,4,5,6]; // ter, qui, sex, sáb
 const PERIODOS = ["manhã","tarde","noite"];
+const MAX_POR_PERIODO = 2;
+const MAX_POR_DIA = 6;
+
 function proximosDias(n){
-  const out=[]; let d=new Date();
-  while(out.length<n){
+  const out = []; let d = new Date();
+  while(out.length < n){
     if(DIAS_OK.includes(d.getDay())) out.push(hojeISO(d));
     d.setDate(d.getDate()+1);
   }
   return out;
 }
-function chave(iso,per){ return iso+"|"+per; }
 function visitasDoPeriodo(iso, per){
   const o = (D.agenda[iso] || {})[per];
   if(!o) return [];
-  return Array.isArray(o) ? o : [o];   // compatível com o formato antigo
+  return Array.isArray(o) ? o : [o];
 }
 function visitasDoDia(iso){
   const out = [];
-  PERIODOS.forEach(p => visitasDoPeriodo(iso, p).forEach(v => out.push({periodo:p, ...v})));
+  PERIODOS.forEach(p => visitasDoPeriodo(iso,p).forEach(v => out.push({periodo:p, ...v})));
   return out;
 }
-const MAX_POR_PERIODO = 2;
-const MAX_POR_DIA = 6;
 function renderSemana(){
   const box = document.getElementById("semana");
+  if(!box) return;
   const dias = proximosDias(8);
   let html = '<div class="slots">';
-  dias.forEach(iso=>{
-    const ocup = PERIODOS.reduce((n,p)=>n+visitasDoPeriodo(iso,p).length,0);
-    html += `<div class="slot-dia">${nomeDia(iso)} ${fmtBR(iso)}</div><div class="slot-per">`;
-    PERIODOS.forEach(p=>{
-      const vs = visitasDoPeriodo(iso, p);
+  dias.forEach(iso => {
+    const total = PERIODOS.reduce((n,p) => n + visitasDoPeriodo(iso,p).length, 0);
+    html += '<div class="slot-dia">' + nomeDia(iso) + '<br><span style="font-weight:600;font-size:10px;opacity:.7">' + fmtBR(iso) + '</span></div>';
+    html += '<div class="slot-per">';
+    PERIODOS.forEach(p => {
+      const vs = visitasDoPeriodo(iso,p);
       if(!vs.length){
-        html += `<div class="slot livre" onclick="marcarVisita('${iso}','${p}')">${p}</div>`;
+        html += '<div class="slot livre" onclick="marcarVisita(\'' + iso + '\',\'' + p + '\')">' + p + '</div>';
       } else {
-        const nomes = vs.map(v=>esc(v.nome.split(" ")[0])).join(", ");
+        const nomes = vs.map(v => esc(primeiroNome(v.nome))).join(", ");
         const cheio = vs.length >= MAX_POR_PERIODO;
-        html += `<div class="slot ocupado" style="${cheio?'background:#dfe8f0':''}" onclick="verVisita('${iso}','${p}')">${p} (${vs.length}): ${nomes}</div>`;
-        if(!cheio) html += `<div class="slot livre" onclick="marcarVisita('${iso}','${p}')">+ ${p}</div>`;
+        html += '<div class="slot ocupado" onclick="verVisita(\'' + iso + '\',\'' + p + '\')">' + p + ' (' + vs.length + '): ' + nomes + '</div>';
+        if(!cheio) html += '<div class="slot livre" onclick="marcarVisita(\'' + iso + '\',\'' + p + '\')">+</div>';
       }
     });
-    if(ocup>=MAX_POR_DIA) html += `<span class="mini">dia cheio</span>`;
-    html += `</div>`;
+    if(total >= MAX_POR_DIA) html += '<span class="mini">dia cheio</span>';
+    html += '</div>';
   });
   html += '</div>';
   box.innerHTML = html;
   renderPendentes();
 }
-function marcarVisita(iso,per){
-  const doDia = D.agenda[iso] || {};
-  const qtdDia = PERIODOS.reduce((n,p)=>n+visitasDoPeriodo(iso,p).length,0);
+function marcarVisita(iso, per){
   const qtdPer = visitasDoPeriodo(iso, per).length;
-  if(qtdPer >= MAX_POR_PERIODO){ alert("Esse período já tem "+MAX_POR_PERIODO+" visitas. Escolha manhã, tarde, noite ou outro dia."); return; }
-  if(qtdDia >= MAX_POR_DIA){ alert("Este dia já tem "+MAX_POR_DIA+" visitas. Escolha outro dia."); return; }
-  const nome = prompt("Nome do visitante:"); if(!nome) return;
+  const qtdDia = PERIODOS.reduce((n,p) => n + visitasDoPeriodo(iso,p).length, 0);
+  if(qtdPer >= MAX_POR_PERIODO){ alert("Esse período já tem " + MAX_POR_PERIODO + " visitas.\nEscolha outro período ou outro dia."); return; }
+  if(qtdDia >= MAX_POR_DIA){ alert("Esse dia já tem " + MAX_POR_DIA + " visitas."); return; }
+  const nome = prompt("Nome do visitante:"); if(!nome || !nome.trim()) return;
   const bairro = prompt("Bairro / endereço:") || "";
   const fone = (prompt("WhatsApp:") || "").replace(/\D/g,"");
   const quem = prompt("Quem indicou / de onde veio:") || "";
-  D.agenda[iso] = doDia;
+  const obs = prompt("Observação (opcional):") || "";
+  D.agenda[iso] = D.agenda[iso] || {};
   const lista = visitasDoPeriodo(iso, per);
-  lista.push({nome:nome.trim(), bairro:bairro.trim(), fone:fone, indicou:quem.trim(), status:"agendado"});
+  lista.push({nome:nome.trim(), bairro:bairro.trim(), fone, indicou:quem.trim(),
+              obs:obs.trim(), status:"agendado", criado:hojeISO()});
   D.agenda[iso][per] = lista;
   salvar(); renderSemana(); gerarResumo();
-  alert("Visita marcada.\n\nAviso pro pastor:\n" + nome + " — " + nomeDia(iso) + " " + fmtBR(iso) + ", " + per + (bairro?" — "+bairro:""));
+  alert("✓ Visita marcada\n\n" + nome + "\n" + nomeDia(iso) + " " + fmtBR(iso) + " — " + per
+    + (bairro ? "\n" + bairro : ""));
 }
 function verVisita(iso, per){
   const lista = visitasDoPeriodo(iso, per);
   if(!lista.length) return;
-  const v = lista.length === 1 ? lista[0] : (function(){
-    const nomes = lista.map((x,i)=>(i+1)+") "+x.nome).join("\n");
-    const esc2 = prompt("Quem?\n" + nomes, "1");
-    const i = Math.max(1, Math.min(lista.length, parseInt(esc2||"1",10)||1)) - 1;
-    return lista[i];
-  })();
-  const msg = `Visita: ${v.nome}\nDia: ${nomeDia(iso)} ${fmtBR(iso)} — ${per}\nBairro: ${v.bairro||"—"}\nWhatsApp: ${v.fone||"—"}\nIndicado por: ${v.indicou||"—"}\nStatus: ${v.status}`;
+  let v = lista[0];
+  if(lista.length > 1){
+    const nomes = lista.map((x,i) => (i+1) + ") " + x.nome).join("\n");
+    const e = prompt("Qual?\n" + nomes, "1");
+    const i = Math.max(1, Math.min(lista.length, parseInt(e||"1",10)||1)) - 1;
+    v = lista[i];
+  }
+  const msg = "Visita: " + v.nome
+    + "\nDia: " + nomeDia(iso) + " " + fmtBR(iso) + " — " + per
+    + "\nBairro: " + (v.bairro || "—")
+    + "\nWhatsApp: " + (v.fone || "—")
+    + "\nIndicado por: " + (v.indicou || "—")
+    + (v.obs ? "\nObs: " + v.obs : "")
+    + "\nStatus: " + v.status;
   const st = prompt(msg + "\n\nNovo status (agendado / confirmado / realizado / remarcado / cancelado):", v.status);
-  if(!st) return;
-  const novo = st.toLowerCase();
+  if(st) mudarStatusVisita(iso, per, v, st.toLowerCase());
+  else if(confirm("Apagar esta visita?")) mudarStatusVisita(iso, per, v, "cancelado");
+}
+function mudarStatusVisita(iso, per, v, novo){
+  const lista = visitasDoPeriodo(iso, per);
   if(novo === "cancelado"){
-    const i = lista.indexOf(v); lista.splice(i,1);
-    if(!lista.length) delete D.agenda[iso][per]; else D.agenda[iso][per] = lista;
-  } else { v.status = novo; D.agenda[iso][per] = lista; }
+    const i = lista.indexOf(v);
+    if(i >= 0) lista.splice(i,1);
+    if(!lista.length) delete D.agenda[iso][per];
+    else D.agenda[iso][per] = lista;
+  } else {
+    v.status = novo;
+    D.agenda[iso][per] = lista;
+  }
   salvar(); renderSemana(); gerarResumo();
 }
 function renderPendentes(){
   const box = document.getElementById("pendentes");
-  const vis = D.contatos.filter(c=>c.vinculo==="visitante");
+  if(!box) return;
+  const vis = D.contatos.filter(c => c.vinculo === "visitante");
   const marcados = new Set();
-  Object.keys(D.agenda).forEach(iso=>PERIODOS.forEach(p=>{
-    visitasDoPeriodo(iso,p).forEach(v=>{ if(v && v.nome) marcados.add(v.nome.toLowerCase()); });
-  }));
-  const pend = vis.filter(c=>!marcados.has(c.nome.toLowerCase()));
-  if(!pend.length){ box.className="vazio"; box.innerHTML="Nenhum visitante esperando visita."; return; }
-  box.className="";
-  box.innerHTML = pend.map(c=>`<div class="pessoa"><div class="avatar">${c.nome[0].toUpperCase()}</div>
-    <div class="pinfo"><div class="pnome">${esc(c.nome)}</div><div class="pmeta">visitante desde ${fmtBR(c.desde||hojeISO())}</div></div></div>`).join("");
-}
-
-/* ============ RESPONDER ============ */
-const TIPOS = [
-  ["favor","pedido de favor/ajuda"], ["doenca","doença ou hospital"], ["luto","luto ou morte na família"],
-  ["emprego","emprego ou dinheiro"], ["visita","quer visita ou marcar encontro"], ["confirmacao","confirmando presença"],
-  ["desabafo","desabafo / tristeza"], ["duvida","dúvida bíblica ou sobre a igreja"], ["gratidao","agradecimento ou testemunho"],
-  ["convite","convite para pregar / evento"], ["conflito","briga ou conflito"], ["outro","outro assunto"]
-];
-const PESADOS = ["luto","conflito","doenca"];
-let respTipo = "outro";
-
-function atualizarChips(){
-  const box = document.getElementById("respChips");
-  box.innerHTML = TIPOS.map(([k,r])=>
-    `<span class="chip ${respTipo===k?'sel':''}" onclick="setTipo('${k}')">${r}</span>`).join("");
-}
-function setTipo(k){ respTipo = k; atualizarChips(); atualizarResp(); }
-
-function ehEmpresa(c){
-  if(!c) return false;
-  const v = (c.vinculo||"").toLowerCase();
-  return v.includes("empresa") || v.includes("trabalho") || v.includes("fornecedor") || v.includes("comercial");
-}
-function atualizarResp(){
-  atualizarChips();
-  const msg = (document.getElementById("respMsg").value||"").toLowerCase();
-  // detecta caso pesado pelo texto
-  const pesadoPorTexto = /morreu|faleceu|enterro|velório|velorio|câncer|cancer|internad|uti|cirurgia|cirurgia|divórcio|divorcio|trai[çc]|separ|briga|conflito|me bater|amea[çc]|suic|não aguento|nao aguento|acabou comigo/.test(msg);
-  const pesado = pesadoPorTexto || (PESADOS.includes(respTipo) && respTipo!=="doenca");
-  const box = document.getElementById("respAlerta");
-  const selId0 = document.getElementById("respQuem").value;
-  const c0 = D.contatos.find(x=>x.id===selId0);
-  if(ehEmpresa(c0)){
-    box.innerHTML = '<div class="alerta"><b>Contato de empresa.</b><br>Esse é assunto seu, não do agente. O painel não gera resposta pastoral pra contato comercial — resolve pelo WhatsApp direto.</div>';
+  Object.keys(D.agenda).forEach(iso => PERIODOS.forEach(p =>
+    visitasDoPeriodo(iso,p).forEach(v => { if(v && v.nome) marcados.add(v.nome.toLowerCase()); })));
+  const pend = vis.filter(c => !marcados.has(c.nome.toLowerCase()));
+  if(!pend.length){
+    box.className = "vazio";
+    box.innerHTML = '<span class="emo">✓</span>Nenhum visitante esperando visita.';
     return;
   }
-  if(pesado){
-    box.innerHTML = '<div class="alerta"><b>Este é caso pra você.</b><br>Pelo que a pessoa escreveu, não é assunto de resposta automática — pode ser luto, conflito grave, doença séria ou crise. O agente escreve uma mensagem curta só de acolhimento (sem prometer nada), registra o caso e te avisa.</div>';
-  } else box.innerHTML = "";
+  box.className = "";
+  box.innerHTML = pend.map(c => '<div class="pessoa"><div class="avatar">' + c.nome[0].toUpperCase() + '</div>'
+    + '<div class="pinfo"><div class="pnome">' + esc(c.nome) + '</div>'
+    + '<div class="pmeta">visitante desde ' + fmtBR(c.desde || hojeISO()) + '</div></div>'
+    + '<button class="sm" onclick="ir(\'agenda\')">marcar</button></div>').join("");
 }
 
-function preencherRespQuem(){
-  const sel = document.getElementById("respQuem");
-  const atual = sel.value;
-  sel.innerHTML = '<option value="">— sem nome (não inventar) —</option>' +
-    D.contatos.map(c=>`<option value="${c.id}">${esc(c.nome)}</option>`).join("");
-  if(atual) sel.value = atual;
-}
-
-let respCache = "";
-function gerarResposta(){
-  const selId = document.getElementById("respQuem").value;
-  const c = D.contatos.find(x=>x.id===selId);
-  if(ehEmpresa(c)){
-    document.getElementById("respTexto").className = "mensagem vazia";
-    document.getElementById("respTexto").textContent = "Contato de empresa — você mesmo responde. O agente não entra nessa conversa.";
-    document.getElementById("tagResp").textContent = "sua vez";
-    return;
-  }
-  const primeiro = c ? c.nome.trim().split(" ")[0] : "";
-  const msg = (document.getElementById("respMsg").value||"").toLowerCase();
-  const pesadoTxt = /morreu|faleceu|enterro|velório|velorio|câncer|cancer|internad|uti|cirurgia|divórcio|divorcio|trai[çc]|briga|conflito|amea[çc]|suic|não aguento|nao aguento/.test(msg);
-  const pesado = pesadoTxt || PESADOS.includes(respTipo);
-
-  // abertura variada
-  const aberturas = primeiro
-    ? [`A paz do Senhor, ${primeiro}! Tudo bem aí?`, `Paz de Cristo, ${primeiro}! Como você tá?`, `${primeiro}, a paz do Senhor! Tudo bem com você?`]
-    : [`A paz do Senhor! Tudo bem aí?`, `Paz de Cristo! Como você está?`, `A paz do Senhor, meu irmão! Tudo bem?`];
-  const ab = aberturas[Math.floor(Math.random()*aberturas.length)];
-
-  // corpo por tipo, tom pastoral
-  const corpo = {
-    favor: [`Me conta direitinho o que você precisa que eu vejo como te ajudar. Estamos juntos.`,
-            `Pode falar, irmão. Vou ver o que consigo fazer e te retorno ainda hoje.`,
-            `Tô aqui com você nessa. Me explica melhor a situação que eu vejo o caminho.`],
-    doenca: [`Fico orando por você e pela recuperação. O Senhor é o nosso médico maior, e eu creio que ele está cuidando desse caso.`,
-             `Sinto muito por esse momento. Deus está perto de quem tem o coração apertado. Vou orar por você hoje.`,
-             `Vamos orar juntos por isso. A doença assusta, mas o Senhor sustenta. Conte comigo e com a igreja.`],
-    luto: [`Não tenho palavra que tire a sua dor, irmão, e não vou fingir que tenho. Só quero que você saiba que não está sozinho.`,
-           `Perder alguém assim doi demais. Eu não vou te dar fórmula, só quero estar perto de você nesse momento.`,
-           `Estou aqui com você nesse momento tão difícil. Não fique sozinho — posso passar aí se você quiser.`],
-    emprego: [`Deus não esqueceu de você. Continua firme que a porta vai abrir, e eu vou orar por essa situação.`,
-              `Essa fase aperta de verdade, eu sei. Mas o Senhor cuida dos seus. Vamos orar juntos por isso.`,
-              `Não desanima, irmão. Já vi Deus abrir porta em momento que parecia fechada. Segura na mão dele.`],
-    visita: [`Vou marcar com você sim. Me diz o melhor dia e se pode ser na parte da manhã, tarde ou noite.`,
-             `Com certeza passo aí. Você prefere manhã, tarde ou noite? Eu me organizo por aqui.`,
-             `Pode deixar que eu marco. Me passa o dia que fica melhor pra você e o endereço que eu confirmo.`],
-    confirmacao: [`Que bom saber! Te espero então, vai ser uma bênção.`,
-                  `Amém! Fico feliz. Nos vemos lá então.`,
-                  `Glória a Deus! Conto com você. Vai ser bom demais.`],
-    desabafo: [`Obrigado por confiar em mim pra falar disso. Não leve isso sozinho, o Senhor está com você.`,
-               `Entendo, e fico grato pela sua transparência. Vamos orar sobre isso juntos.`,
-               `Ninguém deveria carregar um peso desses sozinho. Eu tô aqui e Deus está mais perto ainda.`],
-    duvida: [`É uma boa pergunta. Deixa eu te responder com calma, e se precisar a gente senta e estuda junto.`,
-             `Fico feliz que você queira entender melhor. Vou te explicar com cuidado.`,
-             `Boa dúvida, irmão. Vou te responder e se ficar qualquer coisa em aberto, me chama.`],
-    gratidao: [`Glória a Deus por isso! Fico muito feliz de verdade.`,
-               `Que testemunho bonito. Obrigado por compartilhar comigo.`,
-               `Amém! Deus é fiel mesmo. Fico alegre com você.`],
-    convite: [`Agradeço o convite e considero uma honra. Deixa eu ver minha agenda e te confirmo.`,
-              `Fico grato pelo convite, é sempre uma alegria. Vou verificar a agenda e te respondo.`,
-              `Agradecido pelo convite. Vou olhar os compromissos aqui e te dou a resposta certinha.`],
-    conflito: [`Vou ouvir você com calma, mas esse assunto eu preciso tratar pessoalmente, não por mensagem.`,
-               `Entendo a sua dor. Esse tipo de coisa não se resolve no WhatsApp, vamos sentar e conversar.`,
-               `Isso merece nossa atenção com cuidado. Posso te ligar hoje ou passar aí pra conversarmos.`],
-    outro: [`Entendi. Se eu puder ajudar em algo, me fala.`,
-            `Tá certo, obrigado por me contar. Se precisar de mim, é só chamar.`,
-            `Anotado por aqui. Qualquer coisa me chama.`]
-  }[respTipo] || [];
-
-  const fechos = [`Deus abençoe você e a família.`, `Fica na paz do Senhor.`, `Um abraço, conte comigo.`];
-  let corpoEsc = corpo[Math.floor(Math.random()*corpo.length)] || "Entendi. Fico à disposição.";
-  if(pesado){
-    corpoEsc = respTipo === "luto"
-      ? `Não vou te dar resposta bonita agora, não é hora disso. Só quero que você saiba que estou aqui e que a igreja está com você.`
-      : `Quero te ouvir com calma sobre isso. É assunto que merece conversa pessoal, não mensagem corrida.`;
-  }
-  const fecho = fechos[Math.floor(Math.random()*fechos.length)];
-  respCache = ab + "\n\n" + corpoEsc + "\n\n" + (pesado ? "Vou passar aí ou te ligar hoje. " : "") + fecho + "\n\nPr. Anderson";
-
-  const box = document.getElementById("respTexto");
-  box.className = "mensagem"; box.textContent = respCache;
-  document.getElementById("tagResp").textContent = pesado ? "acolhimento" : "normal";
-  window.__respPesado = pesado;
-}
-function copiarResp(){
-  if(!respCache){ alert("Gere a resposta primeiro."); return; }
-  copiar(respCache);
-}
-function limparResp(){
-  document.getElementById("respMsg").value = "";
-  respCache = ""; respTipo = "outro"; atualizarChips();
-  document.getElementById("respTexto").className = "mensagem vazia";
-  document.getElementById("respTexto").textContent = "Preencha acima e toque em gerar";
-  document.getElementById("respAlerta").innerHTML = "";
-}
-function marcarSensivel(){
-  const selId = document.getElementById("respQuem").value;
-  const c = D.contatos.find(x=>x.id===selId);
-  const nome = c ? c.nome : (prompt("Nome de quem falou:") || "Contato sem nome");
-  const assunto = prompt("Resuma o caso pra você (1 linha):", document.getElementById("respMsg").value.slice(0,90));
-  if(!assunto) return;
-  D.sensiveis.unshift({id:Date.now()+"", nome:nome, assunto:assunto, data:hojeISO(), status:"aguardando"});
-  salvar(); renderSensiveis(); gerarResumo();
-  alert("Registrado. Vai aparecer no seu resumo como 'Precisa de você'.");
-}
-function renderSensiveis(){
-  const box = document.getElementById("listaSens");
-  const arr = (D.sensiveis||[]).filter(s=>s.status!=="resolvido");
-  if(!arr.length){ box.className="vazio"; box.innerHTML="Nenhum caso pendente. Bom sinal."; return; }
-  box.className="";
-  box.innerHTML = arr.map(s=>`<div class="alerta"><b>${esc(s.nome)}</b> — ${esc(s.assunto)}<br>
-    <span style="opacity:.7">${fmtBR(s.data)}</span>
-    <button class="sm sec" style="margin-top:6px" onclick="resolverSens('${s.id}')">marcar resolvido</button></div>`).join("");
-}
-function resolverSens(id){
-  const s = D.sensiveis.find(x=>x.id===id); if(!s) return;
-  s.status = "resolvido"; salvar(); renderSensiveis(); gerarResumo();
-}
-
-/* ============ ORAÇÃO ============ */
+/* ================= ORACAO ================= */
 function listaOr(){
   if(!D.oracoes) return [];
-  if(Array.isArray(D.oracoes)) return D.oracoes;
-  return Object.values(D.oracoes);
+  return Array.isArray(D.oracoes) ? D.oracoes : Object.values(D.oracoes);
 }
 function salvarOracao(){
   const n = document.getElementById("orNome").value.trim();
   const m = document.getElementById("orMotivo").value.trim();
-  if(!n||!m){ alert("Preencha nome e motivo."); return; }
-  const novoId = Date.now()+"";
+  if(!n || !m){ alert("Preencha nome e motivo."); return; }
+  const id = Date.now()+"";
   if(Array.isArray(D.oracoes)) D.oracoes = {};
-  D.oracoes[novoId] = {id:novoId, nome:n, motivo:m, data:hojeISO(), status:"recebido"};
-  document.getElementById("orNome").value=""; document.getElementById("orMotivo").value="";
+  D.oracoes[id] = {id, nome:n, motivo:m, data:hojeISO(), status:"recebido"};
+  document.getElementById("orNome").value = "";
+  document.getElementById("orMotivo").value = "";
   salvar(); renderOracao(); gerarResumo();
 }
 function renderOracao(){
   const box = document.getElementById("listaOracao");
-  const ors = listaOr();
-  if(!ors.length){ box.className="vazio"; box.innerHTML="Nenhum pedido registrado."; return; }
-  box.className="";
-  box.innerHTML = ors.map(o=>`<div class="pessoa">
-    <div class="avatar" style="background:${o.status==="testemunho"?"var(--verde)":"var(--dourado)"};color:#3a2f00">🙏</div>
-    <div class="pinfo"><div class="pnome">${esc(o.nome)}</div>
-    <div class="pmeta">${fmtBR(o.data)} · ${esc(o.motivo)}</div></div>
-    <button class="sm sec" onclick="mudarOracao('${o.id}')">${o.status}</button>
-  </div>`).join("");
+  if(!box) return;
+  const arr = listaOr();
+  if(!arr.length){
+    box.className = "vazio";
+    box.innerHTML = '<span class="emo">🙏</span>Nenhum pedido registrado.';
+    return;
+  }
+  box.className = "";
+  box.innerHTML = arr.map(o => {
+    const cor = o.status === "testemunho" ? "linear-gradient(150deg,#2e8657,#25734a)" : "linear-gradient(150deg,#e8c653,#c9a227)";
+    const txt = o.status === "testemunho" ? "#fff" : "#3a2f00";
+    return '<div class="pessoa">'
+      + '<div class="avatar" style="background:' + cor + ';color:' + txt + '">🙏</div>'
+      + '<div class="pinfo"><div class="pnome">' + esc(o.nome) + '</div>'
+      + '<div class="pmeta">' + fmtBR(o.data) + ' · ' + esc(o.motivo) + '</div></div>'
+      + '<button class="sm sec" onclick="mudarOracao(\'' + o.id + '\')">' + esc(o.status) + '</button>'
+      + '</div>';
+  }).join("");
 }
 function mudarOracao(id){
-  const o = listaOr().find(x=>x.id===id); if(!o) return;
+  const o = listaOr().find(x => x.id === id); if(!o) return;
   const s = prompt("Status: recebido / orando / testemunho", o.status);
   if(s){ o.status = s.toLowerCase(); salvar(); renderOracao(); gerarResumo(); }
 }
 
-/* ============ DISCIPULADO ============ */
-const ETAPAS = [
- {t:"Boas-vindas e segurança da salvação",
-  msg:"{n}, que alegria ter você com a gente!\n\nA decisão que você tomou não foi por acaso. João 1:12 diz que a todo que o recebeu deu o direito de ser filho de Deus. Você é filho dele agora.\n\nEssa semana leia João capítulo 1, com calma. Depois me conta o que mais te chamou atenção."},
- {t:"Batismo",
-  msg:"{n}, tudo bem? Vamos falar de batismo.\n\nBatismo não salva ninguém — é a resposta pública de quem já foi salvo. Jesus foi batizado e nos deixou o exemplo.\n\nVocê quer se batizar? Se sim, me diz que eu já vejo a data do próximo batismo na igreja."},
- {t:"Leitura bíblica diária",
-  msg:"{n}, como tá indo a leitura?\n\nVamos começar simples: um capítulo por dia no Evangelho de João, 7 dias. Não precisa entender tudo, só ler e deixar a Palavra falar.\n\nHoje é o capítulo 1. Amanhã me conta uma frase que te marcou."},
- {t:"Oração e vida devocional",
-  msg:"{n}, oração não precisa de palavra bonita.\n\nFala com Deus como você fala comigo: do seu jeito, com suas palavras. Cinco minutos por dia, de manhã, já muda a semana.\n\nExperimenta essa semana e depois me diz o que sentiu."},
- {t:"Comunhão e igreja local",
-  msg:"{n}, crente sozinho não cresce.\n\nA Bíblia fala de não deixar de congregar. Além do culto, temos célula durante a semana — é onde você faz amigos e é cuidado de perto.\n\nQual dia fica melhor pra você ir numa célula?"},
- {t:"Mordomia e primeiros passos no serviço",
-  msg:"{n}, último passo dessa trilha inicial — e o começo de tudo.\n\nMordomia é cuidar do que Deus confiou: seu tempo, seu talento e seus recursos. Dízimo é gratidão, não obrigação.\n\nE todo crente tem um dom. Em qual área você gostaria de servir? Louvor, recepção, infantil, intercessão?"}
-];
+/* ================= DISCIPULADO ================= */
 let discSel = null;
 function novoConvertido(){
-  const nome = prompt("Nome do novo convertido:"); if(!nome) return;
-  D.convertidos.push({id:Date.now()+"", nome:nome.trim(), etapa:0, desde:hojeISO(), ultima:null});
+  const nome = prompt("Nome do novo convertido:"); if(!nome || !nome.trim()) return;
+  const dataConv = prompt("Data da decisão (AAAA-MM-DD) ou deixe vazio:", hojeISO());
+  D.convertidos.push({id:Date.now()+"", nome:nome.trim(), etapa:0, desde:dataConv || hojeISO(), ultima:null, obs:""});
   salvar(); renderDisc();
 }
 function renderDisc(){
   const box = document.getElementById("listaDisc");
-  if(!D.convertidos.length){ box.className="vazio"; box.innerHTML="Nenhum novo convertido acompanhado."; return; }
-  box.className="";
-  box.innerHTML = D.convertidos.map(c=>{
-    const pct = Math.round(c.etapa/6*100);
-    return `<div class="pessoa">
-      <div class="avatar" style="background:${c.etapa>=6?'var(--verde)':'var(--dourado)'};color:#3a2f00">${c.etapa>=6?'✓':c.etapa+1}</div>
-      <div class="pinfo"><div class="pnome">${esc(c.nome)}</div>
-      <div class="pmeta">etapa ${Math.min(c.etapa+1,6)} de 6 · ${pct}%</div></div>
-      <button class="sm sec" onclick="verPasso('${c.id}')">abrir</button>
-    </div>`;
+  if(!box) return;
+  if(!D.convertidos.length){
+    box.className = "vazio";
+    box.innerHTML = '<span class="emo">🌱</span>Nenhum novo convertido em acompanhamento.';
+    return;
+  }
+  box.className = "";
+  box.innerHTML = D.convertidos.map(c => {
+    const pct = Math.round(c.etapa / 6 * 100);
+    const feito = c.etapa >= 6;
+    return '<div class="pessoa">'
+      + '<div class="avatar" style="background:' + (feito ? 'linear-gradient(150deg,#2e8657,#25734a)' : 'linear-gradient(150deg,#e8c653,#c9a227)') + ';color:#3a2f00">' + (feito ? '✓' : (c.etapa+1)) + '</div>'
+      + '<div class="pinfo"><div class="pnome">' + esc(c.nome) + '</div>'
+      + '<div class="pmeta">etapa ' + Math.min(c.etapa+1,6) + ' de 6 · ' + pct + '%</div></div>'
+      + '<button class="sm sec" onclick="verPasso(\'' + c.id + '\')">abrir</button>'
+      + '</div>';
   }).join("");
 }
 function verPasso(id){
-  const c = D.convertidos.find(x=>x.id===id); if(!c) return;
+  const c = D.convertidos.find(x => x.id === id); if(!c) return;
   discSel = c;
-  document.getElementById("cardPasso").style.display="block";
+  const card = document.getElementById("cardPasso");
+  card.style.display = "block";
   document.getElementById("discNome").textContent = c.nome;
-  if(c.etapa>=6){
-    document.getElementById("discTexto").className="mensagem";
-    document.getElementById("discTexto").textContent = "Trilha concluída! Agora é caminho de igreja: célula, culto e serviço.";
+  const box = document.getElementById("discTexto");
+  if(c.etapa >= 6){
+    box.className = "mensagem";
+    box.textContent = "Trilha de discipulado concluída!\n\nAgora é caminho de igreja: célula, culto e serviço. Continue acompanhando de perto.";
     return;
   }
-  const e = ETAPAS[c.etapa];
-  const primeiro = c.nome.split(" ")[0];
-  document.getElementById("discTexto").className="mensagem";
-  document.getElementById("discTexto").textContent = e.msg.replace(/\{n\}/g, primeiro);
+  const e = DADOS.serie[c.etapa];
+  const n = primeiroNome(c.nome);
+  box.className = "mensagem";
+  box.textContent =
+    "📖 Etapa " + e.etapa + " — " + e.titulo + "\n\n"
+    + n + ", " + e.ensino + "\n\n"
+    + '"' + e.texto + '"\n(' + e.base + ')\n\n'
+    + "Tarefa desta semana:\n" + e.tarefa + "\n\n"
+    + e.pergunta + "\n\nPr. Anderson";
+  card.scrollIntoView({behavior:"smooth", block:"start"});
 }
 function copiarDisc(){
   if(!discSel) return;
@@ -1102,132 +919,295 @@ function copiarDisc(){
 }
 function avancarEtapa(){
   if(!discSel) return;
-  discSel.etapa = Math.min(6, discSel.etapa+1);
+  discSel.etapa = Math.min(6, discSel.etapa + 1);
   discSel.ultima = hojeISO();
   salvar(); renderDisc(); verPasso(discSel.id);
+  if(discSel.etapa >= 6) alert("Trilha concluída para " + discSel.nome + ".");
 }
 
-/* ============ RESUMO ============ */
+/* ================= RESPOSTA PASTORAL ================= */
+const TIPOS = [
+  ["favor","pedido de favor"], ["doenca","doença / hospital"], ["luto","luto / perda"],
+  ["emprego","emprego / dinheiro"], ["visita","quer visita"], ["confirmacao","confirmando presença"],
+  ["desabafo","desabafo / tristeza"], ["duvida","dúvida bíblica"], ["gratidao","agradecimento"],
+  ["convite","convite p/ pregar"], ["conflito","conflito / briga"], ["outro","outro assunto"]
+];
+const PESADOS = ["luto","conflito","doenca"];
+let respTipo = "outro";
+let respCache = "";
+
+function atualizarChips(){
+  const box = document.getElementById("respChips");
+  if(!box) return;
+  box.innerHTML = TIPOS.map(([k,r]) =>
+    '<span class="chip ' + (respTipo===k?'sel':'') + '" onclick="setTipo(\'' + k + '\')">' + r + '</span>').join("");
+}
+function setTipo(k){ respTipo = k; atualizarChips(); atualizarResp(); }
+
+function detectarPesado(txt){
+  return /morreu|faleceu|enterro|vel[oó]rio|c[aâ]ncer|internad|uti|cirurgia|div[oó]rcio|trai[çc]|separa|briga|conflito|amea[çc]|suic|n[aã]o aguento|acabou comigo|me bate|meu casamento acabou/i.test(txt || "");
+}
+
+function atualizarResp(){
+  atualizarChips();
+  const box = document.getElementById("respAlerta");
+  if(!box) return;
+  const id = document.getElementById("respQuem").value;
+  const c = D.contatos.find(x => x.id === id);
+  const msg = document.getElementById("respMsg").value || "";
+
+  if(ehEmpresa(c)){
+    const tags = [];
+    if(c.obs) tags.push(c.obs);
+    box.innerHTML = '<div class="alerta"><b>Contato de empresa.</b><br>'
+      + 'Esse é assunto seu, não do agente. O painel não gera resposta pastoral para contato comercial.'
+      + (tags.length ? '<br><span class="mini">' + esc(tags[0]) + '</span>' : '') + '</div>';
+    return;
+  }
+  if(detectarPesado(msg) || (PESADOS.includes(respTipo) && respTipo !== "doenca")){
+    box.innerHTML = '<div class="alerta"><b>⚠️ Este é caso para você.</b><br>'
+      + 'Pode ser luto, conflito grave ou doença séria. O agente escreve só um acolhimento curto, '
+      + 'sem prometer nada, e registra o caso para você assumir.</div>';
+    return;
+  }
+  if(c && c.obs){
+    box.innerHTML = '<div class="alerta" style="background:linear-gradient(160deg,#eef3f8,#e4ecf4);border-color:#c9dae8;border-left-color:var(--azul3);color:#16324f">'
+      + '<b>Você já sabe disso sobre ' + esc(primeiroNome(c.nome)) + ':</b><br>' + esc(c.obs)
+      + '<br><span class="mini">Use isso na resposta — ele lembra que alguém se importa.</span></div>';
+    return;
+  }
+  box.innerHTML = "";
+}
+
+function gerarResposta(){
+  const id = document.getElementById("respQuem").value;
+  const c = D.contatos.find(x => x.id === id);
+  const box = document.getElementById("respTexto");
+  const tag = document.getElementById("tagResp");
+
+  if(ehEmpresa(c)){
+    box.className = "mensagem vazia";
+    box.textContent = "Contato de empresa — você mesmo responde. O agente não entra nessa conversa.";
+    tag.textContent = "sua vez";
+    return;
+  }
+
+  const nome = c ? c.nome : "";
+  const primeiro = nome ? primeiroNome(nome) : "";
+  const msg = document.getElementById("respMsg").value || "";
+  const pesado = detectarPesado(msg) || PESADOS.includes(respTipo);
+
+  const aberturas = primeiro
+    ? ["A paz do Senhor, " + primeiro + "! Tudo bem aí?",
+       "Paz de Cristo, " + primeiro + "! Como você tá?",
+       primeiro + ", a paz do Senhor! Tudo bem com você?",
+       "Oi " + primeiro + ", a paz do Senhor! Como estão as coisas aí?"]
+    : ["A paz do Senhor! Tudo bem aí?",
+       "Paz de Cristo! Como você está?",
+       "A paz do Senhor, meu irmão! Tudo bem?",
+       "Paz! Tudo bem com você?"];
+
+  let corpo;
+  if(pesado){
+    corpo = respTipo === "luto"
+      ? ["Não vou te dar resposta pronta agora, não é hora disso. Só quero que você saiba que estou aqui e que a igreja está com você.",
+         "Não tenho palavra que resolva isso, e não vou fingir que tenho. Estou por perto, e não vou te deixar sozinho nesse momento.",
+         "Nesse momento eu não vou te pregar, vou só te dizer que você não está sozinho. Conte comigo."]
+      : ["Quero te ouvir com calma sobre isso. É assunto que merece conversa pessoal, não mensagem corrida.",
+         "Isso merece cuidado e não se resolve por aqui. Me diz um horário que eu te ligo hoje.",
+         "Prefiro te ouvir pessoalmente sobre isso, com calma. Quando você pode conversar?"];
+  } else {
+    const lista = (DADOS.respostas[respTipo] || DADOS.respostas.outro);
+    corpo = lista;
+  }
+  const escolhido = corpo[Math.floor(Math.random()*corpo.length)];
+
+  const fechos = pesado
+    ? ["Vou passar aí ou te ligar hoje. Deus abençoe.", "Conte comigo, de verdade. Fica na paz.", "Estou orando por você. Um abraço."]
+    : ["Deus abençoe você e a família.", "Fica na paz do Senhor.", "Um abraço, conte comigo.", "Deus abençoe o seu dia."];
+  const fecho = fechos[Math.floor(Math.random()*fechos.length)];
+
+  // memoria: puxa o que a pessoa ja falou
+  let memoria = "";
+  if(c && c.obs && !pesado){
+    memoria = "\n\n" + c.obs.split(/[.;]/)[0].trim() + " — como está indo isso?";
+  }
+
+  respCache = (aberturas[Math.floor(Math.random()*aberturas.length)])
+    + "\n\n" + escolhido + memoria + "\n\n" + fecho + "\n\nPr. Anderson";
+
+  box.className = "mensagem";
+  box.textContent = respCache;
+  tag.textContent = pesado ? "acolhimento" : "normal";
+  box.scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+function copiarResp(){ if(!respCache){ alert("Gere primeiro."); return; } copiar(respCache); }
+function limparResp(){
+  document.getElementById("respMsg").value = "";
+  respCache = ""; respTipo = "outro"; atualizarChips();
+  const b = document.getElementById("respTexto");
+  b.className = "mensagem vazia"; b.textContent = "Preencha acima e toque em gerar";
+  document.getElementById("respAlerta").innerHTML = "";
+}
+function preencherRespQuem(){
+  const sel = document.getElementById("respQuem");
+  if(!sel) return;
+  const atual = sel.value;
+  sel.innerHTML = '<option value="">— sem nome (não inventa) —</option>'
+    + D.contatos.map(c => '<option value="' + c.id + '">' + esc(c.nome) + (ehEmpresa(c) ? " (empresa)" : "") + '</option>').join("");
+  if(atual) sel.value = atual;
+}
+function marcarSensivel(){
+  const id = document.getElementById("respQuem").value;
+  const c = D.contatos.find(x => x.id === id);
+  const nome = c ? c.nome : (prompt("Nome de quem falou:") || "Sem nome");
+  const assunto = prompt("Resuma o caso (1 linha):", (document.getElementById("respMsg").value||"").slice(0,90));
+  if(!assunto) return;
+  D.sensiveis.unshift({id:Date.now()+"", nome, assunto, data:hojeISO(), status:"aguardando"});
+  salvar(); renderSensiveis(); gerarResumo();
+  alert("Registrado. Vai aparecer no resumo como 'Precisa de você'.");
+}
+function renderSensiveis(){
+  const box = document.getElementById("listaSens");
+  if(!box) return;
+  const arr = (D.sensiveis||[]).filter(s => s.status !== "resolvido");
+  if(!arr.length){
+    box.className = "vazio";
+    box.innerHTML = '<span class="emo">✓</span>Nenhum caso pendente. Bom sinal.';
+    return;
+  }
+  box.className = "";
+  box.innerHTML = arr.map(s =>
+    '<div class="alerta"><b>' + esc(s.nome) + '</b> — ' + esc(s.assunto)
+    + '<br><span class="mini">' + fmtBR(s.data) + '</span>'
+    + '<br><button class="sm sec" style="margin-top:8px" onclick="resolverSens(\'' + s.id + '\')">marcar resolvido</button></div>'
+  ).join("");
+}
+function resolverSens(id){
+  const s = D.sensiveis.find(x => x.id === id); if(!s) return;
+  s.status = "resolvido";
+  salvar(); renderSensiveis(); gerarResumo();
+}
+
+/* ================= RESUMO ================= */
 function gerarResumo(){
   const dia = hojeISO();
-  const sem = proximosDias(8).filter(x=>x!==dia);
   const visHoje = visitasDoDia(dia);
-  const visSem = Object.keys(D.agenda).filter(iso=>iso>dia && iso<=sem[sem.length-1])
-    .flatMap(iso=>visitasDoDia(iso).map(v=>({iso, ...v})))
-    .sort((a,b)=>a.iso.localeCompare(b.iso));
-  const or24 = listaOr().filter(o=>o.data===dia);
-  const novos = D.contatos.filter(c=>c.vinculo==="visitante");
-  const enc = D.convertidos.filter(c=>c.etapa<6);
-  const pend = (D.sensiveis||[]).filter(s=>s.status!=="resolvido");
-  const conf = Object.keys(D.agenda).flatMap(iso=>visitasDoDia(iso).filter(v=>v.status==="agendado").map(v=>({iso,...v})));
+  const lim = proximosDias(8).slice(-1)[0];
+  const visSem = Object.keys(D.agenda)
+    .filter(iso => iso > dia && iso <= lim)
+    .flatMap(iso => visitasDoDia(iso).map(v => ({iso, ...v})))
+    .sort((a,b) => a.iso.localeCompare(b.iso));
+  const or24 = listaOr().filter(o => o.data === dia);
+  const visitantes = D.contatos.filter(c => c.vinculo === "visitante");
+  const emTrilha = D.convertidos.filter(c => c.etapa < 6);
+  const pend = (D.sensiveis||[]).filter(s => s.status !== "resolvido");
+  const conf = Object.keys(D.agenda).flatMap(iso =>
+    visitasDoDia(iso).filter(v => v.status === "agendado").map(v => ({iso, ...v})));
+
+  const feitos = (D.enviados[dia] || []).length;
+  const total = D.contatos.filter(c => c.recebeDev && !ehEmpresa(c)).length;
 
   let t = "📋 *Resumo — " + nomeDia(dia) + " " + fmtBR(dia) + "*\n\n";
-  t += "*Visitas hoje*\n";
-  t += visHoje.length ? visHoje.map(v=>"• "+v.periodo+": "+v.nome+(v.bairro?" — "+v.bairro:"")).join("\n") : "• nenhuma";
-  t += "\n\n*Visitas da semana*\n";
-  t += visSem.length ? visSem.slice(0,8).map(v=>"• "+nomeDia(v.iso)+" "+fmtBR(v.iso)+" "+v.periodo+": "+v.nome).join("\n") : "• nada marcado";
-  t += "\n\n*Pedidos de oração (24h)*\n";
-  t += or24.length ? or24.map(o=>"• "+o.nome+": "+o.motivo).join("\n") : "• nenhum novo";
-  t += "\n\n*Visitantes sem visita*\n";
-  t += novos.length ? novos.slice(0,5).map(c=>"• "+c.nome).join("\n") : "• nenhum";
-  t += "\n\n*Discipulado*\n";
-  t += enc.length ? enc.map(c=>"• "+c.nome+" — etapa "+Math.min(c.etapa+1,6)).join("\n") : "• ninguém em trilha";
-  if(conf.length){
-    t += "\n\n*Aguardando confirmação*\n";
-    t += conf.slice(0,5).map(v=>"• "+v.nome+" ("+nomeDia(v.iso)+" "+v.periodo+")").join("\n");
-  }
-  const emp = D.contatos.filter(c=>ehEmpresa(c));
-  if(emp.length){
-    t += "\n\n*Contatos de empresa* (você responde)\n";
-    t += emp.slice(0,5).map(c=>"• "+c.nome).join("\n");
-  }
-  if(pend.length){
-    t += "\n\n*Precisa de você*\n";
-    t += pend.slice(0,4).map(s=>"• "+s.nome+": "+s.assunto).join("\n");
-  }
-  document.getElementById("resumoTexto").className="mensagem";
-  document.getElementById("resumoTexto").textContent = t;
+  t += "*Visitas hoje*\n" + (visHoje.length
+    ? visHoje.map(v => "• " + v.periodo + ": " + v.nome + (v.bairro ? " — " + v.bairro : "")).join("\n")
+    : "• nenhuma");
+  t += "\n\n*Devocional*\n" + (total ? "• " + feitos + " de " + total + " enviados" : "• sem contatos na lista");
+  t += "\n\n*Visitas da semana*\n" + (visSem.length
+    ? visSem.slice(0,8).map(v => "• " + nomeDia(v.iso) + " " + fmtBR(v.iso) + " " + v.periodo + ": " + v.nome).join("\n")
+    : "• nada marcado");
+  t += "\n\n*Pedidos de oração (hoje)*\n" + (or24.length
+    ? or24.map(o => "• " + o.nome + ": " + o.motivo).join("\n") : "• nenhum novo");
+  t += "\n\n*Visitantes sem visita*\n" + (visitantes.length
+    ? visitantes.slice(0,5).map(c => "• " + c.nome).join("\n") : "• nenhum");
+  t += "\n\n*Discipulado*\n" + (emTrilha.length
+    ? emTrilha.map(c => "• " + c.nome + " — etapa " + Math.min(c.etapa+1,6)).join("\n") : "• ninguém em trilha");
+  const emp = D.contatos.filter(c => ehEmpresa(c));
+  if(emp.length) t += "\n\n*Contatos de empresa* (você responde)\n" + emp.slice(0,4).map(c => "• " + c.nome).join("\n");
+  if(conf.length) t += "\n\n*Aguardando confirmação*\n" + conf.slice(0,4).map(v => "• " + v.nome + " (" + nomeDia(v.iso) + " " + v.periodo + ")").join("\n");
+  if(pend.length) t += "\n\n*Precisa de você*\n" + pend.slice(0,4).map(s => "• " + s.nome + ": " + s.assunto).join("\n");
 
-  // devocional de hoje
-  const feitos = (D.enviados[dia]||[]).length;
-  const total = D.contatos.filter(c=>c.recebeDev).length;
+  const el = document.getElementById("resumoTexto");
+  if(el){ el.className = "mensagem"; el.textContent = t; }
+
+  const kv = document.getElementById("kVis"); if(kv) kv.textContent = visHoje.length;
+  const kd = document.getElementById("kDev"); if(kd) kd.textContent = feitos + "/" + total;
+  const ko = document.getElementById("kOr"); if(ko) ko.textContent = listaOr().filter(o => o.status !== "testemunho").length;
+
   const dh = document.getElementById("devHoje");
-  dh.className = "mensagem vazia";
-  dh.textContent = total ? (feitos+"/"+total+" devocionais enviados hoje") : "Nenhum contato na lista do devocional";
-  document.getElementById("devStatus").textContent = total && feitos<total ? "Ainda faltam "+(total-feitos)+" contatos." : (total?"Tudo enviado hoje.":"");
-
-  // visitas hoje
+  if(dh){
+    dh.className = total && feitos < total ? "mensagem" : "mensagem vazia";
+    dh.textContent = total
+      ? (feitos + " de " + total + " devocionais enviados hoje" + (feitos < total ? "\nFaltam " + (total-feitos) : ""))
+      : "Nenhum contato na lista do devocional ainda";
+  }
   const vh = document.getElementById("visitasHoje");
-  vh.className = visHoje.length ? "" : "vazio";
-  vh.innerHTML = visHoje.length ? visHoje.map(v=>`<div class="pessoa"><div class="avatar">${v.periodo[0].toUpperCase()}</div>
-    <div class="pinfo"><div class="pnome">${esc(v.nome)}</div><div class="pmeta">${v.periodo} · ${esc(v.bairro||"sem bairro")} · ${v.status}</div></div></div>`).join("")
-    : "Nenhuma visita hoje.";
-
-  // orações
+  if(vh){
+    vh.className = visHoje.length ? "" : "vazio";
+    vh.innerHTML = visHoje.length
+      ? visHoje.map(v => '<div class="pessoa"><div class="avatar">' + v.periodo[0].toUpperCase() + '</div>'
+        + '<div class="pinfo"><div class="pnome">' + esc(v.nome) + '</div>'
+        + '<div class="pmeta">' + v.periodo + ' · ' + esc(v.bairro||"sem bairro") + ' · ' + v.status + '</div></div></div>').join("")
+      : '<span class="emo">📅</span>Nenhuma visita hoje.';
+  }
   const oh = document.getElementById("oracoesHoje");
-  const ativos = listaOr().filter(o=>o.status!=="testemunho").slice(0,4);
-  oh.className = ativos.length ? "" : "vazio";
-  oh.innerHTML = ativos.length ? ativos.map(o=>`<div class="pessoa"><div class="avatar" style="background:var(--dourado);color:#3a2f00">🙏</div>
-    <div class="pinfo"><div class="pnome">${esc(o.nome)}</div><div class="pmeta">${esc(o.motivo)}</div></div></div>`).join("")
-    : "Nenhum pedido em aberto.";
-
-  // sensíveis
+  if(oh){
+    const ativos = listaOr().filter(o => o.status !== "testemunho").slice(0,4);
+    oh.className = ativos.length ? "" : "vazio";
+    oh.innerHTML = ativos.length
+      ? ativos.map(o => '<div class="pessoa"><div class="avatar" style="background:linear-gradient(150deg,#e8c653,#c9a227);color:#3a2f00">🙏</div>'
+        + '<div class="pinfo"><div class="pnome">' + esc(o.nome) + '</div>'
+        + '<div class="pmeta">' + esc(o.motivo) + '</div></div></div>').join("")
+      : '<span class="emo">🙏</span>Nenhum pedido em aberto.';
+  }
   const sh = document.getElementById("sensHoje");
-  const sens = D.sensiveis.filter(s=>s.status!=="resolvido");
-  sh.className = sens.length ? "" : "vazio";
-  sh.innerHTML = sens.length ? sens.map(s=>`<div class="alerta"><b>${esc(s.nome)}</b> — ${esc(s.assunto)}<br><span style="opacity:.7">${fmtBR(s.data)}</span></div>`).join("")
-    : "Nada pendente de decisão sua.";
-
-  const elVis = document.getElementById("kVis");
-  if(elVis) elVis.textContent = visHoje.length;
-  const elDev = document.getElementById("kDev");
-  if(elDev) elDev.textContent = feitos + "/" + total;
-  const elOr = document.getElementById("kOr");
-  if(elOr) elOr.textContent = listaOr().filter(o=>o.status!=="testemunho").length;
-
-  document.getElementById("hoje").textContent = "Hoje · " + nomeDia(dia) + " " + fmtBR(dia);
+  if(sh){
+    const sens = (D.sensiveis||[]).filter(s => s.status !== "resolvido");
+    sh.className = sens.length ? "" : "vazio";
+    sh.innerHTML = sens.length
+      ? sens.map(s => '<div class="alerta"><b>' + esc(s.nome) + '</b> — ' + esc(s.assunto) + '</div>').join("")
+      : '<span class="emo">✓</span>Nada pendente de decisão sua.';
+  }
+  const hj = document.getElementById("hoje");
+  if(hj) hj.textContent = "Hoje · " + nomeDia(dia) + " " + fmtBR(dia);
 }
 function copiarResumo(){ copiar(document.getElementById("resumoTexto").textContent); }
-function copiar(txt){
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(txt).then(()=>avisoCopiou(),()=>copiaVelho(txt));
-  } else copiaVelho(txt);
-}
-function copiaVelho(txt){
-  const ta=document.createElement("textarea"); ta.value=txt; ta.style.position="fixed"; ta.style.opacity="0";
-  document.body.appendChild(ta); ta.select();
-  try{ document.execCommand("copy"); avisoCopiou(); }catch(e){ alert("Não consegui copiar. Selecione o texto manualmente."); }
-  document.body.removeChild(ta);
-}
-function avisoCopiou(){
-  const d=document.createElement("div");
-  d.textContent="Copiado!"; d.style.cssText="position:fixed;bottom:96px;left:50%;transform:translateX(-50%);background:#22303c;color:#fff;padding:9px 18px;border-radius:20px;font-size:13px;z-index:99";
-  document.body.appendChild(d); setTimeout(()=>d.remove(),1400);
-}
 
-/* ============ REGRAS ============ */
+/* ================= REGRAS E BACKUP ================= */
 function addRegra(){
   const t = document.getElementById("regra").value.trim();
   if(!t) return;
-  D.regras.unshift({t:t, data:hojeISO()});
-  document.getElementById("regra").value="";
+  D.regras.unshift({t, data:hojeISO()});
+  document.getElementById("regra").value = "";
   salvar(); renderRegras();
 }
 function renderRegras(){
   const box = document.getElementById("listaRegras");
-  if(!D.regras.length){ box.className="vazio"; box.innerHTML="Nenhuma regra ainda."; return; }
-  box.className="";
-  box.innerHTML = D.regras.map(r=>`<div class="pessoa"><div class="avatar" style="background:var(--azul2)">✓</div>
-    <div class="pinfo"><div class="pnome" style="font-size:13px;font-weight:600">${esc(r.t)}</div>
-    <div class="pmeta">${fmtBR(r.data)}</div></div></div>`).join("");
+  if(!box) return;
+  if(!D.regras.length){
+    box.className = "vazio";
+    box.innerHTML = '<span class="emo">⚙️</span>Nenhuma regra ainda.<br>Ex.: "não usar graça e paz, só a paz do Senhor".';
+    return;
+  }
+  box.className = "";
+  box.innerHTML = D.regras.map(r =>
+    '<div class="pessoa"><div class="avatar" style="background:linear-gradient(150deg,#2e465f,#16324f)">✓</div>'
+    + '<div class="pinfo"><div class="pnome" style="font-size:13.5px">' + esc(r.t) + '</div>'
+    + '<div class="pmeta">' + fmtBR(r.data) + '</div></div></div>').join("");
 }
-
-/* ============ BACKUP ============ */
+function renderBackupInfo(){
+  const el = document.getElementById("backupInfo");
+  if(!el) return;
+  const n = D.contatos.length, v = Object.keys(D.agenda).length;
+  const or = listaOr().length;
+  el.textContent = n + " contatos · " + v + " dias na agenda · " + or + " pedidos · " + D.convertidos.length + " em discipulado";
+}
 function exportar(){
-  const blob = new Blob([JSON.stringify(D,null,1)],{type:"application/json"});
+  const blob = new Blob([JSON.stringify(D, null, 1)], {type:"application/json"});
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
-  a.download = "pastor-backup-"+hojeISO()+".json";
+  a.download = "pastor-backup-" + hojeISO() + ".json";
   a.click();
 }
 function importar(ev){
@@ -1235,23 +1215,55 @@ function importar(ev){
   const r = new FileReader();
   r.onload = () => {
     try{
-      D = Object.assign(padrao(), JSON.parse(r.result));
-      salvar(); alert("Backup restaurado."); ir("hoje");
-    }catch(e){ alert("Arquivo inválido."); }
+      const o = JSON.parse(r.result);
+      if(!o.contatos) throw new Error("arquivo inválido");
+      if(!confirm("Restaurar este backup?\n" + (o.contatos||[]).length + " contatos")) return;
+      D = Object.assign(padrao(), o);
+      salvar(); ir("hoje"); alert("Backup restaurado.");
+    }catch(e){ alert("Arquivo inválido: " + e.message); }
   };
   r.readAsText(f);
 }
 
-/* ============ INICIO ============ */
-(function(){
-  const hj = document.getElementById("hoje");
-  hj.textContent = nomeDia(hojeISO()) + " " + fmtBR(hojeISO());
-  document.getElementById("tema").value = D.tema || "";
-  document.getElementById("temaVers").value = D.temaVers || "";
+/* ================= UTILIDADES ================= */
+function copiar(txt){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(avisou, () => copiaVelho(txt));
+  } else copiaVelho(txt);
+}
+function copiaVelho(txt){
+  const ta = document.createElement("textarea");
+  ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); avisou(); }
+  catch(e){ alert("Não consegui copiar. Selecione o texto manualmente."); }
+  document.body.removeChild(ta);
+}
+function avisou(){
+  const d = document.createElement("div");
+  d.textContent = "✓ Copiado";
+  d.style.cssText = "position:fixed;bottom:104px;left:50%;transform:translateX(-50%);background:#16324f;color:#fff;padding:11px 22px;border-radius:22px;font-size:13px;font-weight:600;z-index:99;box-shadow:0 8px 24px -8px rgba(0,0,0,.5)";
+  document.body.appendChild(d);
+  setTimeout(() => d.remove(), 1500);
+}
+
+/* ================= INICIO ================= */
+(function iniciar(){
+  const t = document.getElementById("tema");
+  if(t) t.value = D.tema || "";
+  const tv = document.getElementById("temaVers");
+  if(tv) tv.value = D.temaVers || "";
+  const tp = document.getElementById("temaPronto");
+  if(tp){
+    tp.innerHTML = '<option value="">— escolher tema pronto —</option>'
+      + Object.keys(DADOS.temas).map(k => '<option value="' + k + '">' + k + " — " + DADOS.temas[k].versiculo + '</option>').join("");
+  }
   gerarResumo();
   preencherDevQuem();
   filaDevocional();
+  renderTemaInfo();
 })();
+
 </script>
 </body>
 </html>
