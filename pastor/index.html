@@ -128,6 +128,21 @@ nav button.ativo{color:var(--azul);background:#f2f5f8}
   <!-- DEVOCIONAL -->
   <section class="tela" id="t-dev">
     <div class="card">
+      <h2>Gerar devocional <span class="tag dev" id="tagDev">0 hoje</span></h2>
+      <label>Para quem</label>
+      <input id="devNome" placeholder="Nome da pessoa (ex.: João)" oninput="gerarDevocional()">
+      <p class="mini" style="margin-top:4px">Ou escolha um contato salvo:</p>
+      <select id="devQuem" onchange="devPorContato()"></select>
+      <button class="ok" style="width:100%;margin-top:12px" onclick="gerarDevocional()">GERAR DEVOCIONAL</button>
+      <div id="devTexto" class="mensagem vazia" style="margin-top:12px">Digite um nome acima e toque em gerar</div>
+      <div class="row" style="margin-top:8px">
+        <button class="sec" onclick="gerarDevocional(true)">Outro versículo</button>
+        <button class="ok" onclick="copiarDev()">Copiar</button>
+      </div>
+      <button class="sec" style="width:100%;margin-top:8px" onclick="marcarEnviado()">Marcar como enviado</button>
+      <p class="mini" id="devInfo"></p>
+    </div>
+    <div class="card">
       <h2>Tema do mês</h2>
       <label>Tema</label>
       <input id="tema" placeholder="Ex.: Esperança que não decepciona" oninput="salvarTema()">
@@ -137,20 +152,9 @@ nav button.ativo{color:var(--azul);background:#f2f5f8}
       <button class="sec sm" onclick="novoMes()">Começar mês novo</button>
     </div>
     <div class="card">
-      <h2>Gerar devocional <span class="tag dev" id="tagDev">0 hoje</span></h2>
-      <label>Para quem</label>
-      <select id="devQuem" onchange="gerarDevocional()"></select>
-      <div id="devTexto" class="mensagem vazia">Escolha o nome acima</div>
-      <div class="row" style="margin-top:8px">
-        <button class="sec" onclick="gerarDevocional(true)">Outro versículo</button>
-        <button class="ok" onclick="copiarDev()">Copiar</button>
-      </div>
-      <button style="width:100%;margin-top:8px" onclick="marcarEnviado()">Marcar como enviado</button>
-      <p class="mini" id="devInfo"></p>
-    </div>
-    <div class="card">
       <h2>Fila do devocional</h2>
       <div id="filaDev"></div>
+      <button class="sec sm" style="margin-top:10px" onclick="ir('cont')">+ Cadastrar contatos</button>
     </div>
   </section>
 
@@ -425,54 +429,92 @@ function novoMes(){
 function preencherDevQuem(){
   const sel = document.getElementById("devQuem");
   const arr = D.contatos.filter(c=>c.recebeDev && !ehEmpresa(c));
-  sel.innerHTML = '<option value="">Escolha...</option>' + arr.map(c=>`<option value="${c.id}">${esc(c.nome)}</option>`).join("");
-  if(!arr.length) sel.innerHTML = '<option value="">Nenhum contato marcado para o devocional</option>';
+  sel.innerHTML = '<option value="">— digitar nome acima —</option>' + arr.map(c=>`<option value="${c.id}">${esc(c.nome)}</option>`).join("");
 }
 let devCache = null;
-function gerarDevocional(trocar){
+
+function devPorContato(){
   const id = document.getElementById("devQuem").value;
+  if(!id) return;
+  const c = D.contatos.find(x=>x.id===id);
+  if(!c) return;
+  document.getElementById("devNome").value = c.nome;
+  gerarDevocional();
+}
+
+function gerarDevocional(trocar){
   const box = document.getElementById("devTexto");
-  if(!id){ box.className="mensagem vazia"; box.textContent="Escolha o nome acima"; devCache=null; return; }
-  const c = D.contatos.find(x=>x.id===id); if(!c) return;
+  const campo = document.getElementById("devNome");
+  let nome = (campo.value || "").trim();
+  // se nao digitou nome, tenta o contato escolhido no select
+  if(!nome){
+    const id = document.getElementById("devQuem").value;
+    const c = D.contatos.find(x=>x.id===id);
+    if(c) nome = c.nome;
+  }
+  if(!nome){
+    box.className = "mensagem vazia";
+    box.textContent = "Digite um nome acima e toque em gerar";
+    devCache = null;
+    return;
+  }
+
+  const primeiro = nome.split(" ")[0];
+  const hoje = hojeISO();
+
+  // versiculos: evita os ja usados no mes e os gerados hoje
   const jaNoMes = new Set([...(D.devUsados||[]), ...(D.geradosMes||[])]);
   let disponiveis = VERSICULOS.filter(v=>!jaNoMes.has(v[0]));
-  if(!disponiveis.length){ /* mês esgotou: recomeça permitindo reaproveitar */ disponiveis = VERSICULOS.slice(); }
-  const geradosHoje = new Set(D.gerados[hojeISO()] || []);
+  if(!disponiveis.length) disponiveis = VERSICULOS.slice();
+  const geradosHoje = new Set(D.gerados[hoje] || []);
   let lista = disponiveis.filter(v=>!geradosHoje.has(v[0]));
   if(!lista.length) lista = disponiveis;
-  if(trocar && lista.length>1){ /* evita repetir o que está na tela */ }
-  const lista0 = lista;
-  let v = lista0[Math.floor(Math.random()*lista0.length)];
-  if(trocar && devCache && v[0] === devCache.versiculo && lista0.length > 1){
-    v = lista0[(lista0.indexOf(v)+1) % lista0.length];
+
+  // sorteio + evita repetir o que ja esta na tela
+  let idx = Math.floor(Math.random()*lista.length);
+  if(trocar && devCache && lista.length > 1 && lista[idx][0] === devCache.versiculo){
+    idx = (idx+1) % lista.length;
   }
-  D.gerados[hojeISO()] = [...(D.gerados[hojeISO()]||[]), v[0]];
+  const v = lista[idx];
+
+  // marca como gerado (para nao repetir entre pessoas no mesmo dia)
+  D.gerados[hoje] = [...(D.gerados[hoje]||[]), v[0]];
   if(!(D.geradosMes||[]).includes(v[0])) D.geradosMes = [...(D.geradosMes||[]), v[0]];
   salvar();
-  const d = new Date();
-  const dia = d.getDate();
+
+  const dia = new Date().getDate();
   const foco = FOCOS[(dia-1+FOCOS.length)%FOCOS.length];
   const tema = D.tema || "Palavra pastoral";
-  const primeiro = c.nome.trim().split(" ")[0];
-  const abertura = ["A paz do Senhor, "+primeiro+"! Bom dia.",
-                    "Bom dia, "+primeiro+"! A paz do Senhor.",
-                    "Paz do Senhor, "+primeiro+"! Bom dia pra você."][dia%3];
-  const aplic = [
-    `Hoje o recado é sobre ${foco}. Não é teoria — é o que Deus quer fazer no seu dia comum, no meio do seu trabalho e da sua casa.`,
-    `Pensa nisso hoje: ${foco}. Deus não pede que você entenda tudo, pede que confie nele um passo de cada vez.`,
-    `O convite de hoje é ${foco}. Comece pequeno: uma decisão, uma conversa, uma oração antes de sair.`
-  ][dia%3];
-  const oracao = [
-    `Pai, obrigado por mais um dia. Ensina o ${primeiro} a confiar em ti. Em nome de Jesus, amém.`,
-    `Senhor, sustenta o ${primeiro} hoje. Dá paz no coração e direção no caminho. Amém.`,
-    `Deus, obrigado pela vida do ${primeiro}. Fala com ele hoje pela tua palavra. Amém.`
-  ][dia%3];
-  const texto = `${abertura}\n\n📖 ${tema} — ${foco[0].toUpperCase()+foco.slice(1)}\n\n"${v[1]}"\n(${v[0]})\n\n${aplic}\n\n${oracao}\n\nPr. Anderson`;
-  devCache = {id:id, nome:c.nome, versiculo:v[0], texto:texto, data:hojeISO()};
-  box.className="mensagem"; box.textContent=texto;
-  const jaEnviado = D.enviados[hojeISO()] || [];
-  document.getElementById("devInfo").textContent = jaEnviado.includes(id) ? "⚠️ Você já marcou envio para este contato hoje." : "";
+
+  const aberturas = [
+    "A paz do Senhor, " + primeiro + "! Bom dia.",
+    "Bom dia, " + primeiro + "! A paz do Senhor.",
+    "Paz do Senhor, " + primeiro + "! Bom dia pra você."
+  ];
+  const aplics = [
+    "Hoje o recado é sobre " + foco + ". Não é teoria — é o que Deus quer fazer no seu dia comum, no meio do trabalho e da casa.",
+    "Pensa nisso hoje: " + foco + ". Deus não pede que você entenda tudo, pede que confie um passo de cada vez.",
+    "O convite de hoje é " + foco + ". Comece pequeno: uma decisão, uma conversa, uma oração antes de sair."
+  ];
+  const oracoes = [
+    "Pai, obrigado por mais um dia. Ensina o " + primeiro + " a confiar em ti. Em nome de Jesus, amém.",
+    "Senhor, sustenta o " + primeiro + " hoje. Dá paz no coração e direção no caminho. Amém.",
+    "Deus, obrigado pela vida do " + primeiro + ". Fala com ele hoje pela tua palavra. Amém."
+  ];
+
+  const texto = aberturas[dia%3] + "\n\n"
+    + "📖 " + tema + " — " + foco.charAt(0).toUpperCase() + foco.slice(1) + "\n\n"
+    + '"' + v[1] + '"\n(' + v[0] + ')\n\n'
+    + aplics[dia%3] + "\n\n"
+    + oracoes[dia%3] + "\n\n"
+    + "Pr. Anderson";
+
+  devCache = {nome: nome, versiculo: v[0], texto: texto, data: hoje};
+  box.className = "mensagem";
+  box.textContent = texto;
+  document.getElementById("devInfo").textContent = "";
 }
+
 function copiarDev(){
   if(!devCache){ alert("Gere o devocional primeiro."); return; }
   copiar(devCache.texto);
@@ -481,10 +523,13 @@ function marcarEnviado(){
   if(!devCache){ alert("Gere o devocional primeiro."); return; }
   const dia = hojeISO();
   D.enviados[dia] = D.enviados[dia] || [];
-  if(!D.enviados[dia].includes(devCache.id)) D.enviados[dia].push(devCache.id);
+  const chave = (devCache.nome||"").toLowerCase();
+  if(!D.enviados[dia].includes(chave)) D.enviados[dia].push(chave);
   if(!D.devUsados.includes(devCache.versiculo)) D.devUsados.push(devCache.versiculo);
-  salvar(); filaDevocional(); alert("Marcado. Versículo reservado para o mês.");
+  salvar(); filaDevocional();
+  alert("Marcado como enviado para " + devCache.nome + ".");
 }
+
 function filaDevocional(){
   const dia = hojeISO();
   const feitos = D.enviados[dia] || [];
@@ -492,22 +537,32 @@ function filaDevocional(){
   const box = document.getElementById("filaDev");
   const tag = document.getElementById("tagDev");
   tag.textContent = feitos.length + "/" + arr.length + " hoje";
-  if(!arr.length){ box.className="vazio"; box.innerHTML="Nenhum contato na lista do devocional."; return; }
+  if(!arr.length){
+    box.className="vazio";
+    box.innerHTML="Nenhum contato na lista ainda. Cadastre em Contatos marcando 'recebe devocional'.";
+    return;
+  }
   box.className="";
   box.innerHTML = arr.map(c=>{
-    const ok = feitos.includes(c.id);
-    return `<div class="pessoa">
-      <div class="avatar" style="${ok?'background:var(--verde)':''}">${ok?'✓':c.nome[0].toUpperCase()}</div>
-      <div class="pinfo"><div class="pnome">${esc(c.nome)}</div>
-      <div class="pmeta">${ok?'enviado hoje':'pendente'}</div></div>
-      <button class="sm ${ok?'sec':''}" onclick="devPara('${c.id}')">${ok?'ver':'gerar'}</button>
-    </div>`;
+    const chave = c.nome.toLowerCase();
+    const ok = feitos.includes(chave);
+    return '<div class="pessoa">'
+      + '<div class="avatar" style="' + (ok?'background:var(--verde)':'') + '">' + (ok?'✓':c.nome[0].toUpperCase()) + '</div>'
+      + '<div class="pinfo"><div class="pnome">' + esc(c.nome) + '</div>'
+      + '<div class="pmeta">' + (ok?'enviado hoje':'pendente') + '</div></div>'
+      + '<button class="sm ' + (ok?'sec':'') + '" onclick="devPara(\'' + c.id + '\')">' + (ok?'ver':'gerar') + '</button>'
+      + '</div>';
   }).join("");
   preencherDevQuem();
 }
+
 function devPara(id){
+  const c = D.contatos.find(x=>x.id===id);
   ir('dev');
-  document.getElementById("devQuem").value = id;
+  if(c){
+    document.getElementById("devNome").value = c.nome;
+    document.getElementById("devQuem").value = id;
+  }
   gerarDevocional();
 }
 
